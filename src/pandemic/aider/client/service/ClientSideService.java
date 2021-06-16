@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 public class ClientSideService {
 	
@@ -55,6 +58,35 @@ public class ClientSideService {
 //			System.out.println("Received object: " + str);
 			
 			clientSideOutputStream.close();
+			clientSideInputStream.close();
+//			System.out.println("client closed");
+			return Boolean.parseBoolean(str);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static boolean addUser(int port, UserDetails newUser) {
+		try {
+			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
+			
+			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
+			
+			System.out.println("Passed the object");
+			//sets uuid
+			
+			
+			
+			
+			clientSideOutputStream.writeObject(JsonServiceClient.userToJson(newUser));
+			
+			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
+			String str = (String) clientSideInputStream.readObject();
+			System.out.println("Received object: " + str);
+			
+			clientSideOutputStream.close();
+			clientSideInputStream.close();
 //			System.out.println("client closed");
 			return Boolean.parseBoolean(str);
 		} catch (Exception e) {

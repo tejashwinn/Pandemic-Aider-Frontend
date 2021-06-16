@@ -29,6 +29,7 @@ public class LogInController {
 		
 	}
 	
+	
 	public void signUpAction(ActionEvent event) throws IOException {
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpScene.fxml"));

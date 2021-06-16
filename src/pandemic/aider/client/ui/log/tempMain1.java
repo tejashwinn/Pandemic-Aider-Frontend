@@ -1,4 +1,4 @@
-package pandemic.aider.client.ui.log.signup;
+package pandemic.aider.client.ui.log;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,5 +20,6 @@ public class tempMain1 extends Application {
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+		
 	}
 }

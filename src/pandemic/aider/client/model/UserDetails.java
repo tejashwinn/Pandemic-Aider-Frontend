@@ -30,6 +30,14 @@ public class UserDetails implements Serializable {
 		time = arr[4];
 	}
 	
+	public UserDetails(UserRePassword obj){
+		this.uniqueId= obj.getUniqueId();
+		this.name=obj.getName();
+		this.username=obj.getUsername();
+		this.password= obj.getPassword();
+		this.time= obj.getTime();
+	}
+	
 	public void securePassword() {
 		password = DigestUtils.sha256Hex(password);
 	}

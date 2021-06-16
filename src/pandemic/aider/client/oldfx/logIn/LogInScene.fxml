@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #1b1b1b;"
-            xmlns="http://javafx.com/javafx/16" fx:controller="pandemic.oldfx.logIn.LogInController">
+            xmlns="http://javafx.com/javafx/16" >
     <children>
         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
                     minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0"
@@ -20,7 +20,7 @@
                             style="-fx-border-style: solid; -fx-background-color: #1f1f1f; -fx-border-color: white;">
                     <children>
                         <Button fx:id="signUpButton" layoutX="127.0" layoutY="322.0" mnemonicParsing="false"
-                                onAction="#signUpAction" prefHeight="38.0" prefWidth="84.0"
+                                 prefHeight="38.0" prefWidth="84.0"
                                 style="-fx-background-color: #1136ff;" text="Sign Up" textFill="WHITE"
                                 AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="130.0"
                                 AnchorPane.rightAnchor="130.0">

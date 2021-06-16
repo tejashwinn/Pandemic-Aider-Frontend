@@ -1,17 +1,26 @@
-package pandemic.aider.client.ui.log.signup;
-
-//import at.favre.lib.crypto.bcrypt.BCrypt;
+package pandemic.aider.client.ui.log;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
+import pandemic.aider.client.model.UserDetails;
 import pandemic.aider.client.model.UserRePassword;
 import pandemic.aider.client.service.ClientSideService;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.UUID;
 
 public class SignUpController {
 	@FXML
@@ -23,6 +32,7 @@ public class SignUpController {
 	@FXML
 	private Label signUpWarningLabel;
 	
+	@FXML
 	public void signUpAction(ActionEvent event) {
 		
 		boolean success = false;
@@ -42,30 +52,38 @@ public class SignUpController {
 			passwordTextField.setText(passwordHiddenField.getText());
 			confirmPasswordHiddenField.setText(confirmPasswordHiddenField.getText());
 		}
-		
+		//assigning the entered values to the object
 		userAdd.setName(nameTextField.getText());
 		userAdd.setUsername(usernameTextField.getText().toLowerCase());
 		userAdd.setPassword(passwordHiddenField.getText());
 		userAdd.setConfirmPassword(confirmPasswordHiddenField.getText());
-//		userAdd.display();
 		
 		if (checkName(userAdd)) {
 			if (checkUsername(userAdd)) {
 				if (checkPassword(userAdd)) {
 					userAdd.setPassword("");
 					//refer: https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/bcrypt/BCrypt.html
-					//there are two BRYPT values the one used here is from spring boot
+					//there are two BCRYPT values the one used here is from spring boot
 					userAdd.setPassword(BCrypt.hashpw(passwordHiddenField.getText(), CONSTANTS.PEPPER_PASSWORD));
-//					userAdd.display();
+					success = true;
 				}
 			}
 		}
-
-//		if (success) {
-//			//proceed
-//		} else {
-//			//stay here
-//		}
+		if (success) {
+			//sets UUID
+			userAdd.setUniqueId(UUID.randomUUID().toString());//
+			
+			//time generator
+			DateTimeFormatter dateTimeFormatterClientAdduser = DateTimeFormatter.ofPattern("yyyy:MM:dd::HH:mm:ss");
+			LocalDateTime userCreatedTimeGenerator = LocalDateTime.now();
+			
+			//sets user creation time
+			userAdd.setTime(dateTimeFormatterClientAdduser.format(userCreatedTimeGenerator));
+			
+			UserDetails newCopyObject = new UserDetails(userAdd);
+			
+			success = ClientSideService.addUser(50003, newCopyObject);
+		}
 	}
 	
 	public boolean checkName(UserRePassword obj) {
@@ -75,6 +93,10 @@ public class SignUpController {
 			checkBool = false;
 		} else {
 			checkBool = true;
+		}
+		if (obj.getName().length() > 30) {
+			signUpWarningLabel.setText("Name cannot exceed 30 characters");
+			checkBool = false;
 		}
 		setExistingValues();
 		return checkBool;
@@ -101,22 +123,27 @@ public class SignUpController {
 						checkBool = true;
 						break;
 					}
+					checkBool = false;
 				}
 				if (!checkBool) {
 					signUpWarningLabel.setText(stringChar + " Not allowed in Username");
 					return false;
 				}
 			}
-
-			//if the username doesn't exist it will return true
-			//else if the username exists it will return false
-			checkBool = ClientSideService.checkExistingUserName(50000, obj.getUsername());
-			if (!checkBool) {
+			if (obj.getUsername().length() > 30) {
+				signUpWarningLabel.setText("Username cannot exceed 30 characters");
+				checkBool = false;
+			} else {
+				//if the username doesn't exist it will return true
+				//else if the username exists it will return false
+				checkBool = ClientSideService.checkExistingUserName(50000, obj.getUsername());
+				if (!checkBool) {
 //check delete				System.out.println("IN sign up: " + checkBool);
-				signUpWarningLabel.setText("Username already exists");
+					signUpWarningLabel.setText("Username already exists");
+				}
 			}
-			return checkBool;
 		}
+		return checkBool;
 	}
 	
 	public boolean checkPassword(UserRePassword obj) {
@@ -130,16 +157,9 @@ public class SignUpController {
 		}
 		
 		if (obj.getPassword().equals(obj.getConfirmPassword())) {
-			signUpWarningLabel.setText("");
 			checkBool = true;
 		} else {
-//			passwordTextField.setText("");
-//			passwordTextField.setPromptText("Password");
-
-//			confirmPasswordTextField.setText("");
-//			confirmPasswordTextField.setPromptText(" Password");
 			signUpWarningLabel.setText("Password doesn't match\nRe-enter password");
-			
 			checkBool = false;
 		}
 		setExistingValues();
@@ -183,6 +203,22 @@ public class SignUpController {
 		
 		confirmPasswordTextField.setText(confirmPasswordTextField.getText());
 		confirmPasswordHiddenField.setText(confirmPasswordHiddenField.getText());
+	}
+	
+	@FXML
+	public void switchToSignIn(ActionEvent event) throws IOException {
+		try {
+			
+			SignInController.root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SignInFXML.fxml")));
+			SignInController.stage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+			
+			SignInController.scene = new Scene(SignInController.root);
+			SignInController.stage.setScene(SignInController.scene);
+			SignInController.stage.setResizable(false);
+			SignInController.stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 
