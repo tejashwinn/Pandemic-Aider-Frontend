@@ -43,6 +43,26 @@ public class ClientSideService {
 		}
 	}
 	
+	public static boolean checkExistingUserName(int port, String username) {
+		try {
+			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
+			
+			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
+			clientSideOutputStream.writeObject(username);
+//			System.out.println("Passed the object");
+			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
+			String str = (String) clientSideInputStream.readObject();
+//			System.out.println("Received object: " + str);
+			
+			clientSideOutputStream.close();
+//			System.out.println("client closed");
+			return Boolean.parseBoolean(str);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		ClientSideService objj = new ClientSideService();
 		UserDetails obj = new UserDetails();

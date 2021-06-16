@@ -1,1 +1,8 @@
+16 version
+--module-path "C:\Users\tejas\Downloads\Json\java fx lib" --add-modules javafx.controls,javafx.fxml
+
+pepper value
+"$2a$10$yubOW.BNOsuNXHfzo1M1xO"
+
+11 version
 --module-path "C:\Additional Program Files\Java\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml

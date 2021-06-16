@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0"
+            style="-fx-background-color: #1b1b1b;" xmlns="http://javafx.com/javafx/16"
+            fx:controller="pandemic.oldfx.logIn.SignUpController">
+    <children>
+        <AnchorPane layoutX="467.0" layoutY="72.0" prefHeight="456.0" prefWidth="344.0"
+                    style="-fx-border-style: solid; -fx-background-color: #1f1f1f; -fx-border-color: white;">
+            <children>
+                <Button fx:id="signUpButton" layoutX="132.0" layoutY="385.0" mnemonicParsing="false"
+                        onAction="#createAccount" prefHeight="38.0" prefWidth="84.0"
+                        style="-fx-background-color: #1136ff;" text="Sign Up" textFill="WHITE"
+                        AnchorPane.bottomAnchor="32.60000000000002" AnchorPane.leftAnchor="132.0"
+                        AnchorPane.rightAnchor="132.0">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Button>
+                <TextField fx:id="nameSignUpTextField" cache="true" layoutX="72.0" layoutY="132.0" prefHeight="30.0"
+                           prefWidth="200.0" promptText="Enter Your Name"
+                           style="-fx-background-color: #1f1f1f; -fx-text-fill: #ffffff;">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </TextField>
+                <TextField fx:id="usernameSignUpTextField" cache="true" layoutX="72.0" layoutY="188.0" prefHeight="30.0"
+                           prefWidth="200.0" promptText="Create a username"
+                           style="-fx-background-color: #1f1f1f; -fx-text-fill: #ffffff;">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </TextField>
+                <Label layoutX="35.0" layoutY="23.0" text="Creating New Account" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold Italic" size="25.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="reEnterSignUpLabel" alignment="CENTER" layoutX="82.0" layoutY="68.0" prefHeight="58.0"
+                       prefWidth="184.0" textFill="RED">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <PasswordField fx:id="passwordSignUpTextField" layoutX="72.0" layoutY="246.0" prefHeight="30.0"
+                               prefWidth="200.0" promptText="Password"
+                               style="-fx-background-color: #1f1f1f; -fx-text-fill: #ffffff;">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </PasswordField>
+                <PasswordField fx:id="reEnterSignUpPasswordTextField" layoutX="74.0" layoutY="304.0" prefHeight="30.0"
+                               prefWidth="200.0" promptText="Re-Enter Password"
+                               style="-fx-background-color: #1f1f1f; -fx-text-fill: #ffffff;">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </PasswordField>
+            </children>
+        </AnchorPane>
+        <ImageView fitHeight="416.0" fitWidth="350.0" layoutX="28.0" layoutY="125.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../res/logo_blue-new.png"/>
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

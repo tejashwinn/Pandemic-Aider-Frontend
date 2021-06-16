@@ -1,5 +1,7 @@
 package pandemic.aider.client.model;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.io.Serializable;
 
 /*
@@ -28,6 +30,11 @@ public class UserDetails implements Serializable {
 		time = arr[4];
 	}
 	
+	public void securePassword() {
+		password = DigestUtils.sha256Hex(password);
+	}
+	
+	//converts to string
 	@Override
 	public String toString() {
 		return "UserDetails{" +
@@ -39,10 +46,19 @@ public class UserDetails implements Serializable {
 				'}';
 	}
 	
+	//displays the user on console
+	public void display() {
+		System.out.println("UniqueId:" + username);
+		System.out.println("Name: " + name);
+		System.out.println("Username: " + username);
+		System.out.println("Password: " + password);
+		System.out.println("Time: " + time);
+		System.out.println();
+	}
 	
-	
-	
-	
+	public UserDetails returnUser() {
+		return this;
+	}
 	
 	/*
 	 * Getter:
@@ -96,14 +112,5 @@ public class UserDetails implements Serializable {
 	
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
-	}
-	
-	public void display() {
-		System.out.println("UniqueId:" + username);
-		System.out.println("Name: " + name);
-		System.out.println("Username: " + username);
-		System.out.println("Password: " + password);
-		System.out.println("Time: " + time);
-		System.out.println();
 	}
 }

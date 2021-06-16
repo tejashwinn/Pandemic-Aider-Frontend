@@ -1,4 +1,4 @@
-package pandemic.aider.client.ui.log.signin;
+package pandemic.aider.client.ui.log.signup;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class tempMain extends Application {
+public class tempMain1 extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -16,7 +16,7 @@ public class tempMain extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PostRequestFXML.fxml")));
+		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SignUpFXML.fxml")));
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
