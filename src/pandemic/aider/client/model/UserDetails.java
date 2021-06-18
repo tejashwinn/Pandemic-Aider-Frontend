@@ -30,12 +30,12 @@ public class UserDetails implements Serializable {
 		time = arr[4];
 	}
 	
-	public UserDetails(UserRePassword obj){
-		this.uniqueId= obj.getUniqueId();
-		this.name=obj.getName();
-		this.username=obj.getUsername();
-		this.password= obj.getPassword();
-		this.time= obj.getTime();
+	public UserDetails(UserRePassword obj) {
+		this.uniqueId = obj.getUniqueId();
+		this.name = obj.getName();
+		this.username = obj.getUsername();
+		this.password = obj.getPassword();
+		this.time = obj.getTime();
 	}
 	
 	public void securePassword() {
@@ -56,7 +56,7 @@ public class UserDetails implements Serializable {
 	
 	//displays the user on console
 	public void display() {
-		System.out.println("UniqueId:" + username);
+		System.out.println("UniqueId:" + uniqueId);
 		System.out.println("Name: " + name);
 		System.out.println("Username: " + username);
 		System.out.println("Password: " + password);

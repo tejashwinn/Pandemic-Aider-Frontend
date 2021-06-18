@@ -1,4 +1,4 @@
-package pandemic.aider.client.ui.log;
+package pandemic.aider.client.ui.log.old;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

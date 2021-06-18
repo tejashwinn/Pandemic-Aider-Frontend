@@ -1,4 +1,4 @@
-package pandemic.aider.client;
+package pandemic.aider.client.ui.main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class Main extends Application {
+	
 	public static void main(String[] args) {
+		
 		launch(args);
 	}
 	
@@ -17,14 +19,11 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainFXML.fxml")));
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 1028, 701);
 		stage.setScene(scene);
-		stage.setResizable(false);
+		stage.setTitle("Pandemic Aider");
+//		stage.setResizable(false);
 		stage.show();
-		
-		
 	}
-	
-
 }
 
