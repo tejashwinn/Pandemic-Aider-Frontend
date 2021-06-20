@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -17,7 +16,7 @@ public class Main1 extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		try{
+		try {
 			Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LogInScene.fxml")));
 			primaryStage.setTitle("Pandemic-Aider");
 			Scene scene = new Scene(root);
@@ -32,7 +31,7 @@ public class Main1 extends Application {
 			
 			primaryStage.show();
 			primaryStage.setResizable(false);
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

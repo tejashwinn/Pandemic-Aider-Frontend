@@ -1,15 +1,17 @@
 package pandemic.aider.client.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
-public class PostDetails {
+public class PostDetails implements Serializable {
 	
 	private String pincode;
 	private String content;
 	private String postUniqueId;
-	private String userUniqueId;
+	private String userUsername;
 	private String time;
+	
+	private ArrayList<String> userTags = new ArrayList<>();
 	
 	public String getTime() {
 		return time;
@@ -18,8 +20,6 @@ public class PostDetails {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	
-	private List<String> userTags = new ArrayList<>();
 	
 	public String getPincode() {
 		return pincode;
@@ -45,28 +45,28 @@ public class PostDetails {
 		this.postUniqueId = postUniqueId;
 	}
 	
-	public String getUserUniqueId() {
-		return userUniqueId;
+	public String getUserUsername() {
+		return userUsername;
 	}
 	
-	public void setUserUniqueId(String userUniqueId) {
-		this.userUniqueId = userUniqueId;
+	public void setUserUsername(String userUsername) {
+		this.userUsername = userUsername;
 	}
 	
-	public List<String> getUserTags() {
+	public ArrayList<String> getUserTags() {
 		return userTags;
 	}
 	
-	public void setUserTags(List<String> userTags) {
+	public void setUserTags(ArrayList<String> userTags) {
 		this.userTags = userTags;
 	}
 	
 	public void display() {
-		
-		System.out.println(userUniqueId);
+		System.out.println(userUsername);
 		System.out.println(pincode);
 		System.out.println(content);
 		System.out.println(time);
+		System.out.println("User Tags: " + userTags);
 		System.out.println();
 	}
 }

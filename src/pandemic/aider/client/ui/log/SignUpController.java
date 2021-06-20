@@ -10,14 +10,19 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
 import pandemic.aider.client.model.UserDetails;
 import pandemic.aider.client.model.UserRePassword;
-import pandemic.aider.client.service.ClientSideService;
+import pandemic.aider.client.service.ClientSideUserService;
+import pandemic.aider.client.service.JsonServiceClient;
+import pandemic.aider.client.ui.main.MainController;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class SignUpController {
+	public static UserDetails newUserSign;
 	@FXML
 	private TextField passwordTextField, confirmPasswordTextField, usernameTextField, nameTextField;
 	@FXML
@@ -32,6 +37,7 @@ public class SignUpController {
 		
 		boolean validEntry = false;
 		UserRePassword userAdd = new UserRePassword();
+		UserDetails newCopyObject = null;
 		/*
 		 * adding this code because when the user edits the password in view mode and hits sign up
 		 * it doesn't get updated in hidden mode so this will help us to set it back to the normal
@@ -75,9 +81,30 @@ public class SignUpController {
 			//sets user creation time
 			userAdd.setTime(dateTimeFormatterClientAdduser.format(userCreatedTimeGenerator));
 			
-			UserDetails newCopyObject = new UserDetails(userAdd);
+			newCopyObject = new UserDetails(userAdd);
 			
-			validEntry = ClientSideService.addUser(50003, newCopyObject);
+			validEntry = ClientSideUserService.addUser(50003, newCopyObject);
+			
+			if (validEntry) {
+				
+				newCopyObject.setPassword("");
+				String jsonString = JsonServiceClient.userToJson(newCopyObject);
+				try {
+					BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+					
+					bw.write(jsonString);
+					bw.close();
+					
+					MainController.userStaticForRefresh = JsonServiceClient.jsonToUser(jsonString);
+//					newUserSign = JsonServiceClient.jsonToUser(jsonString);
+					MainController.refreshUser();
+					signUpWarningLabel.setText("Successfully created the account");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				signUpWarningLabel.setText("Account was not created");
+			}
 		}
 	}
 	
@@ -107,8 +134,6 @@ public class SignUpController {
 		confirmPasswordHiddenField.setVisible(true);
 		confirmPasswordTextField.setVisible(false);
 	}
-	
-	
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -162,7 +187,7 @@ public class SignUpController {
 			} else {
 				//if the username doesn't exist it will return true
 				//else if the username exists it will return false
-				checkBool = ClientSideService.checkExistingUserName(50000, obj.getUsername());
+				checkBool = ClientSideUserService.checkExistingUserName(50000, obj.getUsername());
 				if (!checkBool) {
 //check delete				System.out.println("IN sign up: " + checkBool);
 					signUpWarningLabel.setText("Username already exists");
@@ -205,5 +230,3 @@ public class SignUpController {
 		confirmPasswordHiddenField.setText(confirmPasswordHiddenField.getText());
 	}
 }
-
-

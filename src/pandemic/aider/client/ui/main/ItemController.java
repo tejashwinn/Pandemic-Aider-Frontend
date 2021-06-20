@@ -18,10 +18,8 @@ public class ItemController {
 	@FXML
 	private Label timeLabel;
 	
-	private PostDetails post;
-	
 	public void setData(PostDetails post) {
-		usernameLabelView.setText(post.getUserUniqueId());
+		usernameLabelView.setText(post.getUserUsername());
 		pincodeLabel.setText(post.getPincode());
 		postLabel.setText(post.getContent());
 		timeLabel.setText(post.getTime());

@@ -14,25 +14,27 @@ import javafx.stage.Stage;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
 import pandemic.aider.client.model.UserDetails;
-import pandemic.aider.client.service.ClientSideService;
+import pandemic.aider.client.service.ClientSideUserService;
+import pandemic.aider.client.service.JsonServiceClient;
+import pandemic.aider.client.ui.main.MainController;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 
 public class SignInController {
+	public static Stage stage;
+	public static Scene scene;
+	public static Parent root;
 	@FXML
 	private TextField passwordTextField, usernameTextField;
 	@FXML
 	private PasswordField passwordHiddenField;
 	@FXML
 	private CheckBox passwordCheckBoxToggle;
-	
 	@FXML
 	private Label signInWarningLabel;
-	
-	public static Stage stage;
-	public static Scene scene;
-	public static Parent root;
 	
 	@FXML
 	public void showPassword(ActionEvent event) {
@@ -64,18 +66,37 @@ public class SignInController {
 		UserDetails user = new UserDetails();
 		user.setUsername(usernameTextField.getText());
 		user.setPassword(passwordHiddenField.getText());
-		user.display();
+//		user.display();
 		if (checkPasswordSignIn(user)) {
 			user.setPassword("");
 			user.setPassword(BCrypt.hashpw(passwordHiddenField.getText(), CONSTANTS.PEPPER_PASSWORD));
 		}
-		user.display();
+//		user.display();
 		if (checkUsername(user)) {
 			if (checkPasswordSignIn(user)) {
-				correctCredentials = ClientSideService.checkCredentials(50004, user);
+				user = ClientSideUserService.checkCredentials(50004, user);
+				assert user != null;
+				correctCredentials = user.getName() != null;
 			}
 		}
-		System.out.println("User exists? " + correctCredentials);
+//		user.display();
+		if (correctCredentials) {
+			String jsonString = JsonServiceClient.userToJson(user);
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+				
+				bw.write(jsonString);
+				bw.close();
+				
+				MainController.userStaticForRefresh = JsonServiceClient.jsonToUser(jsonString);
+				signInWarningLabel.setText("Successfully Logged In");
+				MainController.refreshUser();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			signInWarningLabel.setText("Wrong credentials entered");
+		}
 	}
 	
 	@FXML
