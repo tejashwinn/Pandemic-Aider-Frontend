@@ -1,0 +1,26 @@
+.vbox{
+    -fx-background-color: black;
+}
+
+.button-sidebar{
+    -fx-background-color:black;
+}
+
+.button-sidebar:hover{
+    -fx-border-color:#CEF564;
+    -fx-border-radius:100;
+}
+
+.button-sidebar:pressed{
+     -fx-border-color:#E1B8D1;
+     -fx-border-radius:100;
+}
+.label-sidebar{
+-fx-text-fill: white;
+}
+.label-sidebar:hover{
+    -fx-text-fill: #CEF564;
+}
+.label-sidebar:pressed{
+    -fx-text-fill:#E1B8D1;
+}
