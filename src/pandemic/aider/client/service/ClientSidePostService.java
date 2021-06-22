@@ -101,4 +101,25 @@ public class ClientSidePostService {
 			return null;
 		}
 	}
+	
+	public static boolean deletePost(int port, String postId) {
+		try {
+			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
+			
+			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
+//			System.out.println("Passed the object");
+			clientSideOutputStream.writeObject(postId);
+			
+			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
+			String str = (String) clientSideInputStream.readObject();
+//			System.out.println(str);
+			
+			clientSideOutputStream.close();
+			clientSideInputStream.close();
+			return Boolean.parseBoolean(str);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

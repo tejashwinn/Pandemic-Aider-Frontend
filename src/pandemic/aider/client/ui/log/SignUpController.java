@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class SignUpController {
-	public static UserDetails newUserSign;
+	
 	@FXML
 	private TextField passwordTextField, confirmPasswordTextField, usernameTextField, nameTextField;
 	@FXML

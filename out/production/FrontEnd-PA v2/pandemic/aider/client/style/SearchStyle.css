@@ -1,0 +1,98 @@
+.color-green{
+    -fx-background-color: linear-gradient(to top, #cef564, #a9c75b, #869b50, #657145, #454939);
+}
+
+.search-bar{
+    -fx-background-color: white;
+    -fx-background-radius: 100;
+}
+.search-button{
+    -fx-background-color: black;
+    -fx-text-fill:white;
+    -fx-border-color:white;
+    -fx-background-radius: 100;
+    -fx-border-radius:100;
+
+}
+.search-button:hover{
+            -fx-background-color: white;
+            -fx-text-fill:black;
+            -fx-border-color:black;
+
+}
+.search-button:pressed{
+        -fx-text-fill:#CEF564;
+        -fx-border-color:#CEF564;
+        -fx-background-color: black;
+}
+
+.radio-button{
+        -fx-background-color: transparent;
+        -fx-text-fill:black;
+}
+.radio-button:selected .radio{
+    -fx-background-color: black;
+    -fx-border-radius:100;
+    -fx-border-color: #CEF564;
+}
+.radio-button >.radio{
+    -fx-border-radius:100;
+    -fx-border-color: black;
+    -fx-background-color:white;
+
+}
+.radio-button:hover .radio{
+    -fx-border-radius:100;
+    -fx-border-color: #CEF564;
+
+}
+
+.radio-button: hover .dot{
+    -fx-background-color:black;
+}
+.radio-button:selected .dot{
+    -fx-background-color: #CEF564;
+}
+.radio-button:selected .dot{
+     -fx-background-color: #CEF564
+}
+
+
+.title-pane > .title{
+    -fx-background-color: #CEF564;
+    -fx-tile-alignment:center;
+}
+
+
+.scroll-pane{
+     -fx-background-color:#121212;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #121212;
+}
+.scroll-pane > .viewport {
+   -fx-background-color: #121212;
+}

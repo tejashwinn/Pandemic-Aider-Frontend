@@ -15,8 +15,7 @@ import pandemic.aider.client.service.ClientSideUserService;
 import pandemic.aider.client.service.JsonServiceClient;
 import pandemic.aider.client.ui.log.SignInStarter;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +32,8 @@ public class MainController implements Initializable {
 	public static Label userNameLabelForRefresh, postRequestUsernameLabelForRefresh;
 	
 	public static GridPane userGridPaneForRefresh;
+	
+	public static TitledPane userTitledPaneForRefresh;
 	
 	@FXML
 	public Button mainSignInButton, userRefreshButton;
@@ -68,7 +69,10 @@ public class MainController implements Initializable {
 	private TextField searchTextField;
 	
 	@FXML
-	private GridPane searchUserGridPane;
+	private TitledPane userTitledPane;
+	
+	@FXML
+	public Button searchButton;
 	
 	ToggleGroup radioToggle = new ToggleGroup();
 	
@@ -83,23 +87,31 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		//this will initialize the top stack pane which will be used to modify the content
+		userTitledPaneForRefresh = userTitledPane;
 		topStackPanePointerVarForViewingSearchUser = topStackPane;
+		
+		userTitledPaneForRefresh.setExpanded(false);
+		userTitledPaneForRefresh.setCollapsible(false);
 		
 		//set toggle
 		postsRadioButton.setToggleGroup(radioToggle);
 		usersRadioButton.setToggleGroup(radioToggle);
 		pincodeRadioButton.setToggleGroup(radioToggle);
+
+//		postsRadioButton.setSelected(true);
 		
 		userBorderPane.setVisible(false);
 		postRequestBorderPane.setVisible(false);
 		searchBorderPane.setVisible(true);
 		
+		postsTitledPane.setCollapsible(false);
+		usersTitledPane.setCollapsible(false);
+		
 		userNameLabelForRefresh = userUsernameLabel;
-		
 		postRequestUsernameLabelForRefresh = postRequestUsernameLabel;
-		
 		userGridPaneForRefresh = userGridPane;
 		
+		searchButton.setDefaultButton(true);
 		loadLogInJson();
 	}
 	
@@ -132,6 +144,7 @@ public class MainController implements Initializable {
 		if (searchBorderPane.isVisible()) {
 			searchBorderPane.setVisible(false);
 		} else if (!searchBorderPane.isVisible()) {
+			MainController.refreshUser();
 			userBorderPane.setVisible(false);
 			postRequestBorderPane.setVisible(false);
 			searchBorderPane.setVisible(true);
@@ -153,7 +166,10 @@ public class MainController implements Initializable {
 		if (usersRadioButton.isSelected()) {
 			postsTitledPane.setVisible(false);
 			usersTitledPane.setVisible(true);
-		} else {
+		} else if (postsRadioButton.isSelected()) {
+			usersTitledPane.setVisible(false);
+			postsTitledPane.setVisible(true);
+		} else if (pincodeRadioButton.isSelected()) {
 			usersTitledPane.setVisible(false);
 			postsTitledPane.setVisible(true);
 		}
@@ -173,42 +189,72 @@ public class MainController implements Initializable {
 				userStaticForRefresh = JsonServiceClient.jsonToUser(str);
 //				user.display();
 				JsonSettings.LoggedIn = true;
+				refreshUserPage();
 			} else {
 				userStaticForRefresh = null;
 				SignInStarter in = new SignInStarter();
 				in.run();
 			}
-			refreshUserPage();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	//helps in logging out and logging in
 	public static void refreshUser() {
-		userNameLabelForRefresh.setText(userStaticForRefresh.getUsername());
-		postRequestUsernameLabelForRefresh.setText(userStaticForRefresh.getUsername());
-
-//		user.display();
-		//display posts on users
+		userGridPaneForRefresh.getChildren().clear();
+		
+		String str = null;
 		int row = 1;
 		try {
-			GetPostArrayList list = new GetPostArrayList();
-			list.setPostsList(ClientSidePostService.retrieveRequest(50006, userStaticForRefresh.getUsername()));
+			try {
+				BufferedReader br = new BufferedReader(new FileReader("src/pandemic/aider/client/json/log.json"));
+				str = br.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
-			if (list.getPostsList() != null) {
-				for (int i = 0; i < list.getPostsList().size(); i++) {
+			if (str != null) {
+				userNameLabelForRefresh.setText(userStaticForRefresh.getUsername());
+				postRequestUsernameLabelForRefresh.setText(userStaticForRefresh.getUsername());
+				GetPostArrayList list = new GetPostArrayList();
+				list.setPostsList(ClientSidePostService.retrieveRequest(50006, userStaticForRefresh.getUsername()));
+				
+				if (list.getPostsList() != null) {
 					
-					FXMLLoader fxmlLoader = new FXMLLoader();
-					fxmlLoader.setLocation(MainController.class.getResource("ItemFXML.fxml"));
-					AnchorPane anchorPane = fxmlLoader.load();
+					userTitledPaneForRefresh.setExpanded(true);
+					userTitledPaneForRefresh.setCollapsible(true);
+					for (int i = 0; i < list.getPostsList().size(); i++) {
+						
+						FXMLLoader fxmlLoader = new FXMLLoader();
+						fxmlLoader.setLocation(MainController.class.getResource("ItemFXML.fxml"));
+						AnchorPane anchorPane = fxmlLoader.load();
+						
+						ItemController itemController = fxmlLoader.getController();
+						itemController.setData(list.getPostsList().get(i));
+						
+						userGridPaneForRefresh.add(anchorPane, 0, row++);
+					}
+				} else {
 					
-					ItemController itemController = fxmlLoader.getController();
-					itemController.setData(list.getPostsList().get(i));
-					
-					userGridPaneForRefresh.add(anchorPane, 0, row++);
+					userTitledPaneForRefresh.setExpanded(false);
+					userTitledPaneForRefresh.setCollapsible(false);
 				}
 			} else {
+				
+				userStaticForRefresh = null;
 				userGridPaneForRefresh.getChildren().clear();
+//				topStackPanePointerVarForViewingSearchUser.getChildren().clear();
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Audit Error");
+				alert.setHeaderText("Sign in/up");
+				alert.setContentText("You need to sign in/up to use this application");
+				Optional<ButtonType> result = alert.showAndWait();
+				
+				if (result.isPresent() && result.get() == ButtonType.OK) {
+					SignInStarter in = new SignInStarter();
+					in.run();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -216,32 +262,42 @@ public class MainController implements Initializable {
 	}
 	
 	public void refreshUserPage() {
-		//display the user name on user scene
-		userUsernameLabel.setText(userStaticForRefresh.getUsername());
-		postRequestUsernameLabel.setText(userStaticForRefresh.getUsername());
-
+		userGridPane.getChildren().clear();
 //		user.display();
 		//display posts on users
 		int row = 1;
 		try {
-			userGridPane.getChildren().clear();
-			GetPostArrayList list = new GetPostArrayList();
-			list.setPostsList(ClientSidePostService.retrieveRequest(50006, userStaticForRefresh.getUsername()));
-			
-			if (list.getPostsList() != null) {
-				for (int i = 0; i < list.getPostsList().size(); i++) {
+			if (userStaticForRefresh.getUsername() != null) {
+				//display the user name on user scene
+				userUsernameLabel.setText(userStaticForRefresh.getUsername());
+				postRequestUsernameLabel.setText(userStaticForRefresh.getUsername());
+				
+				GetPostArrayList list = new GetPostArrayList();
+				list.setPostsList(ClientSidePostService.retrieveRequest(50006, userStaticForRefresh.getUsername()));
+				
+				if (list.getPostsList() != null) {
+					userTitledPane.setCollapsible(true);
+					userTitledPane.setExpanded(true);
 					
-					FXMLLoader fxmlLoader = new FXMLLoader();
-					fxmlLoader.setLocation(getClass().getResource("ItemFXML.fxml"));
-					AnchorPane anchorPane = fxmlLoader.load();
-					
-					ItemController itemController = fxmlLoader.getController();
-					itemController.setData(list.getPostsList().get(i));
-					
-					userGridPane.add(anchorPane, 0, row++);
+					for (int i = 0; i < list.getPostsList().size(); i++) {
+						
+						FXMLLoader fxmlLoader = new FXMLLoader();
+						fxmlLoader.setLocation(getClass().getResource("ItemFXML.fxml"));
+						AnchorPane anchorPane = fxmlLoader.load();
+						
+						ItemController itemController = fxmlLoader.getController();
+						itemController.setData(list.getPostsList().get(i));
+						
+						userGridPane.add(anchorPane, 0, row++);
+					}
+				} else {
+					userGridPane.getChildren().clear();
+					userTitledPane.setCollapsible(false);
+					userTitledPane.setExpanded(false);
 				}
 			} else {
-				userGridPane.getChildren().clear();
+				SignInStarter in = new SignInStarter();
+				in.run();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -261,19 +317,29 @@ public class MainController implements Initializable {
 		LocalDateTime userCreatedTimeGenerator = LocalDateTime.now();
 		post.setTime(dateTimeFormatterClientAdduser.format(userCreatedTimeGenerator));
 		
-		post.setUserTags(checkHashtags(post.getContent()));
-		
-		if (checkForContent(post.getContent())) {
-			if (checkForPincode(post.getPincode())) {
-				//client
+		if (!post.getContent().equals("")) {
+			post.setUserTags(checkHashtags(post.getContent()));
+			if (post.getUserTags() != null) {
+				if (checkForContent(post.getContent())) {
+					if (checkForPincode(post.getPincode())) {
+						//client
 
 //				System.out.println(post.getContent());
-				if (ClientSidePostService.postRequest(50005, post)) {
-					postRequestWarningLabel.setText("Successfully posted");
-					postRequestContentTextArea.setText("");
-					postRequestPincodeTextField.setText("");
+						if (ClientSidePostService.postRequest(50005, post)) {
+							
+							postRequestWarningLabel.setText("Successfully posted");
+							postRequestContentTextArea.setText("");
+							postRequestPincodeTextField.setText("");
+						}
+					} else {
+						postRequestWarningLabel.setText("Pin-code can only contain 6 numbers");
+					}
 				}
+			} else {
+				postRequestWarningLabel.setText("Enter valid pincode");
 			}
+		} else {
+			postRequestWarningLabel.setText("The request cannot be empty");
 		}
 	}
 	
@@ -284,31 +350,36 @@ public class MainController implements Initializable {
 		postRequestWarningLabel.setText("");
 	}
 	
-	//!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	public ArrayList<String> checkHashtags(String string) {
-		String[] arrOfString = string.split(" ");
-		ArrayList<String> finalList = new ArrayList<>();
-		boolean bool = false;
-		for (String finalStr : arrOfString) {
-			if ('#' == finalStr.strip().charAt(0)) {
-				StringBuilder stringBuilder = new StringBuilder(finalStr);
-				stringBuilder.deleteCharAt(0);
-				for (int ch : stringBuilder.toString().toCharArray()) {
-					if (Character.isLetterOrDigit(ch)) {
-						bool = true;
-					} else {
-						bool = false;
-						break;
+		if (string != null) {
+			String[] arrOfString = string.split(" ");
+			ArrayList<String> finalList = new ArrayList<>();
+			boolean bool = false;
+			for (String finalStr : arrOfString) {
+				if ('#' == finalStr.strip().charAt(0)) {
+					StringBuilder stringBuilder = new StringBuilder(finalStr);
+					stringBuilder.deleteCharAt(0);
+					for (int ch : stringBuilder.toString().toCharArray()) {
+						if (Character.isLetterOrDigit(ch)) {
+							bool = true;
+						} else {
+							bool = false;
+							break;
+						}
 					}
-				}
-				if (bool) {
-					finalStr = "#" + stringBuilder;
-					finalList.add(finalStr);
+					if (bool) {
+						finalStr = "#" + stringBuilder;
+						finalList.add(finalStr);
+					}
+				} else {
+					finalList.add("null");
+					return finalList;
 				}
 			}
+			return finalList;
+		} else {
+			return null;
 		}
-		
-		return finalList;
 	}
 	//-----------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -335,8 +406,14 @@ public class MainController implements Initializable {
 		return true;
 	}
 	
+	//!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	@FXML
+	private GridPane searchPostGridPane, searchUserGridPane;
+	
 	@FXML
 	public void search(ActionEvent event) {
+		
 		if (usersRadioButton.isSelected()) {
 			userSearchResult();
 		} else if (pincodeRadioButton.isSelected()) {
@@ -345,9 +422,6 @@ public class MainController implements Initializable {
 			postSearchResult();
 		}
 	}
-	
-	@FXML
-	private GridPane searchPostGridPane;
 	
 	public void pincodeSearchResult() {
 		String search = searchTextField.getText();
@@ -388,12 +462,9 @@ public class MainController implements Initializable {
 	}
 	
 	public void postSearchResult() {
-		String search = searchTextField.getText();
-		
 		int row = 1;
-		
 		try {
-			
+			String search = searchTextField.getText();
 			searchPostGridPane.getChildren().clear();
 			GetPostArrayList list = new GetPostArrayList();
 			list.setPostsList(ClientSidePostService.searchPostRequest(50008, search));
@@ -431,6 +502,7 @@ public class MainController implements Initializable {
 		String search = searchTextField.getText();
 		int row = 1;
 		try {
+			
 			searchUserGridPane.getChildren().clear();
 			GetUserArrayPostList list = new GetUserArrayPostList();
 			
@@ -466,8 +538,17 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void mainBackAction(ActionEvent event) {
-		//todo
-		System.out.println("back");
+	public void mainLogOutAction(ActionEvent event) {
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+			bw.write("");
+			bw.close();
+			if (userStaticForRefresh != null) {
+				userStaticForRefresh.setToNull();
+			}
+			MainController.refreshUser();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

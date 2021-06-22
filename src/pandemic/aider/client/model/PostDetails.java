@@ -69,4 +69,12 @@ public class PostDetails implements Serializable {
 		System.out.println("User Tags: " + userTags);
 		System.out.println();
 	}
+	
+	public void setEmpty(){
+		content=" ";
+		postUniqueId=" ";
+		userUsername=" ";
+		pincode=" ";
+		time="";
+	}
 }

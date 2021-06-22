@@ -1,0 +1,14 @@
+.button-refresh{
+        -fx-background-color: transparent;
+
+}
+.button-refresh:hover{
+    -fx-background-color: white;
+    -fx-background-radius: 100;
+    -fx-border-color: black;
+    -fx-border-radius: 100;
+}
+
+.button-refresh:pressed{
+    -fx-background-color: transparent;
+}

@@ -19,7 +19,7 @@ public class SignInStarter extends Application implements Runnable {
 			Scene scene = new Scene(root, 280, 310);
 			Stage stage = new Stage();
 			stage.setTitle("Sign In");
-			Image image = new Image("pandemic/aider/client/res/icons8-covid-19-64-main-icon-green.png");
+			Image image = new Image("pandemic/aider/client/res/icons8-calendar-19-60.png");
 			stage.getIcons().add(image);
 			stage.setScene(scene);
 			stage.setResizable(false);

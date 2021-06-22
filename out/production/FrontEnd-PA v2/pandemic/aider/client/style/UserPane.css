@@ -1,0 +1,7 @@
+.user-pane-hover: hover{
+    -fx-border-color:#CEF564;
+}
+
+.user-pane: pressed{
+    -fx-text-fill: #CEF564;
+}

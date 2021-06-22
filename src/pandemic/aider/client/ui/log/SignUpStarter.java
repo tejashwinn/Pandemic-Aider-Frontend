@@ -20,7 +20,7 @@ public class SignUpStarter implements Runnable {
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.setTitle("Sign Up");
-			Image image = new Image("pandemic/aider/client/res/icons8-covid-19-64-main-icon-green.png");
+			Image image = new Image("pandemic/aider/client/res/icons8-calendar-19-60.png");
 			stage.getIcons().add(image);
 			stage.setResizable(false);
 			stage.show();

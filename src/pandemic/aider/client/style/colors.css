@@ -1,0 +1,56 @@
+.color-green{
+    -fx-background-color: linear-gradient(to top, #cef564, #a9c75b, #869b50, #657145, #454939);
+}
+
+.color-second-black{
+    -fx-background-color: #121212;
+}
+
+.button-user{
+    -fx-background-color: white;
+    -fx-text-fill:black;
+    -fx-border-color:black;
+    -fx-background-radius: 100;
+    -fx-border-radius:100;
+}
+
+.button-user:hover{
+ -fx-background-color: black;
+    -fx-text-fill:white;
+    -fx-border-color:white;
+    -fx-background-radius: 100;
+    -fx-border-radius:100;
+}
+
+.button-user:pressed{
+        -fx-text-fill: #CEF564;
+}
+
+.text-area{
+    -fx-background-color:#121212;
+    -fx-highlight-fill: #FF4632;
+    -fx-highlight-text-fill: #CEF564;
+    -fx-text-fill: #CEF564;
+    -fx-background-color: #252525;
+    -fx-border-color: #252525;
+    -fx-background-radius: 40;
+    -fx-border-radius: 40;
+}
+
+.text-area .content{
+    -fx-highlight-fill: #FF4632;
+    -fx-highlight-text-fill: #CEF564;
+    -fx-text-fill: #CEF564;
+    -fx-background-color: #252525;
+    -fx-border-color: #252525;
+    -fx-border-radius: 40;
+}
+
+
+.text-fill-color{
+    -fx-text-fill: white;
+}
+
+.button-post{
+    -fx-background-radius: 100;
+}

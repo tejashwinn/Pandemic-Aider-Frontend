@@ -121,4 +121,12 @@ public class UserDetails implements Serializable {
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
+	
+	public void setToNull() {
+		uniqueId = "";
+		username = "";
+		name = "";
+		time = "";
+		password = "";
+	}
 }

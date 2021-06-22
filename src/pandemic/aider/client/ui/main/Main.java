@@ -11,8 +11,6 @@ import java.util.Objects;
 
 public class Main extends Application {
 	
-	public static String[] vmArguments;
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -24,7 +22,7 @@ public class Main extends Application {
 		Scene scene = new Scene(root, 1028, 701);
 		stage.setScene(scene);
 		stage.setTitle("Pandemic Aider");
-		Image image = new Image("pandemic/aider/client/res/icons8-covid-19-64-main-icon-green.png");
+		Image image = new Image("pandemic/aider/client/res/icons8-calendar-19-60.png");
 		stage.getIcons().add(image);
 //		stage.setResizable(false);
 		stage.show();

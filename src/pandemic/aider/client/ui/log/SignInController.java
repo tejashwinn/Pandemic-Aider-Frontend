@@ -10,6 +10,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
@@ -35,6 +36,7 @@ public class SignInController {
 	private CheckBox passwordCheckBoxToggle;
 	@FXML
 	private Label signInWarningLabel;
+	
 	
 	@FXML
 	public void showPassword(ActionEvent event) {
@@ -91,6 +93,7 @@ public class SignInController {
 				MainController.userStaticForRefresh = JsonServiceClient.jsonToUser(jsonString);
 				signInWarningLabel.setText("Successfully Logged In");
 				MainController.refreshUser();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

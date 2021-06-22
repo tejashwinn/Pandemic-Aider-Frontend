@@ -1,68 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
-            prefWidth="752.0" style="-fx-border-color: red;" xmlns="http://javafx.com/javafx/16"
-            fx:controller="pandemic.aider.client.ui.main.ItemController">
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="730.0" style="-fx-border-color: #121212; -fx-background-color: #252525; -fx-background-radius: 30;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pandemic.aider.client.ui.main.ItemController">
     <children>
-        <VBox prefHeight="203.0" prefWidth="632.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox prefHeight="250.0" prefWidth="730.0" style="-fx-border-color: #121212; -fx-background-color: #252525; -fx-background-radius: 30;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <HBox prefHeight="40.0" prefWidth="623.0">
+                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="710.0" style="-fx-background-color: #404040; -fx-background-radius: 120;">
                     <VBox.margin>
-                        <Insets left="5.0" right="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
                     <children>
-                        <Label fx:id="usernameLabelView" prefHeight="36.0" prefWidth="632.0" text="Temp">
+                        <Label fx:id="usernameLabelView" prefHeight="24.0" prefWidth="659.0" style="-fx-background-color: #404040;" text="Username" textFill="#cef564">
                             <font>
-                                <Font name="Cambria Bold Italic" size="20.0"/>
+                                <Font name="Cambria Bold Italic" size="20.0" />
                             </font>
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </HBox.margin>
                         </Label>
-                        <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+                        <MenuButton alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="22.0" prefWidth="34.0" style="-fx-background-color: #404040;">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#deletePost" text=" Delete Post" />
+                            </items>
+                            <HBox.margin>
+                                <Insets right="5.0" />
+                            </HBox.margin>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </MenuButton>
                     </children>
                 </HBox>
                 <HBox prefHeight="16.0" prefWidth="632.0">
                     <children>
-                        <Label fx:id="pincodeLabel" prefHeight="18.0" prefWidth="242.0" text="Label">
+                        <Label fx:id="pincodeLabel" prefHeight="18.0" prefWidth="374.0" text="Location" textFill="WHITE">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="15.0" />
                             </HBox.margin>
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
                         </Label>
-                        <Pane prefHeight="18.0" prefWidth="376.0" HBox.hgrow="ALWAYS"/>
+                        <Pane prefHeight="18.0" prefWidth="376.0" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
-                <HBox prefHeight="145.0" prefWidth="632.0">
+                <HBox prefHeight="165.0" prefWidth="727.0">
                     <children>
-                        <Label fx:id="postLabel" alignment="TOP_LEFT" lineSpacing="2.0"
-                               maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="131.0"
-                               minWidth="687.0" prefHeight="131.0" prefWidth="756.0"
-                               style="-fx-wrap-text: true; -fx-border-color: orange;" text="Post">
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
+                        <Label fx:id="postLabel" alignment="TOP_LEFT" lineSpacing="2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="94.0" minWidth="687.0" prefHeight="147.0" prefWidth="707.0" style="-fx-wrap-text: true;" text="Post" textFill="WHITE">
                             <HBox.margin>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </HBox.margin>
                             <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                <Insets left="20.0" right="10.0" />
                             </padding>
+                            <font>
+                                <Font name="System Bold Italic" size="16.0" />
+                            </font>
                         </Label>
                     </children>
                 </HBox>
                 <HBox prefHeight="16.0" prefWidth="632.0">
                     <children>
-                        <Label fx:id="timeLabel" prefHeight="18.0" prefWidth="242.0" text="Label">
+                        <Pane prefHeight="18.0" prefWidth="8.0" />
+                        <Label fx:id="timeLabel" prefHeight="18.0" prefWidth="262.0" text="Timings" textFill="WHITE">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="15.0" right="5.0" />
                             </HBox.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
                         </Label>
-                        <Pane prefHeight="18.0" prefWidth="376.0" HBox.hgrow="ALWAYS"/>
+                        <Pane prefHeight="18.0" prefWidth="376.0" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
             </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
         </VBox>
     </children>
 </AnchorPane>
