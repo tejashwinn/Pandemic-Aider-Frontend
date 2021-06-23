@@ -5,24 +5,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import pandemic.aider.client.CONSTANTS;
 import pandemic.aider.client.model.*;
 import pandemic.aider.client.service.ClientSidePostService;
 import pandemic.aider.client.service.ClientSideUserService;
 import pandemic.aider.client.service.JsonServiceClient;
-import pandemic.aider.client.ui.log.SignInStarter;
 
 import java.io.*;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainController implements Initializable {
 	
@@ -35,6 +30,10 @@ public class MainController implements Initializable {
 	public static GridPane userGridPaneStatic;
 	
 	public static TitledPane userTitledPaneStatic;
+	
+	private final ToggleGroup radioToggle = new ToggleGroup();
+	
+	public static HBox viewUserHBoxStatic, signInHBoxStatic;
 	
 	@FXML
 	public Button mainSignInButton, userRefreshButton;
@@ -78,7 +77,8 @@ public class MainController implements Initializable {
 	@FXML
 	private GridPane searchPostGridPane, searchUserGridPane;
 	
-	ToggleGroup radioToggle = new ToggleGroup();
+	@FXML
+	private HBox viewUserHBox, signInHBox, signUpHBox;
 	
 	public UserDetails getUser() {
 		
@@ -95,9 +95,9 @@ public class MainController implements Initializable {
 		//this will initialize the top stack pane which will be used to modify the content
 		userTitledPaneStatic = userTitledPane;
 		topStackPanePointerVarForViewingSearchUser = topStackPane;
-		
-		userTitledPaneStatic.setExpanded(false);
-		userTitledPaneStatic.setCollapsible(false);
+
+//		userTitledPaneStatic.setExpanded(false);
+//		userTitledPaneStatic.setCollapsible(false);
 		
 		//set toggle
 		postsRadioButton.setToggleGroup(radioToggle);
@@ -108,7 +108,7 @@ public class MainController implements Initializable {
 		
 		userBorderPane.setVisible(false);
 		postRequestBorderPane.setVisible(false);
-		searchBorderPane.setVisible(true);
+		searchBorderPane.setVisible(false);
 		
 		postsTitledPane.setCollapsible(false);
 		usersTitledPane.setCollapsible(false);
@@ -117,17 +117,11 @@ public class MainController implements Initializable {
 		postRequestUsernameLabelForRefresh = postRequestUsernameLabel;
 		userGridPaneStatic = userGridPane;
 		
+		viewUserHBoxStatic = viewUserHBox;
+		signInHBoxStatic = signInHBox;
+		
 		searchButton.setDefaultButton(true);
 		loadLogInJson();
-	}
-	
-	//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//sign in button creates
-	@FXML
-	public void showSignIn(ActionEvent event) {
-		
-		SignInStarter in = new SignInStarter();
-		in.run();
 	}
 
 //sidebar controls
@@ -189,12 +183,11 @@ public class MainController implements Initializable {
 
 //initializer for
 //!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	@FXML
-	public void refreshUser(ActionEvent event) {
-		
-		refreshUserPage();
-	}
+
+//	@FXML
+//	public void reloadPageStatic(ActionEvent event) {
+//		refreshUserPage();
+//	}
 	
 	//takes the values from the json format to the user
 	private void loadLogInJson() {
@@ -203,38 +196,45 @@ public class MainController implements Initializable {
 			BufferedReader br = new BufferedReader(new FileReader("src/pandemic/aider/client/json/log.json"));
 			String str = br.readLine();
 			if(str != null) {
-				userDetailsStatic = JsonServiceClient.jsonToUser(str);
-				JsonSettings.LoggedIn = true;
-				refreshUserPage();
+				if(!str.equals("{ ") && !str.equals("{\n")) {
+					userDetailsStatic = JsonServiceClient.jsonToUser(str);
+					JsonSettings.LoggedIn = true;
+					refreshUserPage();
+				} else {
+					userDetailsStatic = null;
+					viewUserHBox.setVisible(false);
+					signInHBox.setVisible(true);
+				}
 			} else {
 				userDetailsStatic = null;
-				SignInStarter in = new SignInStarter();
-				in.run();
+				viewUserHBox.setVisible(false);
+				signInHBox.setVisible(true);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	@FXML
 	public void refreshUserPage() {
 		
 		try {
 			int row = 1;
 			userGridPane.getChildren().clear();
-			if(userDetailsStatic.getUsername() != null) {
+			if(userDetailsStatic != null) {
 				//display the user name on user scene
 				userUsernameLabel.setText(userDetailsStatic.getUsername());
 				postRequestUsernameLabel.setText(userDetailsStatic.getUsername());
 				
 				GetPostArrayList list = new GetPostArrayList();
 				list.setPostsList(ClientSidePostService.retrieveRequest(50006, userDetailsStatic.getUsername()));
+				viewUserHBox.setVisible(true);
+				signInHBox.setVisible(false);
 				
 				if(list.getPostsList() != null) {
-					if(!userTitledPaneStatic.isVisible()) {
-						userTitledPaneStatic.setVisible(true);
-					}
-					userTitledPaneStatic.setExpanded(true);
-					userTitledPaneStatic.setCollapsible(true);
+					usersTitledPane.setVisible(true);
+					userTitledPane.setExpanded(true);
+					userTitledPane.setCollapsible(true);
 					for(int i = 0; i < list.getPostsList().size(); i++) {
 						
 						FXMLLoader fxmlLoader = new FXMLLoader();
@@ -248,10 +248,12 @@ public class MainController implements Initializable {
 					}
 				} else {
 					userGridPane.getChildren().clear();
+					userTitledPaneStatic.setExpanded(false);
+					userTitledPaneStatic.setCollapsible(false);
 				}
 			} else {
-				SignInStarter in = new SignInStarter();
-				in.run();
+				viewUserHBox.setVisible(false);
+				signInHBox.setVisible(true);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -513,16 +515,19 @@ public class MainController implements Initializable {
 			if(userDetailsStatic != null) {
 				userDetailsStatic.setToNull();
 			}
-			refreshUserPage();
+			MainController.reloadPageStatic();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
+//audit
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	//static
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //helps in logging out and logging in
-	public static void refreshUser() {
+	public static void reloadPageStatic() {
 		
 		userGridPaneStatic.getChildren().clear();
 		String str = null;
@@ -541,6 +546,10 @@ public class MainController implements Initializable {
 					userNameLabelForRefresh.setText(userDetailsStatic.getUsername());
 					postRequestUsernameLabelForRefresh.setText(userDetailsStatic.getUsername());
 					
+					userTitledPaneStatic.setVisible(true);
+					userTitledPaneStatic.setExpanded(true);
+					userTitledPaneStatic.setCollapsible(true);
+					
 					GetPostArrayList list = new GetPostArrayList();
 					list.setPostsList(ClientSidePostService.retrieveRequest(50006, userDetailsStatic.getUsername()));
 					
@@ -549,6 +558,8 @@ public class MainController implements Initializable {
 						userTitledPaneStatic.setExpanded(true);
 						userTitledPaneStatic.setCollapsible(true);
 						
+						viewUserHBoxStatic.setVisible(true);
+						signInHBoxStatic.setVisible(false);
 						for(int i = 0; i < list.getPostsList().size(); i++) {
 							
 							FXMLLoader fxmlLoader = new FXMLLoader();
@@ -559,14 +570,16 @@ public class MainController implements Initializable {
 							itemController.setData(list.getPostsList().get(i));
 							
 							userGridPaneStatic.add(anchorPane, 0, row++);
-							if(!userTitledPaneStatic.isVisible()) {
-								userTitledPaneStatic.setVisible(true);
-							}
+							userTitledPaneStatic.setVisible(true);
+							viewUserHBoxStatic.setVisible(true);
+							
 						}
 					} else {
-						if(userTitledPaneStatic.isVisible()) {
-							userTitledPaneStatic.setVisible(false);
-						}
+						
+						userTitledPaneStatic.setVisible(false);
+						
+						viewUserHBoxStatic.setVisible(true);
+						
 					}
 				}
 				
@@ -581,12 +594,436 @@ public class MainController implements Initializable {
 				Optional<ButtonType> result = alert.showAndWait();
 				
 				if(result.isPresent() && result.get() == ButtonType.OK) {
-					SignInStarter in = new SignInStarter();
-					in.run();
+					viewUserHBoxStatic.setVisible(false);
+					signInHBoxStatic.setVisible(true);
+				} else {
+					viewUserHBoxStatic.setVisible(false);
+					signInHBoxStatic.setVisible(true);
 				}
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	//general audi
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	public static void showSignInStatic() {
+		
+		viewUserHBoxStatic.setVisible(false);
+		signInHBoxStatic.setVisible(true);
+	}
+	
+	@FXML
+	public void showSignIn(ActionEvent event) {
+		
+		viewUserHBox.setVisible(false);
+		signInHBox.setVisible(true);
+		
+	}
+	
+	//sign in button creates
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@FXML
+	private TextField passwordTextField, usernameTextField;
+	
+	@FXML
+	private PasswordField passwordHiddenField;
+	
+	@FXML
+	private CheckBox passwordCheckBoxToggle;
+	
+	@FXML
+	private Label signInWarningLabel;
+	
+	@FXML
+	public void checkCorrectCredentials(ActionEvent event) {
+		//to change values when edited on different toggles
+		boolean correctCredentials = false;
+		
+		if(passwordCheckBoxToggle.isSelected()) {
+			passwordHiddenField.setText(passwordTextField.getText());
+		}
+		if(!passwordCheckBoxToggle.isSelected()) {
+			passwordTextField.setText(passwordHiddenField.getText());
+		}
+		
+		UserDetails user = new UserDetails();
+		user.setUsername(usernameTextField.getText());
+		user.setPassword(passwordHiddenField.getText());
+		
+		if(checkPasswordSignIn(user)) {
+			user.setPassword("");
+			user.setPassword(BCrypt.hashpw(passwordHiddenField.getText(), CONSTANTS.PEPPER_PASSWORD));
+		}
+		if(checkUsername(user)) {
+			if(checkPasswordSignIn(user)) {
+				user = ClientSideUserService.checkCredentials(50004, user);
+				if(user != null) {
+					correctCredentials = user.getName() != null;
+				} else {
+					correctCredentials = false;
+				}
+			}
+		}
+		if(correctCredentials) {
+			String jsonString = JsonServiceClient.userToJson(user);
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+				
+				bw.write(jsonString);
+				bw.close();
+				
+				MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
+				signInWarningLabel.setText("Successfully Logged In");
+				showAlert();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			signInWarningLabel.setText("Wrong credentials entered");
+		}
+	}
+	
+	private boolean checkUsername(UserDetails obj) {
+		
+		boolean checkBool = false;
+		if(obj.getUsername().equals("") || obj.getUsername() == null) {
+			signInWarningLabel.setText("Username can't be empty");
+			return false;
+		} else {
+			/*
+			 * checks if username contains any different characters
+			 * first for loop is for the string
+			 * second for loop is to iterate through the main constant string
+			 * if the stringChar matches the any of the char then the loop is broken and the loop is checked for new char from the string
+			 * even if one char fails it will return false
+			 */
+			for(char stringChar : obj.getUsername().toCharArray()) {
+				
+				for(char constChar : CONSTANTS.ALLOWED_USERNAME_CHARS.toCharArray()) {
+					
+					if(stringChar == constChar) {
+						checkBool = true;
+						break;
+					}
+					checkBool = false;
+				}
+				if(!checkBool) {
+					signInWarningLabel.setText("'" + stringChar + "' Not allowed in Username");
+					return false;
+				}
+			}
+			if(obj.getUsername().length() > 30) {
+				signInWarningLabel.setText("Username cannot exceed 30 characters");
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+	
+	private boolean checkPasswordSignIn(UserDetails obj) {
+		
+		if(obj.getPassword() == null || obj.getPassword().equals("")) {
+			signInWarningLabel.setText("Password Cannot be empty");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private void showAlert() {
+		
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Successful");
+		alert.setHeaderText("You are now logged in");
+		alert.setContentText("Press Ok to continue");
+		Optional<ButtonType> result = alert.showAndWait();
+		usernameTextField.setText("");
+		passwordHiddenField.setText("");
+		passwordTextField.setText("");
+		if(result.isPresent() && result.get() == ButtonType.OK) {
+			MainController.reloadPageStatic();
+		}
+	}
+	
+	//other functions sign in
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@FXML
+	public void switchToSignUp(ActionEvent event) {
+		
+		signInHBox.setVisible(false);
+		signUpHBox.setVisible(true);
+	}
+	
+	@FXML
+	public void showPassword(ActionEvent event) {
+		
+		if(passwordCheckBoxToggle.isSelected()) {
+			//shows the text fields
+			passwordTextField.setText(passwordHiddenField.getText());
+			passwordTextField.setVisible(true);
+			passwordHiddenField.setVisible(false);
+			return;
+		}
+		//shows the hidden fields
+		passwordHiddenField.setText(passwordTextField.getText());
+		passwordHiddenField.setVisible(true);
+		passwordTextField.setVisible(false);
+		
+	}
+	
+	//signup general action
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@FXML
+	public void cancelSignUpAction(ActionEvent event) {
+		
+		viewUserHBox.setVisible(true);
+		signInHBox.setVisible(false);
+		signUpHBox.setVisible(false);
+		
+	}
+	
+	//sign up action
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	@FXML
+	private TextField passwordTextFieldSignUp, confirmPasswordTextFieldSignUp, usernameTextFieldSignUp, nameTextFieldSignUp;
+	
+	@FXML
+	private PasswordField passwordHiddenFieldSignUp, confirmPasswordHiddenFieldSignUp;
+	
+	@FXML
+	private CheckBox passwordCheckBoxToggleSignUp;
+	
+	@FXML
+	private Label signUpWarningLabelSignUp;
+	
+	@FXML
+	public void signUpActionSignUp(ActionEvent event) {
+		
+		boolean validEntry = false;
+		UserRePassword userAdd = new UserRePassword();
+		UserDetails newCopyObject = null;
+		/*
+		 * adding this code because when the user edits the password in view mode and hits sign up
+		 * it doesn't get updated in hidden mode so this will help us to set it back to the normal
+		 */
+		if(passwordCheckBoxToggleSignUp.isSelected()) {
+			passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
+			confirmPasswordHiddenFieldSignUp.setText(confirmPasswordTextFieldSignUp.getText());
+		}
+		/*
+		 * adding this code because when the user edits the password in hidden mode
+		 */
+		
+		if(!passwordCheckBoxToggleSignUp.isSelected()) {
+			passwordTextFieldSignUp.setText(passwordHiddenFieldSignUp.getText());
+			confirmPasswordHiddenFieldSignUp.setText(confirmPasswordHiddenFieldSignUp.getText());
+		}
+		//assigning the entered values to the object
+		userAdd.setName(nameTextFieldSignUp.getText());
+		userAdd.setUsername(usernameTextFieldSignUp.getText().toLowerCase());
+		userAdd.setPassword(passwordHiddenFieldSignUp.getText());
+		userAdd.setConfirmPassword(confirmPasswordHiddenFieldSignUp.getText());
+		
+		if(checkNameSignUp(userAdd)) {
+			if(checkUsernameSignUp(userAdd)) {
+				if(checkPasswordSignUp(userAdd)) {
+					userAdd.setPassword("");
+					//refer: https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/bcrypt/BCrypt.html
+					//there are two BCRYPT values the one used here is from spring boot
+					userAdd.setPassword(BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD));
+					validEntry = true;
+				}
+			}
+		}
+		if(validEntry) {
+			//sets UUID
+			userAdd.setUniqueId(UUID.randomUUID().toString());//
+			
+			//time generator
+			DateTimeFormatter dateTimeFormatterClientAdduser = DateTimeFormatter.ofPattern("yyyy:MM:dd::HH:mm:ss");
+			LocalDateTime userCreatedTimeGenerator = LocalDateTime.now();
+			
+			//sets user creation time
+			userAdd.setTime(dateTimeFormatterClientAdduser.format(userCreatedTimeGenerator));
+			
+			newCopyObject = new UserDetails(userAdd);
+			
+			validEntry = ClientSideUserService.addUser(50003, newCopyObject);
+			
+			if(validEntry) {
+				
+				newCopyObject.setPassword("");
+				String jsonString = JsonServiceClient.userToJson(newCopyObject);
+				try {
+					BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+					
+					bw.write(jsonString);
+					bw.close();
+					
+					MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
+//					newUserSign = JsonServiceClient.jsonToUser(jsonString);
+//					MainController.reloadPageStatic();
+					signUpWarningLabelSignUp.setText("Successfully created the account");
+					showAlertSignUp();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				signUpWarningLabelSignUp.setText("Account was not created");
+			}
+		}
+	}
+	
+	//to view password when toggled
+	@FXML
+	public void showPasswordSignUp(ActionEvent event) {
+		
+		if(passwordCheckBoxToggleSignUp.isSelected()) {
+			//sets the text field value
+			passwordTextFieldSignUp.setText(passwordHiddenFieldSignUp.getText());
+			//shows the password text field
+			passwordTextFieldSignUp.setVisible(true);
+			passwordHiddenFieldSignUp.setVisible(false);
+			
+			//sets the value for the confirm text field
+			confirmPasswordTextFieldSignUp.setText(confirmPasswordHiddenFieldSignUp.getText());
+			//shows the confirm password text field
+			confirmPasswordTextFieldSignUp.setVisible(true);
+			confirmPasswordHiddenFieldSignUp.setVisible(false);
+			return;
+		}
+		//sets the value for the text field
+		passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
+		passwordHiddenFieldSignUp.setVisible(true);
+		passwordTextFieldSignUp.setVisible(false);
+		//sets the value for the confirm password field
+		confirmPasswordHiddenFieldSignUp.setText(confirmPasswordTextFieldSignUp.getText());
+		confirmPasswordHiddenFieldSignUp.setVisible(true);
+		confirmPasswordTextFieldSignUp.setVisible(false);
+	}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	private boolean checkNameSignUp(UserRePassword obj) {
+		
+		boolean checkBool;
+		if(obj.getName().equals("") || obj.getName() == null) {
+			signUpWarningLabelSignUp.setText("Name can't be empty");
+			checkBool = false;
+		} else {
+			checkBool = true;
+		}
+		if(obj.getName().length() > 30) {
+			signUpWarningLabelSignUp.setText("Name cannot exceed 30 characters");
+			checkBool = false;
+		}
+		setExistingValuesSignUp();
+		return checkBool;
+	}
+	
+	private boolean checkUsernameSignUp(UserRePassword obj) {
+		
+		boolean checkBool = false;
+		if(obj.getUsername().equals("") || obj.getUsername() == null) {
+			signUpWarningLabelSignUp.setText("Username can't be empty");
+			return false;
+		} else {
+			/*
+			 * checks if username contains any different characters
+			 * first for loop is for the string
+			 * second for loop is to iterate through the main constant string
+			 * if the stringChar matches the any of the char then the loop is broken and the loop is checked for new char from the string
+			 * even if one char fails it will return false
+			 */
+			for(char stringChar : obj.getUsername().toCharArray()) {
+				
+				for(char constChar : CONSTANTS.ALLOWED_USERNAME_CHARS.toCharArray()) {
+					
+					if(stringChar == constChar) {
+						checkBool = true;
+						break;
+					}
+					checkBool = false;
+				}
+				if(!checkBool) {
+					signUpWarningLabelSignUp.setText("'" + stringChar + "' Not allowed in Username");
+					return false;
+				}
+			}
+			if(obj.getUsername().length() > 30) {
+				signUpWarningLabelSignUp.setText("Username cannot exceed 30 characters");
+				checkBool = false;
+			} else {
+				//if the username doesn't exist it will return true
+				//else if the username exists it will return false
+				checkBool = ClientSideUserService.checkExistingUserName(50000, obj.getUsername());
+				if(!checkBool) {
+//check delete				System.out.println("IN sign up: " + checkBool);
+					signUpWarningLabelSignUp.setText("Username already exists");
+				}
+			}
+		}
+		setExistingValuesSignUp();
+		return checkBool;
+	}
+	
+	private boolean checkPasswordSignUp(UserRePassword obj) {
+		
+		boolean checkBool;
+		if(obj.getPassword() == null || obj.getPassword().equals("")) {
+			signUpWarningLabelSignUp.setText("Password Cannot be empty");
+			return false;
+		} else if(obj.getConfirmPassword() == null || obj.getConfirmPassword().equals("")) {
+			signUpWarningLabelSignUp.setText("Confirm Password can't be empty");
+			return false;
+		}
+		
+		if(obj.getPassword().equals(obj.getConfirmPassword())) {
+			checkBool = true;
+		} else {
+			signUpWarningLabelSignUp.setText("Password doesn't match\nRe-enter password");
+			checkBool = false;
+		}
+		setExistingValuesSignUp();
+		return checkBool;
+	}
+	
+	private void setExistingValuesSignUp() {
+		
+		nameTextFieldSignUp.setText(nameTextFieldSignUp.getText());
+		
+		usernameTextFieldSignUp.setText(usernameTextFieldSignUp.getText());
+		
+		passwordTextFieldSignUp.setText(passwordTextFieldSignUp.getText());
+		passwordHiddenFieldSignUp.setText(passwordHiddenFieldSignUp.getText());
+		
+		confirmPasswordTextFieldSignUp.setText(confirmPasswordTextFieldSignUp.getText());
+		confirmPasswordHiddenFieldSignUp.setText(confirmPasswordHiddenFieldSignUp.getText());
+	}
+	
+	private void showAlertSignUp() {
+		
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Successful");
+		alert.setHeaderText("Sign up complete");
+		alert.setContentText("Press Ok to continue");
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		nameTextFieldSignUp.setText("");
+		usernameTextFieldSignUp.setText("");
+		
+		passwordHiddenFieldSignUp.setText("");
+		passwordTextField.setText("");
+		
+		confirmPasswordHiddenFieldSignUp.setText("");
+		confirmPasswordTextFieldSignUp.setText("");
+		
+		if(result.isPresent() && result.get() == ButtonType.OK) {
+			MainController.reloadPageStatic();
 		}
 	}
 }
