@@ -62,7 +62,12 @@
     -fx-background-color: #CEF564;
     -fx-tile-alignment:center;
 }
-
+.title-pane {
+    -fx-background-color: #121212;
+}
+.titled-pane {
+    -fx-background-color: #121212
+ }
 
 .scroll-pane{
      -fx-background-color:#121212;

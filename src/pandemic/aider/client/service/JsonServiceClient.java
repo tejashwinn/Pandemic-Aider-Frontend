@@ -19,27 +19,8 @@ public class JsonServiceClient {
 		return new Gson().toJson(user);
 	}
 	
-	public static PostDetails jsonToPost(String str) {
-		Gson gson = new Gson();
-		return gson.fromJson(str, PostDetails.class);
-	}
-	
 	public static String postToJson(PostDetails post) {
 		return new Gson().toJson(post);
-	}
-	
-	public static ArrayList<String> strToList(String string) {
-		Gson gson = new Gson();
-		return gson.fromJson(string, new TypeToken<ArrayList<String>>() {
-		}.getType());
-	}
-	
-	public static String listToJson(ArrayList<String> list) {
-		return new Gson().toJson(list);
-	}
-	
-	public static String fullListToJson(ArrayList<PostDetails> list) {
-		return new Gson().toJson(list);
 	}
 	
 	public static ArrayList<PostDetails> jsonToFullList(String string) {

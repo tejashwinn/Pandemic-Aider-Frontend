@@ -1,7 +1,5 @@
 package pandemic.aider.client.model;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import java.io.Serializable;
 
 /*
@@ -36,10 +34,6 @@ public class UserDetails implements Serializable {
 		this.username = obj.getUsername();
 		this.password = obj.getPassword();
 		this.time = obj.getTime();
-	}
-	
-	public void securePassword() {
-		password = DigestUtils.sha256Hex(password);
 	}
 	
 	//converts to string

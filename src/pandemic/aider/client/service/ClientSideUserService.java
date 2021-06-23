@@ -15,17 +15,17 @@ public class ClientSideUserService {
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
 			clientSideOutputStream.writeObject(username);
-//			System.out.println("Passed the object");
+			
 			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
 			String str = (String) clientSideInputStream.readObject();
-//			System.out.println("Received object: " + str);
 			
 			clientSideOutputStream.close();
 			clientSideInputStream.close();
-//			System.out.println("client closed");
+			
 			return Boolean.parseBoolean(str);
 		} catch (Exception e) {
 			e.printStackTrace();
+			ShowAlert.Alert();
 		}
 		return false;
 	}
@@ -35,21 +35,20 @@ public class ClientSideUserService {
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
-//			System.out.println("Passed the object");
 			clientSideOutputStream.writeObject(JsonServiceClient.userToJson(newUser));
-//			System.out.println(JsonServiceClient.userToJson(newUser));
+			
 			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
 			String str = (String) clientSideInputStream.readObject();
-//			System.out.println("Received object: " + str);
 			
 			clientSideOutputStream.close();
 			clientSideInputStream.close();
-//			System.out.println("client closed");
+			
 			return Boolean.parseBoolean(str);
 		} catch (Exception e) {
 			e.printStackTrace();
+			ShowAlert.Alert();
+			return false;
 		}
-		return false;
 	}
 	
 	public static UserDetails checkCredentials(int port, UserDetails userDetails) {
@@ -57,19 +56,19 @@ public class ClientSideUserService {
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
-//			System.out.println("Passed the object");
+			
 			clientSideOutputStream.writeObject(JsonServiceClient.userToJson(userDetails));
 			
 			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
 			String str = (String) clientSideInputStream.readObject();
-//			System.out.println("Received object: " + str);
 			
 			clientSideOutputStream.close();
 			clientSideInputStream.close();
-//			System.out.println("client closed");
+			
 			return JsonServiceClient.jsonToUser(str);
 		} catch (Exception e) {
 			e.printStackTrace();
+			ShowAlert.Alert();
 			return null;
 		}
 	}
@@ -79,19 +78,18 @@ public class ClientSideUserService {
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
-//			System.out.println("Passed the object: "+string);
 			clientSideOutputStream.writeObject(string);
 			
 			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
 			String str = (String) clientSideInputStream.readObject();
-//			System.out.println("Received object: " + str);
 			
 			clientSideOutputStream.close();
 			clientSideInputStream.close();
-//			System.out.println("client closed");
+			
 			return JsonServiceClient.jsonToUserList(str);
 		} catch (Exception e) {
 			e.printStackTrace();
+			ShowAlert.Alert();
 			return null;
 		}
 	}

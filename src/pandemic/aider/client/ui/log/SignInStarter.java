@@ -23,6 +23,7 @@ public class SignInStarter extends Application implements Runnable {
 			stage.getIcons().add(image);
 			stage.setScene(scene);
 			stage.setResizable(false);
+			SignInController.stage=stage;
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

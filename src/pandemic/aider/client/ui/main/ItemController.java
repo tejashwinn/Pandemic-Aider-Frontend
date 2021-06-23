@@ -61,7 +61,7 @@ public class ItemController {
 		alert.setContentText("Press Ok to delete the post");
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.isPresent() && result.get() == ButtonType.OK) {
-			if (MainController.userStaticForRefresh.getUsername().equals(postDetails.getUserUsername())) {
+			if (MainController.userDetailsStatic.getUsername().equals(postDetails.getUserUsername())) {
 				if (ClientSidePostService.deletePost(50010, postDetails.getPostUniqueId())) {
 					
 					Alert alertSuccess = new Alert(Alert.AlertType.INFORMATION);

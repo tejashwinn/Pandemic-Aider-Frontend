@@ -30,14 +30,15 @@ public class DisplayUserPosts {
 	private TitledPane postViewTitledPane;
 	
 	public void setData(String string) {
+		
 		int row = 1;
 		try {
 			postViewTitledPane.setCollapsible(false);
 			GetPostArrayList list = new GetPostArrayList();
 			userUsernameLabel.setText(string);
 			list.setPostsList(ClientSidePostService.retrieveRequest(50006, string));
-			if (list.getPostsList() != null) {
-				for (int i = 0; i < list.getPostsList().size(); i++) {
+			if(list.getPostsList() != null) {
+				for(int i = 0; i < list.getPostsList().size(); i++) {
 					
 					FXMLLoader fxmlLoader = new FXMLLoader();
 					fxmlLoader.setLocation(getClass().getResource("ItemFXML.fxml"));
@@ -55,17 +56,18 @@ public class DisplayUserPosts {
 				alert.setContentText("The user hasn't posted anything");
 				Optional<ButtonType> result = alert.showAndWait();
 				
-				if (result.isPresent() && result.get() == ButtonType.OK) {
+				if(result.isPresent() && result.get() == ButtonType.OK) {
 					userGridPane.getChildren().clear();
 				}
 			}
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@FXML
 	public void backActionEvent(ActionEvent event) {
+		
 		userBorderPane.setVisible(!userBorderPane.isVisible());
 		userBorderPane.getChildren().clear();
 	}

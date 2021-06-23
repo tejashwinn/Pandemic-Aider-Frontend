@@ -4,8 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import pandemic.aider.client.CONSTANTS;
 
 import java.util.Objects;
 
@@ -22,9 +22,8 @@ public class Main extends Application {
 		Scene scene = new Scene(root, 1028, 701);
 		stage.setScene(scene);
 		stage.setTitle("Pandemic Aider");
-		Image image = new Image("pandemic/aider/client/res/icons8-calendar-19-60.png");
-		stage.getIcons().add(image);
-//		stage.setResizable(false);
+		
+		stage.getIcons().add(CONSTANTS.MAIN_LOGO);
 		stage.show();
 	}
 }

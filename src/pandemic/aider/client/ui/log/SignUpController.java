@@ -2,10 +2,7 @@ package pandemic.aider.client.ui.log;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
 import pandemic.aider.client.model.UserDetails;
@@ -19,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.UUID;
 
 public class SignUpController {
@@ -95,10 +93,11 @@ public class SignUpController {
 					bw.write(jsonString);
 					bw.close();
 					
-					MainController.userStaticForRefresh = JsonServiceClient.jsonToUser(jsonString);
+					MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
 //					newUserSign = JsonServiceClient.jsonToUser(jsonString);
-					MainController.refreshUser();
+//					MainController.refreshUser();
 					signUpWarningLabel.setText("Successfully created the account");
+					showAlert();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -228,5 +227,16 @@ public class SignUpController {
 		
 		confirmPasswordTextField.setText(confirmPasswordTextField.getText());
 		confirmPasswordHiddenField.setText(confirmPasswordHiddenField.getText());
+	}
+	
+	private void showAlert() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Successful");
+		alert.setHeaderText("Sign up complete");
+		alert.setContentText("Press Ok to continue");
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.isPresent() && result.get() == ButtonType.OK) {
+			SignInController.stage.close();
+		}
 	}
 }
