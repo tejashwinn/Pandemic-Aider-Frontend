@@ -1,0 +1,23 @@
+.buttonSettings {
+    -fx-background-color: black;
+    -fx-background-radius: 40;
+    -fx-border-radius:40;
+    -fx-text-fill: white;
+
+}
+.buttonSettings: hover{
+    -fx-background-color: black;
+    -fx-background-radius: 40;
+    -fx-border-radius:40;
+    -fx-text-fill: #9ac231;
+
+}
+
+.buttonSettings: pressed{
+    -fx-border-radius:40;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+}
+
+

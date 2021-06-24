@@ -45,7 +45,7 @@ public class DisplayUserPosts {
 					AnchorPane anchorPane = fxmlLoader.load();
 					
 					ItemController itemController = fxmlLoader.getController();
-					itemController.setData(list.getPostsList().get(i));
+					itemController.setData(list.getPostsList().get(i), true);
 					
 					userGridPane.add(anchorPane, 0, row++);
 				}
@@ -70,5 +70,6 @@ public class DisplayUserPosts {
 		
 		userBorderPane.setVisible(!userBorderPane.isVisible());
 		userBorderPane.getChildren().clear();
+		
 	}
 }

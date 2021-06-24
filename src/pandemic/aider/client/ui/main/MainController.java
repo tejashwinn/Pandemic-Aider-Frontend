@@ -44,7 +44,7 @@ public class MainController implements Initializable {
 	private GridPane userGridPane;
 	
 	@FXML
-	private BorderPane userBorderPane, searchBorderPane, postRequestBorderPane;
+	private BorderPane userBorderPane, searchBorderPane, postRequestBorderPane, settingsBorderPane;
 	
 	@FXML
 	private RadioButton postsRadioButton, usersRadioButton, pincodeRadioButton;
@@ -121,6 +121,7 @@ public class MainController implements Initializable {
 		postRequestUsernameLabelForRefresh = postRequestUsernameLabel;
 		userGridPaneStatic = userGridPane;
 		
+		userTitledPane.setCollapsible(false);
 		//initialize the static for hBox
 		viewUserHBoxStatic = viewUserHBox;
 		signInHBoxStatic = signInHBox;
@@ -141,36 +142,51 @@ public class MainController implements Initializable {
 	@FXML
 	public void showUserDetails(ActionEvent event) {
 		
-		if(userBorderPane.isVisible()) {
-			userBorderPane.setVisible(false);
-		} else if(!userBorderPane.isVisible()) {
-			userBorderPane.setVisible(true);
+		if(!userBorderPane.isVisible()) {
 			postRequestBorderPane.setVisible(false);
 			searchBorderPane.setVisible(false);
+			settingsBorderPane.setVisible(false);
+			
+			userBorderPane.setVisible(true);
+			
 		}
 	}
 	
 	@FXML
 	public void showPostRequest(ActionEvent event) {
 		
-		if(postRequestBorderPane.isVisible()) {
-			postRequestBorderPane.setVisible(false);
-		} else if(!postRequestBorderPane.isVisible()) {
+		if(!postRequestBorderPane.isVisible()) {
 			userBorderPane.setVisible(false);
-			postRequestBorderPane.setVisible(true);
 			searchBorderPane.setVisible(false);
+			settingsBorderPane.setVisible(false);
+			
+			postRequestBorderPane.setVisible(true);
 		}
 	}
 	
 	@FXML
 	public void showSearchDetails(ActionEvent event) {
 		
-		if(searchBorderPane.isVisible()) {
-			searchBorderPane.setVisible(false);
-		} else if(!searchBorderPane.isVisible()) {
+		if(!searchBorderPane.isVisible()) {
 			userBorderPane.setVisible(false);
 			postRequestBorderPane.setVisible(false);
+			settingsBorderPane.setVisible(false);
+			
 			searchBorderPane.setVisible(true);
+		}
+	}
+	
+	@FXML
+	public void showSettings(ActionEvent event) {
+		
+		if(!settingsBorderPane.isVisible()) {
+			userBorderPane.setVisible(false);
+			postRequestBorderPane.setVisible(false);
+			searchBorderPane.setVisible(false);
+			
+			settingsBorderPane.setVisible(true);
+		} else {
+			settingsBorderPane.setVisible(false);
 		}
 	}
 
@@ -201,6 +217,7 @@ public class MainController implements Initializable {
 //	}
 	
 	//takes the values from the json format to the user
+	
 	public void loadLogInJson() {
 		
 		try {
@@ -208,11 +225,10 @@ public class MainController implements Initializable {
 			String str = br.readLine();
 			if(str != null && !str.equals("{ ") && !str.equals("{\n")) {
 				userDetailsStatic = JsonServiceClient.jsonToUser(str);
-//				userDetailsStatic.display();
 				refreshUserPage();
 			} else {
 				userDetailsStatic = null;
-				showSignInAlert();
+				refreshUserPage();
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -230,16 +246,21 @@ public class MainController implements Initializable {
 		
 		Optional<ButtonType> result = alert.showAndWait();
 		if(result.isPresent() && result.get() == ButtonType.OK) {
+			userTitledPane.setVisible(true);
+			userTitledPane.setCollapsible(false);
+			userTitledPane.setExpanded(true);
+			
 			viewUserHBox.setVisible(false);
 			signInHBox.setVisible(true);
 		} else {
+			
+			userTitledPane.setVisible(true);
+			userTitledPane.setCollapsible(false);
+			userTitledPane.setExpanded(true);
+			
 			viewUserHBox.setVisible(false);
 			signInHBox.setVisible(true);
 		}
-	}
-	
-	public void disableFeatures() {
-	
 	}
 	
 	@FXML
@@ -263,7 +284,7 @@ public class MainController implements Initializable {
 					
 					usersTitledPane.setVisible(true);
 					userTitledPane.setExpanded(true);
-					userTitledPane.setCollapsible(true);
+					userTitledPane.setCollapsible(false);
 					
 					viewUserHBox.setVisible(true);
 					signInHBox.setVisible(false);
@@ -276,18 +297,22 @@ public class MainController implements Initializable {
 						AnchorPane anchorPane = fxmlLoader.load();
 						
 						ItemController itemController = fxmlLoader.getController();
-						itemController.setData(list.getPostsList().get(i));
-						list.getPostsList().get(i).display();
+						itemController.setData(list.getPostsList().get(i), true);
 						userGridPane.add(anchorPane, 0, row++);
 						
 					}
 				} else {
-					userTitledPane.setVisible(false);
+					userTitledPane.setVisible(true);
+					userTitledPane.setCollapsible(false);
+					userTitledPane.setExpanded(false);
+					userGridPane.getChildren().clear();
 					
 					signInHBox.setVisible(false);
 					signUpHBox.setVisible(false);
 				}
 			} else {
+				showSignInAlert();
+				
 				viewUserHBox.setVisible(false);
 				
 				signInHBox.setVisible(true);
@@ -315,24 +340,28 @@ public class MainController implements Initializable {
 		DateTimeFormatter dateTimeFormatterClientAdduser = DateTimeFormatter.ofPattern("yyyy:MM:dd::HH:mm:ss");
 		LocalDateTime userCreatedTimeGenerator = LocalDateTime.now();
 		post.setTime(dateTimeFormatterClientAdduser.format(userCreatedTimeGenerator));
-		
-		if(!post.getContent().equals("")) {
+		if(!post.getContent().equals("") && postContent(post.getContent())) {
+			
 			post.setUserTags(checkHashtags(post.getContent()));
+			
 			if(post.getUserTags() != null) {
 				validPost = true;
-			} else {
-				postRequestWarningLabel.setText("Enter valid pincode");
 			}
+			
 		} else {
 			postRequestWarningLabel.setText("The request cannot be empty");
+			validPost = false;
 		}
+		
 		if(checkForContent(post.getContent())) {
 			if(checkForPincode(post.getPincode())) {
 				validPost = true;
 			} else {
 				postRequestWarningLabel.setText("Pin-code can only contain 6 numbers");
+				validPost = false;
 			}
 		}
+		
 		if(validPost) {
 			if(ClientSidePostService.postRequest(50005, post)) {
 				postRequestWarningLabel.setText("Successfully posted");
@@ -342,6 +371,18 @@ public class MainController implements Initializable {
 				postRequestWarningLabel.setText("Post wasn't able to post");
 			}
 		}
+		
+	}
+	
+	private boolean postContent(String string) {
+		
+		for(char ch : string.toCharArray()) {
+			if(Character.isLetterOrDigit((int) ch)) {
+				return true;
+			}
+		}
+		postRequestWarningLabel.setText("Cannot be empty");
+		return false;
 	}
 	
 	@FXML
@@ -382,6 +423,7 @@ public class MainController implements Initializable {
 	public boolean checkForPincode(String string) {
 		
 		if(string.length() == 6) {
+			
 			for(char i : string.toCharArray()) {
 				if(!Character.isDigit(i)) {
 					return false;
@@ -398,10 +440,14 @@ public class MainController implements Initializable {
 	public boolean checkForContent(String string) {
 		
 		if(string.length() > 512) {
-			postRequestPincodeTextField.setText("Request cannot exceed 512 characters");
+			postRequestWarningLabel.setText("Request cannot exceed 512 characters");
 			return false;
+		} else if(string.length() < 1) {
+			postRequestWarningLabel.setText("Request cannot be empty");
+			return false;
+		} else {
+			return true;
 		}
-		return true;
 	}
 
 //search function for different types for search
@@ -580,45 +626,49 @@ public class MainController implements Initializable {
 				e.printStackTrace();
 			}
 			
-			if(str != null) {
-				if(!str.equals("{")) {
+			if(str != null && userDetailsStatic != null && !str.equals("{")) {
+				
+				userNameLabelForRefresh.setText(userDetailsStatic.getUsername());
+				postRequestUsernameLabelForRefresh.setText(userDetailsStatic.getUsername());
+				
+				userTitledPaneStatic.setVisible(true);
+				userTitledPaneStatic.setExpanded(true);
+				userTitledPaneStatic.setCollapsible(false);
+				
+				//views for the HBox inside the titled pane
+				viewUserHBoxStatic.setVisible(true);
+				signInHBoxStatic.setVisible(false);
+				
+				GetPostArrayList list = new GetPostArrayList();
+				list.setPostsList(ClientSidePostService.retrieveRequest(50006, userDetailsStatic.getUsername()));
+				
+				if(list.getPostsList() != null) {
+					userGridPaneStatic.getChildren().clear();
 					
-					userNameLabelForRefresh.setText(userDetailsStatic.getUsername());
-					postRequestUsernameLabelForRefresh.setText(userDetailsStatic.getUsername());
+					for(int i = 0; i < list.getPostsList().size(); i++) {
+						
+						FXMLLoader fxmlLoader = new FXMLLoader();
+						fxmlLoader.setLocation(MainController.class.getResource("ItemFXML.fxml"));
+						AnchorPane anchorPane = fxmlLoader.load();
+						
+						ItemController itemController = fxmlLoader.getController();
+						itemController.setData(list.getPostsList().get(i), false);
+						
+						userGridPaneStatic.add(anchorPane, 0, row++);
+						
+					}
+				} else {
+					
+					userGridPaneStatic.getChildren().clear();
 					
 					userTitledPaneStatic.setVisible(true);
-					userTitledPaneStatic.setExpanded(true);
-					userTitledPaneStatic.setCollapsible(true);
+					userTitledPaneStatic.setCollapsible(false);
+					userTitledPaneStatic.setExpanded(false);
 					
-					GetPostArrayList list = new GetPostArrayList();
-					list.setPostsList(ClientSidePostService.retrieveRequest(50006, userDetailsStatic.getUsername()));
-					
-					if(list.getPostsList() != null) {
-						
-						userTitledPaneStatic.setExpanded(true);
-						userTitledPaneStatic.setCollapsible(true);
-						
-						signInHBoxStatic.setVisible(false);
-						
-						userTitledPaneStatic.setVisible(true);
-						viewUserHBoxStatic.setVisible(true);
-						for(int i = 0; i < list.getPostsList().size(); i++) {
-							
-							FXMLLoader fxmlLoader = new FXMLLoader();
-							fxmlLoader.setLocation(MainController.class.getResource("ItemFXML.fxml"));
-							AnchorPane anchorPane = fxmlLoader.load();
-							
-							ItemController itemController = fxmlLoader.getController();
-							itemController.setData(list.getPostsList().get(i));
-							
-							userGridPaneStatic.add(anchorPane, 0, row++);
-							
-						}
-					} else {
-						userTitledPaneStatic.setVisible(false);
-						viewUserHBoxStatic.setVisible(false);
-					}
+					signInHBoxStatic.setVisible(false);
+					viewUserHBoxStatic.setVisible(false);
 				}
+				
 			} else {
 				
 				userDetailsStatic = null;
@@ -644,11 +694,6 @@ public class MainController implements Initializable {
 	
 	//general audi
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	public static void showSignInStatic() {
-		
-		viewUserHBoxStatic.setVisible(false);
-		signInHBoxStatic.setVisible(true);
-	}
 	
 	@FXML
 	public void showSignIn(ActionEvent event) {
@@ -901,8 +946,7 @@ public class MainController implements Initializable {
 					bw.close();
 					
 					MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
-//					newUserSign = JsonServiceClient.jsonToUser(jsonString);
-//					MainController.reloadPageStatic();
+					
 					signUpWarningLabelSignUp.setText("Successfully created the account");
 					showAlertSignUp();
 				} catch(IOException e) {
@@ -1062,4 +1106,29 @@ public class MainController implements Initializable {
 			MainController.reloadPageStatic();
 		}
 	}
+	//settings
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	@FXML
+	public void settingsChangePassword(ActionEvent event) {
+	
+	}
+	
+	@FXML
+	public void settingsChangeUsername(ActionEvent event) {
+	
+	}
+	
+	@FXML
+	public void deleteAllPosts(ActionEvent event) {
+	
+	}
+	
+	@FXML
+	public void deleteAccount(ActionEvent event) {
+	
+	}
+	
 }
+
+

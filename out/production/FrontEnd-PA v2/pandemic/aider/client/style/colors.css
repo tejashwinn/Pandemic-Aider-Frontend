@@ -52,5 +52,15 @@
 }
 
 .button-post{
+    -fx-background-color: black;
+    -fx-text-fill:white;
+    -fx-border-color:white;
     -fx-background-radius: 100;
+    -fx-border-radius:100;
+}
+
+.button-post:pressed{
+    -fx-text-fill:#CEF564;
+    -fx-border-color:#CEF564;
+    -fx-background-color: black;
 }

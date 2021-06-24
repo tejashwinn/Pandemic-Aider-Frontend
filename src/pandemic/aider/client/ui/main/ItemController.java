@@ -20,7 +20,7 @@ import java.util.Optional;
 public class ItemController {
 	
 	@FXML
-	private Label usernameLabelView;
+	private Label usernameLabelView, usernameButtonLabelView;
 	
 	@FXML
 	private Label pincodeLabel;
@@ -36,6 +36,8 @@ public class ItemController {
 	@FXML
 	public Button viewUserInnerButton;
 	
+	
+	
 	private String changeTime(String time) throws ParseException {
 		
 		SimpleDateFormat previousFormat = new SimpleDateFormat("yyyy:MM:dd::HH:mm:ss");
@@ -50,19 +52,36 @@ public class ItemController {
 		
 		postDetails = post;
 		usernameLabelView.setText(post.getUserUsername());
+		usernameButtonLabelView.setText(usernameLabelView.getText());
 		pincodeLabel.setText("Location: " + post.getPincode());
 		postLabel.setText(post.getContent());
 		timeLabel.setText("Posted On: " + changeTime(post.getTime()));
 		
 	}
-
-//	public void setData(){
-//		postDetails = ;
-//		usernameLabelView.setText(post.getUserUsername());
-//		pincodeLabel.setText("Location: " + post.getPincode());
-//		postLabel.setText(post.getContent());
-//		timeLabel.setText("Posted On: " + changeTime(post.getTime()));
-//	}
+	
+	public void setData(PostDetails post, boolean disable) throws ParseException {
+		
+		if(disable) {
+			postDetails = post;
+			usernameLabelView.setText(post.getUserUsername());
+			usernameButtonLabelView.setText(usernameLabelView.getText());
+			
+			pincodeLabel.setText("Location: " + post.getPincode());
+			postLabel.setText(post.getContent());
+			timeLabel.setText("Posted On: " + changeTime(post.getTime()));
+			viewUserInnerButton.setVisible(false);
+		} else {
+			postDetails = post;
+			usernameLabelView.setText(post.getUserUsername());
+			usernameButtonLabelView.setText(usernameLabelView.getText());
+			
+			pincodeLabel.setText("Location: " + post.getPincode());
+			postLabel.setText(post.getContent());
+			timeLabel.setText("Posted On: " + changeTime(post.getTime()));
+			viewUserInnerButton.setVisible(true);
+		}
+		
+	}
 	
 	public void deletePost(ActionEvent event) {
 		
@@ -118,7 +137,7 @@ public class ItemController {
 			displayUserPosts.setData(postDetails.getUserUsername());
 			//adds new children to the previous stack pane which was assign
 			MainController.topStackPanePointerVarForViewingSearchUser.getChildren().addAll(borderPane);
-			viewUserInnerButton.setDisable(true);
+//			viewUserInnerButton.setDisable(true);
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
