@@ -19,4 +19,5 @@ todo:
 alert when fails
 check for conditions in searching
 hashtag search doesn't work
-white
+change api and server and
+

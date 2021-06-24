@@ -12,6 +12,8 @@ import pandemic.aider.client.model.*;
 import pandemic.aider.client.service.ClientSidePostService;
 import pandemic.aider.client.service.ClientSideUserService;
 import pandemic.aider.client.service.JsonServiceClient;
+import pandemic.aider.server.service.ServerSidePostService;
+import pandemic.aider.server.service.UserServer;
 
 import java.io.*;
 import java.net.URL;
@@ -92,6 +94,10 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		
+		UserServer.runUserService();
+		ServerSidePostService.runServerPost();
+		
 		//this will initialize the top stack pane which will be used to modify the content
 		userTitledPaneStatic = userTitledPane;
 		topStackPanePointerVarForViewingSearchUser = topStackPane;

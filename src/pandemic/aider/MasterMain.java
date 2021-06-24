@@ -6,9 +6,8 @@ import pandemic.aider.server.service.UserServer;
 
 public class MasterMain {
 	public static void main(String[] args) {
-		UserServer.runUserService();
-		ServerSidePostService.runServerPost();
-		Main.main(args);
 		
+	
+		Main.main(args);
 	}
 }
