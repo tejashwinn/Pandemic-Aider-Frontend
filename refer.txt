@@ -19,5 +19,12 @@ todo:
 alert when fails
 check for conditions in searching
 hashtag search doesn't work
-change api and server and
+change api, server, and sql statements for phone number
+after adding post, if the user hasn't posted anything; it is not getting updated in the user tab even after refreshing
+
+user display button which needs to be disabled to after using is not getting disabled
+
+need to handle connection failure exceptions
+
+
 

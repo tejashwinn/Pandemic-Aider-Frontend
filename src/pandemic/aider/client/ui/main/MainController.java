@@ -101,9 +101,6 @@ public class MainController implements Initializable {
 		//this will initialize the top stack pane which will be used to modify the content
 		userTitledPaneStatic = userTitledPane;
 		topStackPanePointerVarForViewingSearchUser = topStackPane;
-
-//		userTitledPaneStatic.setExpanded(false);
-//		userTitledPaneStatic.setCollapsible(false);
 		
 		//set toggle
 		postsRadioButton.setToggleGroup(radioToggle);
@@ -111,23 +108,31 @@ public class MainController implements Initializable {
 		pincodeRadioButton.setToggleGroup(radioToggle);
 
 //		postsRadioButton.setSelected(true);
-		
 		userBorderPane.setVisible(false);
-		postRequestBorderPane.setVisible(false);
+		postRequestBorderPane.setVisible(true);
 		searchBorderPane.setVisible(false);
 		
+		//sets the title pane fo search to remain non collapsed
 		postsTitledPane.setCollapsible(false);
 		usersTitledPane.setCollapsible(false);
 		
+		//initializes the static panes
 		userNameLabelForRefresh = userUsernameLabel;
 		postRequestUsernameLabelForRefresh = postRequestUsernameLabel;
 		userGridPaneStatic = userGridPane;
 		
+		//initialize the static for hBox
 		viewUserHBoxStatic = viewUserHBox;
 		signInHBoxStatic = signInHBox;
 		
+		signInHBox.setVisible(false);
+		signUpHBox.setVisible(false);
+		
+		//sets the search button in search menu to default so that it can be accessed with RETURN
 		searchButton.setDefaultButton(true);
+		
 		loadLogInJson();
+		
 	}
 
 //sidebar controls
@@ -196,29 +201,45 @@ public class MainController implements Initializable {
 //	}
 	
 	//takes the values from the json format to the user
-	private void loadLogInJson() {
+	public void loadLogInJson() {
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/pandemic/aider/client/json/log.json"));
 			String str = br.readLine();
-			if(str != null) {
-				if(!str.equals("{ ") && !str.equals("{\n")) {
-					userDetailsStatic = JsonServiceClient.jsonToUser(str);
-					JsonSettings.LoggedIn = true;
-					refreshUserPage();
-				} else {
-					userDetailsStatic = null;
-					viewUserHBox.setVisible(false);
-					signInHBox.setVisible(true);
-				}
+			if(str != null && !str.equals("{ ") && !str.equals("{\n")) {
+				userDetailsStatic = JsonServiceClient.jsonToUser(str);
+//				userDetailsStatic.display();
+				refreshUserPage();
 			} else {
 				userDetailsStatic = null;
-				viewUserHBox.setVisible(false);
-				signInHBox.setVisible(true);
+				showSignInAlert();
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void showSignInAlert() {
+		
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Audit Error");
+		alert.setHeaderText("Sign in/up");
+		alert.setContentText("You need to sign in/up to use this application");
+		alert.setWidth(450);
+		alert.setHeight(450);
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.isPresent() && result.get() == ButtonType.OK) {
+			viewUserHBox.setVisible(false);
+			signInHBox.setVisible(true);
+		} else {
+			viewUserHBox.setVisible(false);
+			signInHBox.setVisible(true);
+		}
+	}
+	
+	public void disableFeatures() {
+	
 	}
 	
 	@FXML
@@ -226,21 +247,28 @@ public class MainController implements Initializable {
 		
 		try {
 			int row = 1;
-			userGridPane.getChildren().clear();
+			
 			if(userDetailsStatic != null) {
+				
 				//display the user name on user scene
 				userUsernameLabel.setText(userDetailsStatic.getUsername());
 				postRequestUsernameLabel.setText(userDetailsStatic.getUsername());
 				
 				GetPostArrayList list = new GetPostArrayList();
 				list.setPostsList(ClientSidePostService.retrieveRequest(50006, userDetailsStatic.getUsername()));
-				viewUserHBox.setVisible(true);
-				signInHBox.setVisible(false);
 				
 				if(list.getPostsList() != null) {
+					
+					userGridPane.getChildren().clear();
+					
 					usersTitledPane.setVisible(true);
 					userTitledPane.setExpanded(true);
 					userTitledPane.setCollapsible(true);
+					
+					viewUserHBox.setVisible(true);
+					signInHBox.setVisible(false);
+					signUpHBox.setVisible(false);
+					
 					for(int i = 0; i < list.getPostsList().size(); i++) {
 						
 						FXMLLoader fxmlLoader = new FXMLLoader();
@@ -249,17 +277,21 @@ public class MainController implements Initializable {
 						
 						ItemController itemController = fxmlLoader.getController();
 						itemController.setData(list.getPostsList().get(i));
-//						list.getPostsList().get(i).display();
+						list.getPostsList().get(i).display();
 						userGridPane.add(anchorPane, 0, row++);
+						
 					}
 				} else {
-					userGridPane.getChildren().clear();
-					userTitledPaneStatic.setExpanded(false);
-					userTitledPaneStatic.setCollapsible(false);
+					userTitledPane.setVisible(false);
+					
+					signInHBox.setVisible(false);
+					signUpHBox.setVisible(false);
 				}
 			} else {
 				viewUserHBox.setVisible(false);
+				
 				signInHBox.setVisible(true);
+				signUpHBox.setVisible(false);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -518,6 +550,8 @@ public class MainController implements Initializable {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
 			bw.write("");
 			bw.close();
+			userUsernameLabel.setText(" ");
+			postRequestUsernameLabel.setText(" ");
 			if(userDetailsStatic != null) {
 				userDetailsStatic.setToNull();
 			}
@@ -564,8 +598,10 @@ public class MainController implements Initializable {
 						userTitledPaneStatic.setExpanded(true);
 						userTitledPaneStatic.setCollapsible(true);
 						
-						viewUserHBoxStatic.setVisible(true);
 						signInHBoxStatic.setVisible(false);
+						
+						userTitledPaneStatic.setVisible(true);
+						viewUserHBoxStatic.setVisible(true);
 						for(int i = 0; i < list.getPostsList().size(); i++) {
 							
 							FXMLLoader fxmlLoader = new FXMLLoader();
@@ -576,19 +612,13 @@ public class MainController implements Initializable {
 							itemController.setData(list.getPostsList().get(i));
 							
 							userGridPaneStatic.add(anchorPane, 0, row++);
-							userTitledPaneStatic.setVisible(true);
-							viewUserHBoxStatic.setVisible(true);
 							
 						}
 					} else {
-						
 						userTitledPaneStatic.setVisible(false);
-						
-						viewUserHBoxStatic.setVisible(true);
-						
+						viewUserHBoxStatic.setVisible(false);
 					}
 				}
-				
 			} else {
 				
 				userDetailsStatic = null;

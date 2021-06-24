@@ -53,6 +53,7 @@ public class ItemController {
 		pincodeLabel.setText("Location: " + post.getPincode());
 		postLabel.setText(post.getContent());
 		timeLabel.setText("Posted On: " + changeTime(post.getTime()));
+		
 	}
 
 //	public void setData(){
