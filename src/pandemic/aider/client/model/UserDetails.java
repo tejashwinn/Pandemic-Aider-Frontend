@@ -15,6 +15,17 @@ public class UserDetails implements Serializable {
 	private String username; //username entered by the user
 	private String password; //password entered by the user
 	private String time;     //date and time the user was created
+	private String emailId; //to store the emailid
+	
+	public String getEmailId() {
+		
+		return emailId;
+	}
+	
+	public void setEmailId(String emailId) {
+		
+		this.emailId = emailId;
+	}
 	
 	public UserDetails() {
 		name = null;
