@@ -29,6 +29,9 @@ public class ServerSideUserServer {
 		
 		CheckPhNO checkPhNO = new CheckPhNO();
 		checkPhNO.start();
+		
+		ChangePassword changePassword = new ChangePassword();
+		changePassword.start();
 	}
 }
 
@@ -222,6 +225,38 @@ class CheckPhNO extends Thread {
 				UsersDao usersDao = new UsersDao();
 				
 				serverSideOutputStream.writeObject(Boolean.toString(usersDao.checkPhNO(str)));
+				
+				serverSideInputStream.close();
+				serverSideOutputStream.close();
+				
+			} while(true);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+class ChangePassword extends Thread {
+	
+	public void run() {
+		
+		int port = 50017;
+		try {
+			
+			ServerSocket serverSideSocketConnection = new ServerSocket(port);
+			do {
+				System.out.println("Server Running 50017 for changing password");
+//
+				Socket pipe = serverSideSocketConnection.accept();
+				ObjectInputStream serverSideInputStream = new ObjectInputStream(pipe.getInputStream());
+				
+				String str = (String) serverSideInputStream.readObject();
+//				System.out.println(str);
+				
+				ObjectOutputStream serverSideOutputStream = new ObjectOutputStream(pipe.getOutputStream());
+				UsersDao usersDao = new UsersDao();
+				
+				serverSideOutputStream.writeObject(Boolean.toString(usersDao.changePassword(str)));
 				
 				serverSideInputStream.close();
 				serverSideOutputStream.close();

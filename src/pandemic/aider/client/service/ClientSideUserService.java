@@ -151,12 +151,12 @@ public class ClientSideUserService {
 			clientSideOutputStream.writeObject(string);
 			
 			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
-			boolean bool = (boolean) clientSideInputStream.readObject();
+			String str = (String) clientSideInputStream.readObject();
 			
 			clientSideOutputStream.close();
 			clientSideInputStream.close();
 			
-			return bool;
+			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
 			ShowAlert.Alert();

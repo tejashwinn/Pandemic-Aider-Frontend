@@ -129,6 +129,19 @@ public class UsersDao {
 		
 	}
 	
+	public boolean changePassword(String newPassword) {
+		
+		String sqlQuery = "UPDATE users SET U_Password='" + newPassword + "'";
+		try {
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(sqlQuery);
+			return true;
+		} catch(SQLException throwables) {
+			throwables.printStackTrace();
+			return false;
+		}
+	}
+	
 	//will return true if the username doesnt exist
 	public boolean checkPhNO(String number) {
 		

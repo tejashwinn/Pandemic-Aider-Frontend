@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
 import pandemic.aider.client.service.ClientSideUserService;
 
+import java.util.Optional;
+
 public class ForgotPasswordController {
 	
 	@FXML
@@ -96,19 +98,54 @@ public class ForgotPasswordController {
 		if(otp.equals(otpTextField.getText())) {
 			if(!passwordHiddenFieldSignUp.getText().equals("")) {
 				if(ClientSideUserService.changePassword(50017, BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD))) {
-					System.out.println("Password changed successfully");
+					forgotPasswordWarningLabel.setText("Password Changed Successfully");
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					
+					alert.setTitle("Password changed successfully");
+					alert.setHeaderText("Sign in/up");
+					alert.setContentText("You need to sign in with your new password");
+					
+					Optional<ButtonType> result = alert.showAndWait();
+					
+					if(result.isPresent() && result.get() == ButtonType.OK) {
+						MainController.mainLogOutActionStatic();
+						cancelForgotPassword(event);
+					}
 				}
 			} else {
 				forgotPasswordWarningLabel.setText("Password cannot be empty");
 			}
 		} else {
 			forgotPasswordWarningLabel.setText("Wrong OTP entered. Verify!");
-			
 		}
 	}
 	
 	@FXML
 	public void showPassword(ActionEvent event) {
-	
+		
+		if(passwordCheckBoxToggle.isSelected()) {
+			//sets the text field value
+			passwordTextFieldSignUp.setText(passwordHiddenFieldSignUp.getText());
+			//shows the password text field
+			passwordTextFieldSignUp.setVisible(true);
+			passwordHiddenFieldSignUp.setVisible(false);
+			
+			//sets the value for the confirm text field
+			confirmPasswordTextFieldSignUp.setText(confirmPasswordHiddenFieldSignUp.getText());
+			//shows the confirm password text field
+			confirmPasswordTextFieldSignUp.setVisible(true);
+			confirmPasswordHiddenFieldSignUp.setVisible(false);
+			return;
+		}
+		
+		//sets the value for the text field
+		passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
+		passwordHiddenFieldSignUp.setVisible(true);
+		passwordTextFieldSignUp.setVisible(false);
+		//sets the value for the confirm password field
+		confirmPasswordHiddenFieldSignUp.setText(confirmPasswordTextFieldSignUp.getText());
+		confirmPasswordHiddenFieldSignUp.setVisible(true);
+		confirmPasswordTextFieldSignUp.setVisible(false);
 	}
+	
 }

@@ -621,6 +621,25 @@ public class MainController implements Initializable {
 		}
 		
 	}
+	
+	public static void mainLogOutActionStatic() {
+		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+			bw.write("");
+			bw.close();
+			
+			if(userDetailsStatic != null) {
+				userDetailsStatic.setToNull();
+			}
+			userNameLabelForRefresh.setText("");
+			postRequestUsernameLabelForRefresh.setText("");
+			
+			MainController.reloadPageStatic();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 //audit
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	

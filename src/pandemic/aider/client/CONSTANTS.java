@@ -16,14 +16,4 @@ final public class CONSTANTS {
 	
 	public static final Image MAIN_LOGO = new Image("pandemic/aider/client/res/icons8-calendar-19-60.png");
 	
-//	public final static String DB_URL = "jdbc:sqlserver://TEJ\\SQLEXPRESS;databaseName=pandemic_aider_db;";
-//	public final static String DB_USERNAME = "sa";
-//	public final static String DB_PASSWORD = "4aDv+8g*X2kB$-pp";
-	
-	public final static String DB_URL = "jdbc:mysql://sql6.freesqldatabase.com/sql6420691";
-	
-	public final static String DB_USERNAME = "sql6420691";
-	
-	public final static String DB_PASSWORD = "DAktNJhXAe";
-	
 }
