@@ -119,7 +119,7 @@
 <!--				</CheckBox>-->
 <!--				<HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">-->
 <!--					<children>-->
-<!--						<Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#signUpActionSignUp"-->
+<!--						<Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#validationAndOtp"-->
 <!--						        prefHeight="30.0" prefWidth="150.0" styleClass="search-button"-->
 <!--						        stylesheets="@../../style/SearchStyle.css" text="Sign Up">-->
 <!--							<HBox.margin>-->

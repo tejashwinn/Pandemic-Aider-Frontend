@@ -122,8 +122,6 @@ class CheckCredentials extends Thread {
 				UserDetails checkCredentialUser = new UserDetails(rowValue);
 				
 				checkCredentialUser.setPassword("");
-				checkCredentialUser.setPhoneNo("");
-				
 				serverSideOutputStream.writeObject(JsonServiceServer.userToJson(checkCredentialUser));
 //				checkCredentialUser.display();
 //

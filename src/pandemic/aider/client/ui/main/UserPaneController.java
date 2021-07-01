@@ -32,11 +32,14 @@ public class UserPaneController {
 		try {
 			FXMLLoader newFxmlLoader = new FXMLLoader();
 			newFxmlLoader.setLocation(getClass().getResource("DisplayUserPosts.fxml"));
+			
 			BorderPane borderPane = newFxmlLoader.load();
 			DisplayUserPosts displayUserPosts = newFxmlLoader.getController();
 			displayUserPosts.setData(selectedUser.getUsername());
+			
 			//adds new children to the previous stack pane which was assign
 			MainController.topStackPanePointerVarForViewingSearchUser.getChildren().addAll(borderPane);
+			
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

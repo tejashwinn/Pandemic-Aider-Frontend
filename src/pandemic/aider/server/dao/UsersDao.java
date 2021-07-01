@@ -32,6 +32,7 @@ public class UsersDao {
 	public boolean checkUsername(String username) {
 		
 		String sqlQuery = "SELECT U_Username FROM users WHERE U_Username=" + "'" + username + "'";
+		
 		try {
 			Statement statement = connection.createStatement();
 			
@@ -154,7 +155,7 @@ public class UsersDao {
 		strArr[i++] = resultSet.getString(i);
 		strArr[i++] = "";
 		strArr[i++] = resultSet.getString(i);
-		strArr[i] = "";
+		strArr[i++] = resultSet.getString(i);
 		
 		return new UserDetails(strArr);
 	}

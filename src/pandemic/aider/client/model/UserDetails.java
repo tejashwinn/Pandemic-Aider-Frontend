@@ -20,7 +20,7 @@ public class UserDetails implements Serializable {
 	
 	private String time;     //date and time the user was created
 	
-	private String phoneNo; //to store the emailid
+	private String phoneNo; //to store the phone no
 	
 	public String getPhoneNo() {
 		
@@ -54,6 +54,7 @@ public class UserDetails implements Serializable {
 		this.username = obj.getUsername();
 		this.password = obj.getPassword();
 		this.time = obj.getTime();
+		this.phoneNo = obj.getPhoneNo();
 	}
 	
 	//converts to string
@@ -77,6 +78,7 @@ public class UserDetails implements Serializable {
 		System.out.println("Username: " + username);
 		System.out.println("Password: " + password);
 		System.out.println("Time: " + time);
+		System.out.println("Ph: " + phoneNo);
 		System.out.println();
 	}
 	
@@ -156,5 +158,6 @@ public class UserDetails implements Serializable {
 		name = "";
 		time = "";
 		password = "";
+		phoneNo = "";
 	}
 }

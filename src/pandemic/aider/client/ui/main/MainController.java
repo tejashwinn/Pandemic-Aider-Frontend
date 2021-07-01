@@ -85,6 +85,11 @@ public class MainController implements Initializable {
 	@FXML
 	private HBox viewUserHBox, signInHBox, signUpHBox;
 	
+	@FXML
+	private StackPane insiderUserStackPane;
+	
+	public static StackPane insiderUserStackPaneStaticForgotPassword;
+	
 	public UserDetails getUser() {
 		
 		return userDetailsStatic;
@@ -132,8 +137,12 @@ public class MainController implements Initializable {
 		signInHBox.setVisible(false);
 		signUpHBox.setVisible(false);
 		
+		insiderUserStackPaneStaticForgotPassword = insiderUserStackPane;
+		
 		//sets the search button in search menu to default so that it can be accessed with RETURN
 		searchButton.setDefaultButton(true);
+		
+		signUpButton.setVisible(false);
 		
 		loadLogInJson();
 		
@@ -604,6 +613,8 @@ public class MainController implements Initializable {
 			if(userDetailsStatic != null) {
 				userDetailsStatic.setToNull();
 			}
+			
+			clearAuditValues();
 			MainController.reloadPageStatic();
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -641,7 +652,7 @@ public class MainController implements Initializable {
 				//views for the HBox inside the titled pane
 				viewUserHBoxStatic.setVisible(true);
 				signInHBoxStatic.setVisible(false);
-				
+				userDetailsStatic.display();
 				GetPostArrayList list = new GetPostArrayList();
 				list.setPostsList(ClientSidePostService.retrieveRequest(50006, userDetailsStatic.getUsername()));
 				
@@ -673,7 +684,6 @@ public class MainController implements Initializable {
 				}
 				
 			} else {
-				
 				userDetailsStatic = null;
 				userGridPaneStatic.getChildren().clear();
 				
@@ -687,10 +697,9 @@ public class MainController implements Initializable {
 				if(result.isPresent() && result.get() == ButtonType.OK) {
 					viewUserHBoxStatic.setVisible(false);
 					signInHBoxStatic.setVisible(true);
-				} else {
-					viewUserHBoxStatic.setVisible(false);
-					signInHBoxStatic.setVisible(true);
 				}
+				viewUserHBoxStatic.setVisible(false);
+				signInHBoxStatic.setVisible(true);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -699,7 +708,7 @@ public class MainController implements Initializable {
 	
 	//general audi
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	private void setDefault() {
+	private void clearAuditValues() {
 		
 		signUpWarningLabel.setText("");
 		signInWarningLabel.setText("");
@@ -734,7 +743,7 @@ public class MainController implements Initializable {
 		signInHBox.setVisible(true);
 		signUpHBox.setVisible(false);
 		
-		setDefault();
+		clearAuditValues();
 		
 	}
 	
@@ -936,8 +945,10 @@ public class MainController implements Initializable {
 	@FXML
 	private TextField phoneNumberTextField, otpTextField;
 	
+	private static UserDetails tempUserForSignUp;
+	
 	@FXML
-	public void signUpActionSignUp(ActionEvent event) {
+	public void validationAndOtp(ActionEvent event) {
 		
 		try {
 			
@@ -950,7 +961,6 @@ public class MainController implements Initializable {
 
 //			adding this code because when the user edits the password in view mode and hits sign up
 //			it doesn't get updated in hidden mode so this will help us to set it back to the normal
-			
 			if(passwordCheckBoxToggleSignUp.isSelected()) {
 				passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
 				confirmPasswordHiddenFieldSignUp.setText(confirmPasswordTextFieldSignUp.getText());
@@ -997,7 +1007,7 @@ public class MainController implements Initializable {
 				BufferedReader br = new BufferedReader(new FileReader("src/pandemic/aider/client/json/otpSignUp.json"));
 				readJsonOtp = br.readLine();
 				br.close();
-				
+				tempUserForSignUp = userDetails;
 				if(readJsonOtp != null) {
 					
 					OtpSignUp otpSignUp = JsonServiceClient.jsonToOtpSignUp(readJsonOtp);
@@ -1014,16 +1024,21 @@ public class MainController implements Initializable {
 					
 					if(currentTime - lastTime <= 180) {
 						signUpWarningLabel.setText("Wait " + (currentTime - lastTime) + "secs for another OTP");
-						validEntry = false;
 						
+						signUpButton.setVisible(false);
+						otpButton.setVisible(false);
 					} else {
 						
 						otpSignUp.setOtpGeneratedTime(timeFormat.format(localTime));
 						
 						validEntry = generateOtp(otpSignUp);
 						if(validEntry) {
-							signUpWarningLabel.setText("otp generated");
+							signUpWarningLabel.setText("otp sent");
+							otpButton.setVisible(false);
+							signUpButton.setVisible(true);
+							
 						}
+						
 					}
 					
 				} else {
@@ -1033,43 +1048,11 @@ public class MainController implements Initializable {
 					
 					validEntry = generateOtp(otpSignUp);
 					if(validEntry) {
-						signUpWarningLabel.setText("otp generated");
+						signUpWarningLabel.setText("otp sent");
+						otpButton.setVisible(false);
+						signUpButton.setVisible(true);
 					}
-				}
-			}
-			
-			if(validEntry) {
-				
-				String enteredOtp = otpTextField.getText();
-				
-				if(enteredOtp.equals(Otp)) {
-					String jsonString = JsonServiceClient.userToJson(userDetails);
-					validEntry = ClientSideUserService.addUser(50003, userDetails);
 					
-					if(validEntry) {
-						try {
-							BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
-							
-							bw.write(jsonString);
-							bw.close();
-							
-							MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
-							
-							signUpWarningLabel.setText("Successfully created the account");
-							
-							showAlertSignUp();
-						} catch(IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						if(signUpWarningLabel.getText().equals("")) {
-							signUpWarningLabel.setText("Account was not created");
-						}
-					}
-				} else {
-					signUpWarningLabel.setText("Wrong OTP entered");
-					otpButton.setVisible(false);
-					signUpButton.setVisible(true);
 				}
 			}
 			
@@ -1079,11 +1062,51 @@ public class MainController implements Initializable {
 		
 	}
 	
+	@FXML
+	public void signUpAction(ActionEvent event) {
+		
+		boolean validEntry;
+		
+		String enteredOtp = otpTextField.getText();
+		tempUserForSignUp.display();
+		if(enteredOtp.equals(Otp)) {
+			
+			String jsonString = JsonServiceClient.userToJson(tempUserForSignUp);
+			validEntry = ClientSideUserService.addUser(50003, tempUserForSignUp);
+			
+			if(validEntry) {
+				try {
+					BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+					
+					bw.write(jsonString);
+					bw.close();
+					
+					MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
+					
+					signUpWarningLabel.setText("Successfully created the account");
+					
+					showAlertSignUp();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				if(signUpWarningLabel.getText().equals("")) {
+					signUpWarningLabel.setText("Account was not created");
+					
+				}
+			}
+		} else {
+			signUpWarningLabel.setText("Wrong OTP entered");
+			otpButton.setVisible(false);
+			signUpButton.setVisible(false);
+		}
+		
+	}
+	
 	private boolean generateOtp(OtpSignUp otpSignUP) {
 		
 		try {
 			MainController.Otp = ClientSideUserService.generateOtp(50015, phoneNumberTextField.getText().strip());
-			System.out.println(Otp);
 			signUpWarningLabel.setText("OTP successfully generated " + Otp);
 			BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/otpSignUp.json"));
 			bw.write(JsonServiceClient.otpSignUpTOJson(otpSignUP));
@@ -1293,9 +1316,47 @@ public class MainController implements Initializable {
 	@FXML
 	public void forgotPassword(ActionEvent event) {
 		//todo
-		System.out.println("forgot password");
+		
+		try {
+			String str;
+			
+			BufferedReader br = new BufferedReader(new FileReader("src/pandemic/aider/client/json/log.json"));
+			str = br.readLine();
+			
+			if(str != null) {
+				FXMLLoader newFxmlLoader = new FXMLLoader();
+				newFxmlLoader.setLocation(getClass().getResource("ForgotPasswordFXML.fxml"));
+				
+				HBox hBox = newFxmlLoader.load();
+				ForgotPasswordController forgotPasswordController = newFxmlLoader.getController();
+				
+				forgotPasswordController.getChangePasswordButton().setVisible(false);
+				forgotPasswordController.getGetOtpButton().setVisible(true);
+				
+				//adds new children to the previous stack pane which was assign
+				insiderUserStackPane.getChildren().addAll(hBox);
+			} else {
+				
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				
+				alert.setTitle("Audit Error");
+				alert.setHeaderText("Sign in/up");
+				alert.setContentText("You need to sign in/up");
+				
+				Optional<ButtonType> result = alert.showAndWait();
+				
+				if(result.isPresent() && result.get() == ButtonType.OK) {
+					viewUserHBoxStatic.setVisible(false);
+					signInHBoxStatic.setVisible(true);
+				}
+				viewUserHBoxStatic.setVisible(false);
+				signInHBoxStatic.setVisible(true);
+				
+			}
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
-
-

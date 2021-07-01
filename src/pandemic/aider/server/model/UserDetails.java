@@ -20,7 +20,7 @@ public class UserDetails implements Serializable {
 	
 	private String time;     //date and time the user was created
 	
-	private String phoneNo;
+	private String phoneNo; //for phone no of user
 	
 	public UserDetails(String[] arr) {
 		
@@ -29,7 +29,7 @@ public class UserDetails implements Serializable {
 		username = arr[2];
 		password = arr[3];
 		time = arr[4];
-		phoneNo=arr[5];
+		phoneNo = arr[5];
 	}
 	
 	
@@ -108,6 +108,7 @@ public class UserDetails implements Serializable {
 		System.out.println("Password: " + password);
 		System.out.println("UniqueId:" + uniqueId);
 		System.out.println("Time: " + time);
+		System.out.println("Ph: " + phoneNo);
 		System.out.println();
 	}
 	

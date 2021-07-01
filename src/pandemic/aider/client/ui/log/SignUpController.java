@@ -34,7 +34,7 @@
 //	private Label signUpWarningLabelSignUp;
 //
 //	@FXML
-//	public void signUpActionSignUp(ActionEvent event) {
+//	public void validationAndOtp(ActionEvent event) {
 //
 //		boolean validEntry = false;
 //		UserRePassword userAdd = new UserRePassword();

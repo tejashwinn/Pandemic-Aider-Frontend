@@ -423,9 +423,9 @@
 					<center>
 						<TitledPane fx:id="userTitledPane" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="702.0" prefWidth="802.0" stylesheets="@../../style/SearchStyle.css" text="Posts by you" BorderPane.alignment="CENTER">
 							<content>
-								<StackPane style="-fx-background-color: #121212;">
+								<StackPane fx:id="insiderUserStackPane" style="-fx-background-color: #121212;">
 									<children>
-										<HBox fx:id="signInHBox" alignment="CENTER" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: false;">
+										<HBox fx:id="signInHBox" alignment="CENTER" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: true;">
 											<children>
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 												<VBox alignment="CENTER" prefHeight="598.0" prefWidth="782.0" spacing="15.0" style="-fx-border-color: #CEF564; -fx-border-radius: 30; -fx-background-color: #252525; -fx-background-radius: 30;">
@@ -435,15 +435,15 @@
 																<Insets bottom="10.0" top="10.0" />
 															</padding>
 														</Label>
-                                          <VBox maxWidth="-Infinity" prefWidth="300.0">
-                                             <children>
+														<VBox maxWidth="-Infinity" prefWidth="300.0">
+															<children>
 																<Label prefHeight="35.0" prefWidth="90.0" text="Username:" textFill="WHITE">
 																	<font>
 																		<Font name="System Bold" size="18.0" />
 																	</font>
-                                                   <VBox.margin>
-                                                      <Insets left="10.0" />
-                                                   </VBox.margin>
+																	<VBox.margin>
+																		<Insets left="10.0" />
+																	</VBox.margin>
 																</Label>
 																<TextField fx:id="usernameTextField" prefHeight="35.0" prefWidth="250.0" promptText="Enter Username" style="-fx-background-radius: 100;" styleClass="text-fill" stylesheets="@../../style/log.css">
 																	<font>
@@ -454,9 +454,9 @@
 																	<font>
 																		<Font name="System Bold" size="18.0" />
 																	</font>
-                                                   <VBox.margin>
-                                                      <Insets left="10.0" top="20.0" />
-                                                   </VBox.margin>
+																	<VBox.margin>
+																		<Insets left="10.0" top="20.0" />
+																	</VBox.margin>
 																</Label>
 																<StackPane>
 																	<children>
@@ -478,8 +478,8 @@
 																		</PasswordField>
 																	</children>
 																</StackPane>
-                                             </children>
-                                          </VBox>
+															</children>
+														</VBox>
 														<CheckBox fx:id="passwordCheckBoxToggle" mnemonicParsing="false" onAction="#showPassword" prefHeight="31.0" prefWidth="318.0" text="Show Password" textFill="WHITE">
 															<VBox.margin>
 																<Insets bottom="10.0" left="44.0" right="10.0" top="5.0" />
@@ -488,24 +488,24 @@
 																<Font size="16.0" />
 															</font>
 														</CheckBox>
-                                          <Button alignment="CENTER" layoutX="374.0" layoutY="72.0" mnemonicParsing="false" onAction="#forgotPassword" prefHeight="40.0" prefWidth="273.0" style="-fx-background-color: transparent;" textFill="#88a4ff">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <graphic>
-                                                <Label text="Forgot Passoword??" textAlignment="CENTER" textFill="#1d4bc9">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="18.0" />
-                                                   </font>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </Label>
-                                             </graphic>
-                                          </Button>
+														<Button alignment="CENTER" layoutX="374.0" layoutY="72.0" mnemonicParsing="false" onAction="#forgotPassword" prefHeight="40.0" prefWidth="273.0" style="-fx-background-color: transparent;" textFill="#88a4ff">
+															<font>
+																<Font size="18.0" />
+															</font>
+															<cursor>
+																<Cursor fx:constant="HAND" />
+															</cursor>
+															<graphic>
+																<Label text="Forgot Passoword??" textAlignment="CENTER" textFill="#cceeff" underline="true">
+																	<font>
+																		<Font name="System Bold Italic" size="18.0" />
+																	</font>
+																	<cursor>
+																		<Cursor fx:constant="HAND" />
+																	</cursor>
+																</Label>
+															</graphic>
+														</Button>
 														<VBox prefHeight="142.0" prefWidth="280.0" spacing="10.0" style="-fx-alignment: center;">
 															<children>
 																<Button mnemonicParsing="false" onAction="#checkCorrectCredentials" prefHeight="40.0" prefWidth="90.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Sign In">
@@ -526,7 +526,7 @@
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 											</children>
 										</HBox>
-										<HBox fx:id="signUpHBox" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: true;">
+										<HBox fx:id="signUpHBox" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: false;">
 											<children>
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 												<VBox alignment="CENTER" prefHeight="607.0" prefWidth="780.0" spacing="10.0" style="-fx-border-radius: 30; -fx-background-radius: 30; -fx-background-color: #252525; -fx-border-color: #CEF564;">
@@ -536,132 +536,132 @@
 																<Insets bottom="10.0" top="10.0" />
 															</padding>
 														</Label>
-                                          <HBox alignment="CENTER" spacing="30.0">
-                                             <children>
-      														<VBox alignment="CENTER" prefHeight="70.0" prefWidth="254.0">
-      															<children>
-      																<Label prefHeight="31.0" prefWidth="240.0" text="Name:" textFill="WHITE">
-      																	<font>
-      																		<Font name="System Bold" size="14.0" />
-      																	</font>
-      																</Label>
-      																<TextField fx:id="nameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Name" style="-fx-background-radius: 100;" stylesheets="@../../style/log.css">
-      																	<font>
-      																		<Font name="System Bold" size="14.0" />
-      																	</font>
-      																</TextField>
-      															</children>
-      														</VBox>
-      														<VBox alignment="CENTER">
-      															<children>
-      																<Label prefHeight="35.0" prefWidth="240.0" text="Username:" textFill="WHITE">
-      																	<font>
-      																		<Font name="System Bold" size="14.0" />
-      																	</font>
-      																</Label>
-      																<TextField fx:id="usernameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Username" style="-fx-background-radius: 100;">
-      																	<font>
-      																		<Font name="System Bold" size="14.0" />
-      																	</font>
-      																</TextField>
-      															</children>
-      														</VBox>
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER" spacing="30.0">
-                                             <children>
-      														<VBox alignment="CENTER">
-      															<children>
-      																<Label maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="240.0" text="Password: " textFill="WHITE">
-      																	<font>
-      																		<Font name="System Bold" size="14.0" />
-      																	</font>
-      																</Label>
-      																<StackPane>
-      																	<children>
-      																		<TextField fx:id="passwordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
-      																			<StackPane.margin>
-      																				<Insets />
-      																			</StackPane.margin>
-      																			<font>
-      																				<Font name="System Bold" size="14.0" />
-      																			</font>
-      																		</TextField>
-      																		<PasswordField fx:id="passwordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
-      																			<StackPane.margin>
-      																				<Insets />
-      																			</StackPane.margin>
-      																			<font>
-      																				<Font name="System Bold" size="14.0" />
-      																			</font>
-      																		</PasswordField>
-      																	</children>
-      																</StackPane>
-      															</children>
-      														</VBox>
-      														<VBox alignment="CENTER">
-      															<children>
-      																<Label prefHeight="35.0" prefWidth="240.0" text="Confirm Passwrod:" textFill="WHITE" wrapText="true">
-      																	<font>
-      																		<Font name="System Bold" size="14.0" />
-      																	</font>
-      																</Label>
-      																<StackPane>
-      																	<children>
-      																		<TextField fx:id="confirmPasswordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
-      																			<StackPane.margin>
-      																				<Insets />
-      																			</StackPane.margin>
-      																			<font>
-      																				<Font name="System Bold" size="14.0" />
-      																			</font>
-      																		</TextField>
-                  																		<PasswordField fx:id="confirmPasswordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Confirm Password" style="-fx-background-radius: 100;">
-      																			<StackPane.margin>
-      																				<Insets />
-      																			</StackPane.margin>
-                  																			<font>
-                  																				<Font name="System Bold" size="14.0" />
-                  																			</font>
-                  																		</PasswordField>
-      																	</children>
-      																</StackPane>
-      															</children>
-      														</VBox>
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER" spacing="30.0">
-                                             <children>
-                                                <VBox alignment="CENTER">
-                                                   <children>
-                                                      <Label prefHeight="35.0" prefWidth="240.0" text="Phone no.:" textFill="WHITE">
-                                                         <font>
-                                                            <Font name="System Bold" size="14.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <TextField fx:id="phoneNumberTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Phone No." style="-fx-background-radius: 100;">
-                                                         <font>
-                                                            <Font name="System Bold" size="14.0" />
-                                                         </font>
-                                                      </TextField>
-                                                   </children>
-                                                </VBox>
-                                                <VBox alignment="CENTER">
-                                                   <children>
-                                                      <Label prefHeight="35.0" prefWidth="240.0" text="OTP" textFill="WHITE">
-                                                         <font>
-                                                            <Font name="System Bold" size="14.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <TextField fx:id="otpTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter the OTP sent to given number" style="-fx-background-radius: 100;">
-                                                         <font>
-                                                            <Font name="System Bold" size="14.0" />
-                                                         </font>
-                                                      </TextField>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </HBox>
+														<HBox alignment="CENTER" spacing="30.0">
+															<children>
+																<VBox alignment="CENTER" prefHeight="70.0" prefWidth="254.0">
+																	<children>
+																		<Label prefHeight="31.0" prefWidth="240.0" text="Name:" textFill="WHITE">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</Label>
+																		<TextField fx:id="nameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Name" style="-fx-background-radius: 100;" stylesheets="@../../style/log.css">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</TextField>
+																	</children>
+																</VBox>
+																<VBox alignment="CENTER">
+																	<children>
+																		<Label prefHeight="35.0" prefWidth="240.0" text="Username:" textFill="WHITE">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</Label>
+																		<TextField fx:id="usernameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Username" style="-fx-background-radius: 100;">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</TextField>
+																	</children>
+																</VBox>
+															</children>
+														</HBox>
+														<HBox alignment="CENTER" spacing="30.0">
+															<children>
+																<VBox alignment="CENTER">
+																	<children>
+																		<Label maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="240.0" text="Password: " textFill="WHITE">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</Label>
+																		<StackPane>
+																			<children>
+																				<TextField fx:id="passwordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																					<StackPane.margin>
+																						<Insets />
+																					</StackPane.margin>
+																					<font>
+																						<Font name="System Bold" size="14.0" />
+																					</font>
+																				</TextField>
+																				<PasswordField fx:id="passwordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																					<StackPane.margin>
+																						<Insets />
+																					</StackPane.margin>
+																					<font>
+																						<Font name="System Bold" size="14.0" />
+																					</font>
+																				</PasswordField>
+																			</children>
+																		</StackPane>
+																	</children>
+																</VBox>
+																<VBox alignment="CENTER">
+																	<children>
+																		<Label prefHeight="35.0" prefWidth="240.0" text="Confirm Passwrod:" textFill="WHITE" wrapText="true">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</Label>
+																		<StackPane>
+																			<children>
+																				<TextField fx:id="confirmPasswordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																					<StackPane.margin>
+																						<Insets />
+																					</StackPane.margin>
+																					<font>
+																						<Font name="System Bold" size="14.0" />
+																					</font>
+																				</TextField>
+																				<PasswordField fx:id="confirmPasswordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Confirm Password" style="-fx-background-radius: 100;">
+																					<StackPane.margin>
+																						<Insets />
+																					</StackPane.margin>
+																					<font>
+																						<Font name="System Bold" size="14.0" />
+																					</font>
+																				</PasswordField>
+																			</children>
+																		</StackPane>
+																	</children>
+																</VBox>
+															</children>
+														</HBox>
+														<HBox alignment="CENTER" spacing="30.0">
+															<children>
+																<VBox alignment="CENTER">
+																	<children>
+																		<Label prefHeight="35.0" prefWidth="240.0" text="Phone no.:" textFill="WHITE">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</Label>
+																		<TextField fx:id="phoneNumberTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Phone No." style="-fx-background-radius: 100;">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</TextField>
+																	</children>
+																</VBox>
+																<VBox alignment="CENTER">
+																	<children>
+																		<Label prefHeight="35.0" prefWidth="240.0" text="OTP" textFill="WHITE">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</Label>
+																		<TextField fx:id="otpTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter the OTP sent to given number" style="-fx-background-radius: 100;">
+																			<font>
+																				<Font name="System Bold" size="14.0" />
+																			</font>
+																		</TextField>
+																	</children>
+																</VBox>
+															</children>
+														</HBox>
 														<CheckBox fx:id="passwordCheckBoxToggleSignUp" mnemonicParsing="false" onAction="#showPasswordSignUp" prefHeight="26.0" prefWidth="142.0" text="Show Password" textFill="WHITE">
 															<VBox.margin>
 																<Insets bottom="10.0" left="44.0" right="10.0" top="20.0" />
@@ -672,20 +672,20 @@
 														</CheckBox>
 														<HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" style="-fx-alignment: center;">
 															<children>
-                                                <StackPane>
-                                                   <children>
-      																<Button fx:id="otpButton" mnemonicParsing="false" onAction="#signUpActionSignUp" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Get Otp">
-      																	<font>
-      																		<Font size="14.0" />
-      																	</font>
-      																</Button>
-                                                      <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUpActionSignUp" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Sign Up">
-                                                         <font>
-                                                            <Font size="14.0" />
-                                                         </font>
-                                                      </Button>
-                                                   </children>
-                                                </StackPane>
+																<StackPane>
+																	<children>
+																		<Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUpAction" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Sign Up">
+																			<font>
+																				<Font size="14.0" />
+																			</font>
+																		</Button>
+																		<Button fx:id="otpButton" mnemonicParsing="false" onAction="#validationAndOtp" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Get Otp">
+																			<font>
+																				<Font size="14.0" />
+																			</font>
+																		</Button>
+																	</children>
+																</StackPane>
 																<Button layoutX="316.0" layoutY="45.0" mnemonicParsing="false" onAction="#cancelSignUpAction" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Cancel">
 																	<font>
 																		<Font size="14.0" />

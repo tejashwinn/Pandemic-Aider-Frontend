@@ -141,5 +141,28 @@ public class ClientSideUserService {
 			return null;
 		}
 	}
+	
+	public static boolean changePassword(int port, String string) {
+		
+		try {
+			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
+			
+			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
+			clientSideOutputStream.writeObject(string);
+			
+			ObjectInputStream clientSideInputStream = new ObjectInputStream(clientSideSocketConnection.getInputStream());
+			boolean bool = (boolean) clientSideInputStream.readObject();
+			
+			clientSideOutputStream.close();
+			clientSideInputStream.close();
+			
+			return bool;
+		} catch(Exception e) {
+			e.printStackTrace();
+			ShowAlert.Alert();
+			return false;
+		}
+		
+	}
 }
 
