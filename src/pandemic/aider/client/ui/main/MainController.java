@@ -13,10 +13,11 @@ import pandemic.aider.client.service.ClientSidePostService;
 import pandemic.aider.client.service.ClientSideUserService;
 import pandemic.aider.client.service.JsonServiceClient;
 import pandemic.aider.server.service.ServerSidePostService;
-import pandemic.aider.server.service.UserServer;
+import pandemic.aider.server.service.ServerSideUserServer;
 
 import java.io.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -36,6 +37,8 @@ public class MainController implements Initializable {
 	private final ToggleGroup radioToggle = new ToggleGroup();
 	
 	public static HBox viewUserHBoxStatic, signInHBoxStatic;
+	
+	public static String Otp;
 	
 	@FXML
 	public Button mainSignInButton, userRefreshButton;
@@ -95,7 +98,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		
-		UserServer.runUserService();
+		ServerSideUserServer.runUserService();
 		ServerSidePostService.runServerPost();
 		
 		//this will initialize the top stack pane which will be used to modify the content
@@ -673,10 +676,12 @@ public class MainController implements Initializable {
 				
 				userDetailsStatic = null;
 				userGridPaneStatic.getChildren().clear();
+				
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setTitle("Audit Error");
 				alert.setHeaderText("Sign in/up");
 				alert.setContentText("You need to sign in/up to use this application");
+				
 				Optional<ButtonType> result = alert.showAndWait();
 				
 				if(result.isPresent() && result.get() == ButtonType.OK) {
@@ -694,12 +699,42 @@ public class MainController implements Initializable {
 	
 	//general audi
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	private void setDefault() {
+		
+		signUpWarningLabel.setText("");
+		signInWarningLabel.setText("");
+		
+		usernameTextField.setText("");
+		usernameTextFieldSignUp.setText("");
+		
+		passwordTextField.setText("");
+		passwordHiddenField.setText("");
+		
+		passwordTextFieldSignUp.setText("");
+		passwordHiddenFieldSignUp.setText("");
+		
+		confirmPasswordTextFieldSignUp.setText("");
+		confirmPasswordHiddenFieldSignUp.setText("");
+		
+		usernameTextFieldSignUp.setText("");
+		nameTextFieldSignUp.setText("");
+		
+		phoneNumberTextField.setText("");
+		otpTextField.setText("");
+		
+		signUpButton.setVisible(false);
+		
+	}
 	
 	@FXML
 	public void showSignIn(ActionEvent event) {
 		
+		userTitledPane.setExpanded(true);
 		viewUserHBox.setVisible(false);
 		signInHBox.setVisible(true);
+		signUpHBox.setVisible(false);
+		
+		setDefault();
 		
 	}
 	
@@ -834,6 +869,9 @@ public class MainController implements Initializable {
 	@FXML
 	public void switchToSignUp(ActionEvent event) {
 		
+		otpButton.setVisible(true);
+		signUpButton.setVisible(false);
+		
 		signInHBox.setVisible(false);
 		signUpHBox.setVisible(true);
 	}
@@ -868,93 +906,193 @@ public class MainController implements Initializable {
 	
 	//sign up action
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@FXML
+	public Button signUpButton, otpButton;
 	
 	@FXML
-	private TextField passwordTextFieldSignUp, confirmPasswordTextFieldSignUp, usernameTextFieldSignUp, nameTextFieldSignUp;
+	private TextField passwordTextFieldSignUp;
 	
 	@FXML
-	private PasswordField passwordHiddenFieldSignUp, confirmPasswordHiddenFieldSignUp;
+	private TextField confirmPasswordTextFieldSignUp;
+	
+	@FXML
+	private TextField usernameTextFieldSignUp;
+	
+	@FXML
+	private TextField nameTextFieldSignUp;
+	
+	@FXML
+	private PasswordField passwordHiddenFieldSignUp;
+	
+	@FXML
+	private PasswordField confirmPasswordHiddenFieldSignUp;
 	
 	@FXML
 	private CheckBox passwordCheckBoxToggleSignUp;
 	
 	@FXML
-	private Label signUpWarningLabelSignUp;
+	private Label signUpWarningLabel;
+	
+	@FXML
+	private TextField phoneNumberTextField, otpTextField;
 	
 	@FXML
 	public void signUpActionSignUp(ActionEvent event) {
 		
-		boolean validEntry = false;
-		UserRePassword userAdd = new UserRePassword();
-		UserDetails newCopyObject = null;
-		/*
-		 * adding this code because when the user edits the password in view mode and hits sign up
-		 * it doesn't get updated in hidden mode so this will help us to set it back to the normal
-		 */
-		if(passwordCheckBoxToggleSignUp.isSelected()) {
-			passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
-			confirmPasswordHiddenFieldSignUp.setText(confirmPasswordTextFieldSignUp.getText());
-		}
-		/*
-		 * adding this code because when the user edits the password in hidden mode
-		 */
-		
-		if(!passwordCheckBoxToggleSignUp.isSelected()) {
-			passwordTextFieldSignUp.setText(passwordHiddenFieldSignUp.getText());
-			confirmPasswordHiddenFieldSignUp.setText(confirmPasswordHiddenFieldSignUp.getText());
-		}
-		//assigning the entered values to the object
-		userAdd.setName(nameTextFieldSignUp.getText());
-		userAdd.setUsername(usernameTextFieldSignUp.getText().toLowerCase());
-		userAdd.setPassword(passwordHiddenFieldSignUp.getText());
-		userAdd.setConfirmPassword(confirmPasswordHiddenFieldSignUp.getText());
-		
-		if(checkNameSignUp(userAdd)) {
-			if(checkUsernameSignUp(userAdd)) {
-				if(checkPasswordSignUp(userAdd)) {
-					userAdd.setPassword("");
-					//refer: https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/bcrypt/BCrypt.html
-					//there are two BCRYPT values the one used here is from spring boot
-					userAdd.setPassword(BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD));
-					validEntry = true;
+		try {
+			
+			DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy:MM:dd::HH:mm:ss");
+			LocalDateTime localTime = LocalDateTime.now();
+			
+			boolean validEntry = false;
+			UserRePassword userRePassword = new UserRePassword();
+			UserDetails userDetails = null;
+
+//			adding this code because when the user edits the password in view mode and hits sign up
+//			it doesn't get updated in hidden mode so this will help us to set it back to the normal
+			
+			if(passwordCheckBoxToggleSignUp.isSelected()) {
+				passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
+				confirmPasswordHiddenFieldSignUp.setText(confirmPasswordTextFieldSignUp.getText());
+			}
+			
+			// adding this code because when the user edits the password in hidden mode
+			if(!passwordCheckBoxToggleSignUp.isSelected()) {
+				passwordTextFieldSignUp.setText(passwordHiddenFieldSignUp.getText());
+				confirmPasswordHiddenFieldSignUp.setText(confirmPasswordHiddenFieldSignUp.getText());
+			}
+			
+			//assigning the entered values to the object
+			userRePassword.setName(nameTextFieldSignUp.getText());
+			userRePassword.setUsername(usernameTextFieldSignUp.getText().toLowerCase());
+			userRePassword.setPassword(passwordHiddenFieldSignUp.getText());
+			userRePassword.setConfirmPassword(confirmPasswordHiddenFieldSignUp.getText());
+			userRePassword.setTime(timeFormat.format(localTime));
+			userRePassword.setUniqueId(UUID.randomUUID().toString());
+			userRePassword.setPhoneNo(phoneNumberTextField.getText());
+			
+			if(checkNameSignUp(userRePassword)) {
+				if(checkUsernameSignUp(userRePassword)) {
+					if(checkPasswordSignUp(userRePassword)) {
+						if(checkPhoneNo(userRePassword)) {
+							
+							String tempPassword = userRePassword.getPassword();
+							userRePassword.setPassword("");
+							
+							//refer: https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/bcrypt/BCrypt.html
+							//there are two BCRYPT values the one used here is from spring boot
+							userRePassword.setPassword(BCrypt.hashpw(tempPassword, CONSTANTS.PEPPER_PASSWORD));
+							validEntry = true;
+							
+						}
+					}
 				}
 			}
-		}
-		if(validEntry) {
-			//sets UUID
-			userAdd.setUniqueId(UUID.randomUUID().toString());//
 			
-			//time generator
-			DateTimeFormatter dateTimeFormatterClientAdduser = DateTimeFormatter.ofPattern("yyyy:MM:dd::HH:mm:ss");
-			LocalDateTime userCreatedTimeGenerator = LocalDateTime.now();
-			
-			//sets user creation time
-			userAdd.setTime(dateTimeFormatterClientAdduser.format(userCreatedTimeGenerator));
-			
-			newCopyObject = new UserDetails(userAdd);
-			
-			validEntry = ClientSideUserService.addUser(50003, newCopyObject);
+			if(validEntry) {
+				String readJsonOtp;
+				
+				userDetails = new UserDetails(userRePassword);
+				
+				BufferedReader br = new BufferedReader(new FileReader("src/pandemic/aider/client/json/otpSignUp.json"));
+				readJsonOtp = br.readLine();
+				br.close();
+				
+				if(readJsonOtp != null) {
+					
+					OtpSignUp otpSignUp = JsonServiceClient.jsonToOtpSignUp(readJsonOtp);
+					
+					SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy:MM:dd::HH:mm:ss");
+					SimpleDateFormat intFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+					
+					//converts the last generated otp time to int
+					long lastTime =
+							Long.parseLong(intFormat.format(originalFormat.parse(otpSignUp.getOtpGeneratedTime())));
+					//converts the current time to int
+					long currentTime =
+							Long.parseLong(intFormat.format(originalFormat.parse(timeFormat.format(localTime))));
+					
+					if(currentTime - lastTime <= 180) {
+						signUpWarningLabel.setText("Wait " + (currentTime - lastTime) + "secs for another OTP");
+						validEntry = false;
+						
+					} else {
+						
+						otpSignUp.setOtpGeneratedTime(timeFormat.format(localTime));
+						
+						validEntry = generateOtp(otpSignUp);
+						if(validEntry) {
+							signUpWarningLabel.setText("otp generated");
+						}
+					}
+					
+				} else {
+					
+					OtpSignUp otpSignUp = new OtpSignUp(userDetails);
+					otpSignUp.setOtpGeneratedTime(timeFormat.format(localTime));
+					
+					validEntry = generateOtp(otpSignUp);
+					if(validEntry) {
+						signUpWarningLabel.setText("otp generated");
+					}
+				}
+			}
 			
 			if(validEntry) {
 				
-				newCopyObject.setPassword("");
-				String jsonString = JsonServiceClient.userToJson(newCopyObject);
-				try {
-					BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+				String enteredOtp = otpTextField.getText();
+				
+				if(enteredOtp.equals(Otp)) {
+					String jsonString = JsonServiceClient.userToJson(userDetails);
+					validEntry = ClientSideUserService.addUser(50003, userDetails);
 					
-					bw.write(jsonString);
-					bw.close();
-					
-					MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
-					
-					signUpWarningLabelSignUp.setText("Successfully created the account");
-					showAlertSignUp();
-				} catch(IOException e) {
-					e.printStackTrace();
+					if(validEntry) {
+						try {
+							BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
+							
+							bw.write(jsonString);
+							bw.close();
+							
+							MainController.userDetailsStatic = JsonServiceClient.jsonToUser(jsonString);
+							
+							signUpWarningLabel.setText("Successfully created the account");
+							
+							showAlertSignUp();
+						} catch(IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+						if(signUpWarningLabel.getText().equals("")) {
+							signUpWarningLabel.setText("Account was not created");
+						}
+					}
+				} else {
+					signUpWarningLabel.setText("Wrong OTP entered");
+					otpButton.setVisible(false);
+					signUpButton.setVisible(true);
 				}
-			} else {
-				signUpWarningLabelSignUp.setText("Account was not created");
 			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private boolean generateOtp(OtpSignUp otpSignUP) {
+		
+		try {
+			MainController.Otp = ClientSideUserService.generateOtp(50015, phoneNumberTextField.getText().strip());
+			System.out.println(Otp);
+			signUpWarningLabel.setText("OTP successfully generated " + Otp);
+			BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/otpSignUp.json"));
+			bw.write(JsonServiceClient.otpSignUpTOJson(otpSignUP));
+			bw.close();
+			return true;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -976,6 +1114,7 @@ public class MainController implements Initializable {
 			confirmPasswordHiddenFieldSignUp.setVisible(false);
 			return;
 		}
+		
 		//sets the value for the text field
 		passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
 		passwordHiddenFieldSignUp.setVisible(true);
@@ -988,17 +1127,34 @@ public class MainController implements Initializable {
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
+	private boolean checkPhoneNo(UserRePassword user) {
+		
+		if(user.getPhoneNo().matches("[0-9]+") && user.getPhoneNo().length() == 10) {
+			if(ClientSideUserService.checkPhoneNo(50016, user.getPhoneNo())) {
+				signUpWarningLabel.setText("");
+				return true;
+			} else {
+				signUpWarningLabel.setText("An account already exists with the Ph No.");
+				return false;
+			}
+		} else {
+			signUpWarningLabel.setText("Phone number can only contain numbers and\nmust be 10 digit");
+			return false;
+		}
+		
+	}
+	
 	private boolean checkNameSignUp(UserRePassword obj) {
 		
 		boolean checkBool;
 		if(obj.getName().equals("") || obj.getName() == null) {
-			signUpWarningLabelSignUp.setText("Name can't be empty");
+			signUpWarningLabel.setText("Name can't be empty");
 			checkBool = false;
 		} else {
 			checkBool = true;
 		}
 		if(obj.getName().length() > 30) {
-			signUpWarningLabelSignUp.setText("Name cannot exceed 30 characters");
+			signUpWarningLabel.setText("Name cannot exceed 30 characters");
 			checkBool = false;
 		}
 		setExistingValuesSignUp();
@@ -1009,7 +1165,7 @@ public class MainController implements Initializable {
 		
 		boolean checkBool = false;
 		if(obj.getUsername().equals("") || obj.getUsername() == null) {
-			signUpWarningLabelSignUp.setText("Username can't be empty");
+			signUpWarningLabel.setText("Username can't be empty");
 			return false;
 		} else {
 			/*
@@ -1030,12 +1186,12 @@ public class MainController implements Initializable {
 					checkBool = false;
 				}
 				if(!checkBool) {
-					signUpWarningLabelSignUp.setText("'" + stringChar + "' Not allowed in Username");
+					signUpWarningLabel.setText("'" + stringChar + "' Not allowed in Username");
 					return false;
 				}
 			}
 			if(obj.getUsername().length() > 30) {
-				signUpWarningLabelSignUp.setText("Username cannot exceed 30 characters");
+				signUpWarningLabel.setText("Username cannot exceed 30 characters");
 				checkBool = false;
 			} else {
 				//if the username doesn't exist it will return true
@@ -1043,7 +1199,7 @@ public class MainController implements Initializable {
 				checkBool = ClientSideUserService.checkExistingUserName(50000, obj.getUsername());
 				if(!checkBool) {
 //check delete				System.out.println("IN sign up: " + checkBool);
-					signUpWarningLabelSignUp.setText("Username already exists");
+					signUpWarningLabel.setText("Username already exists");
 				}
 			}
 		}
@@ -1055,17 +1211,17 @@ public class MainController implements Initializable {
 		
 		boolean checkBool;
 		if(obj.getPassword() == null || obj.getPassword().equals("")) {
-			signUpWarningLabelSignUp.setText("Password Cannot be empty");
+			signUpWarningLabel.setText("Password Cannot be empty");
 			return false;
 		} else if(obj.getConfirmPassword() == null || obj.getConfirmPassword().equals("")) {
-			signUpWarningLabelSignUp.setText("Confirm Password can't be empty");
+			signUpWarningLabel.setText("Confirm Password can't be empty");
 			return false;
 		}
 		
 		if(obj.getPassword().equals(obj.getConfirmPassword())) {
 			checkBool = true;
 		} else {
-			signUpWarningLabelSignUp.setText("Password doesn't match\nRe-enter password");
+			signUpWarningLabel.setText("Password doesn't match\nRe-enter password");
 			checkBool = false;
 		}
 		setExistingValuesSignUp();
@@ -1106,27 +1262,38 @@ public class MainController implements Initializable {
 			MainController.reloadPageStatic();
 		}
 	}
+	
 	//settings
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	@FXML
 	public void settingsChangePassword(ActionEvent event) {
-	
+		//todo
+		
 	}
 	
 	@FXML
 	public void settingsChangeUsername(ActionEvent event) {
-	
+		//todo
+		
 	}
 	
 	@FXML
 	public void deleteAllPosts(ActionEvent event) {
-	
+		//todo
+		
 	}
 	
 	@FXML
 	public void deleteAccount(ActionEvent event) {
+		//todo
+		
+	}
 	
+	@FXML
+	public void forgotPassword(ActionEvent event) {
+		//todo
+		System.out.println("forgot password");
 	}
 	
 }

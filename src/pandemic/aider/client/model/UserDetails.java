@@ -11,35 +11,44 @@ import java.io.Serializable;
 public class UserDetails implements Serializable {
 	
 	private String uniqueId; //generated while signing up
-	private String name;     //name entered by the user
-	private String username; //username entered by the user
-	private String password; //password entered by the user
-	private String time;     //date and time the user was created
-	private String emailId; //to store the emailid
 	
-	public String getEmailId() {
+	private String name;     //name entered by the user
+	
+	private String username; //username entered by the user
+	
+	private String password; //password entered by the user
+	
+	private String time;     //date and time the user was created
+	
+	private String phoneNo; //to store the emailid
+	
+	public String getPhoneNo() {
 		
-		return emailId;
+		return phoneNo;
 	}
 	
-	public void setEmailId(String emailId) {
+	public void setPhoneNo(String phoneNo) {
 		
-		this.emailId = emailId;
+		this.phoneNo = phoneNo;
 	}
 	
 	public UserDetails() {
+		
 		name = null;
 	}
 	
 	public UserDetails(String[] arr) {
+		
 		uniqueId = arr[0];
 		name = arr[1];
 		username = arr[2];
 		password = arr[3];
 		time = arr[4];
+		phoneNo = arr[5];
 	}
 	
 	public UserDetails(UserRePassword obj) {
+		
 		this.uniqueId = obj.getUniqueId();
 		this.name = obj.getName();
 		this.username = obj.getUsername();
@@ -50,6 +59,7 @@ public class UserDetails implements Serializable {
 	//converts to string
 	@Override
 	public String toString() {
+		
 		return "UserDetails{" +
 				"uniqueId='" + uniqueId + '\'' +
 				", name='" + name + '\'' +
@@ -61,6 +71,7 @@ public class UserDetails implements Serializable {
 	
 	//displays the user on console
 	public void display() {
+		
 		System.out.println("UniqueId:" + uniqueId);
 		System.out.println("Name: " + name);
 		System.out.println("Username: " + username);
@@ -70,6 +81,7 @@ public class UserDetails implements Serializable {
 	}
 	
 	public UserDetails returnUser() {
+		
 		return this;
 	}
 	
@@ -81,22 +93,27 @@ public class UserDetails implements Serializable {
 	 */
 	
 	public String getName() {
+		
 		return name;
 	}
 	
 	public void setName(String name) {
+		
 		this.name = name;
 	}
 	
 	public String getUsername() {
+		
 		return username;
 	}
 	
 	public void setUsername(String username) {
+		
 		this.username = username;
 	}
 	
 	public String getPassword() {
+		
 		return password;
 	}
 	
@@ -108,26 +125,32 @@ public class UserDetails implements Serializable {
 	 */
 	
 	public void setPassword(String password) {
+		
 		this.password = password;
 	}
 	
 	public String getTime() {
+		
 		return time;
 	}
 	
 	public void setTime(String time) {
+		
 		this.time = time;
 	}
 	
 	public String getUniqueId() {
+		
 		return uniqueId;
 	}
 	
 	public void setUniqueId(String uniqueId) {
+		
 		this.uniqueId = uniqueId;
 	}
 	
 	public void setToNull() {
+		
 		uniqueId = "";
 		username = "";
 		name = "";

@@ -19,4 +19,6 @@ public class UserRePassword extends UserDetails {
 		super.display();
 		System.out.println("Confirm Password: " + confirmPassword);
 	}
+	
+	
 }

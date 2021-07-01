@@ -1,7 +1,6 @@
 package pandemic.aider.server.dao;
 
 import pandemic.aider.server.model.PostDetails;
-import pandemic.aider.server.service.CONNECTION_SQL;
 import pandemic.aider.server.service.JsonServiceServer;
 
 import java.sql.*;
@@ -65,6 +64,7 @@ public class PostsDao {
 		post.setPostUniqueId(UUID.randomUUID().toString());
 		try {
 			PreparedStatement statement = connection.prepareStatement(sqlQuery);
+			
 			statement.setString(1, post.getPostUniqueId());
 			statement.setString(2, post.getUserUsername());
 			statement.setString(3, post.getContent());

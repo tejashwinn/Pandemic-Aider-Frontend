@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class UserServer {
+public class ServerSideUserServer {
 	
 	public static void runUserService() {
 		
@@ -23,11 +23,18 @@ public class UserServer {
 		
 		SendUserInfo sendUsersInfo = new SendUserInfo();
 		sendUsersInfo.start();
+		
+		GenerateOtp generateOtp = new GenerateOtp();
+		generateOtp.start();
+		
+		CheckPhNO checkPhNO = new CheckPhNO();
+		checkPhNO.start();
 	}
 }
 
 class UsernameVerification extends Thread {
 	public void run() {
+		
 		int port = 50000;
 		try {
 			
@@ -47,8 +54,8 @@ class UsernameVerification extends Thread {
 				inputStream.close();
 				outputStream.close();
 				daoUsername.closeDbConnection();
-			} while (true);
-		} catch (Exception e) {
+			} while(true);
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -56,6 +63,7 @@ class UsernameVerification extends Thread {
 
 class AddUserToDatabase extends Thread {
 	public void run() {
+		
 		int port = 50003;
 		try {
 			
@@ -82,8 +90,8 @@ class AddUserToDatabase extends Thread {
 				serverSideInputStream.close();
 				serverSideOutputStream.close();
 				daoUsername.closeDbConnection();
-			} while (true);
-		} catch (Exception e) {
+			} while(true);
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -91,11 +99,13 @@ class AddUserToDatabase extends Thread {
 
 class CheckCredentials extends Thread {
 	public void run() {
+		
 		int port = 50004;
 		try {
 			
 			ServerSocket serverSideSocketConnection = new ServerSocket(port);
 			do {
+				
 				System.out.println("Server Running 50004 for logging in");
 				
 				Socket pipe = serverSideSocketConnection.accept();
@@ -108,8 +118,12 @@ class CheckCredentials extends Thread {
 				
 				UsersDao daoUsername = new UsersDao();
 				String[] rowValue = daoUsername.checkCredentials(JsonServiceServer.jsonToUser(str));
+				
 				UserDetails checkCredentialUser = new UserDetails(rowValue);
+				
 				checkCredentialUser.setPassword("");
+				checkCredentialUser.setPhoneNo("");
+				
 				serverSideOutputStream.writeObject(JsonServiceServer.userToJson(checkCredentialUser));
 //				checkCredentialUser.display();
 //
@@ -118,8 +132,8 @@ class CheckCredentials extends Thread {
 				serverSideInputStream.close();
 				serverSideOutputStream.close();
 				daoUsername.closeDbConnection();
-			} while (true);
-		} catch (Exception e) {
+			} while(true);
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -127,6 +141,7 @@ class CheckCredentials extends Thread {
 
 class SendUserInfo extends Thread {
 	public void run() {
+		
 		int port = 50007;
 		try {
 			
@@ -152,8 +167,69 @@ class SendUserInfo extends Thread {
 				serverSideInputStream.close();
 				serverSideOutputStream.close();
 				searchUsers.closeDbConnection();
-			} while (true);
-		} catch (Exception e) {
+			} while(true);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+class GenerateOtp extends Thread {
+	public void run() {
+		
+		int port = 50015;
+		try {
+			
+			ServerSocket serverSideSocketConnection = new ServerSocket(port);
+			do {
+				System.out.println("Server Running 50015 for generating otp");
+//
+				Socket pipe = serverSideSocketConnection.accept();
+				ObjectInputStream serverSideInputStream = new ObjectInputStream(pipe.getInputStream());
+				
+				String str = (String) serverSideInputStream.readObject();
+//				System.out.println(str);
+				
+				ObjectOutputStream serverSideOutputStream = new ObjectOutputStream(pipe.getOutputStream());
+				
+				serverSideOutputStream.writeObject((OTP.send(str)));
+				
+				serverSideInputStream.close();
+				serverSideOutputStream.close();
+				
+			} while(true);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+class CheckPhNO extends Thread {
+	public void run() {
+		
+		int port = 50016;
+		try {
+			
+			ServerSocket serverSideSocketConnection = new ServerSocket(port);
+			do {
+				System.out.println("Server Running 50016 for Ph No check");
+//
+				Socket pipe = serverSideSocketConnection.accept();
+				ObjectInputStream serverSideInputStream = new ObjectInputStream(pipe.getInputStream());
+				
+				String str = (String) serverSideInputStream.readObject();
+//				System.out.println(str);
+				
+				ObjectOutputStream serverSideOutputStream = new ObjectOutputStream(pipe.getOutputStream());
+				UsersDao usersDao = new UsersDao();
+				
+				serverSideOutputStream.writeObject(Boolean.toString(usersDao.checkPhNO(str)));
+				
+				serverSideInputStream.close();
+				serverSideOutputStream.close();
+				
+			} while(true);
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
