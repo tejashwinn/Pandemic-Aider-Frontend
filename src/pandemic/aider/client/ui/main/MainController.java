@@ -238,9 +238,11 @@ public class MainController implements Initializable {
 			if(str != null && !str.equals("{ ") && !str.equals("{\n")) {
 				userDetailsStatic = JsonServiceClient.jsonToUser(str);
 				refreshUserPage();
+				unblockUsage();
 			} else {
 				userDetailsStatic = null;
 				refreshUserPage();
+				blockUsage();
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -613,13 +615,49 @@ public class MainController implements Initializable {
 			if(userDetailsStatic != null) {
 				userDetailsStatic.setToNull();
 			}
-			
+			blockUsage();
 			clearAuditValues();
 			MainController.reloadPageStatic();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@FXML
+	private Button showPostRequestButton;
+	
+	@FXML
+	private Button mainSearchButton;
+	
+	@FXML
+	private Button userMainButton;
+	
+	@FXML
+	private Button settingsMainButton;
+	
+	@FXML
+	private Button helpMainButton;
+	
+	//todo
+	public void blockUsage() {
+		
+		showPostRequestButton.setDisable(true);
+		mainSearchButton.setDisable(true);
+		userMainButton.setDisable(true);
+		settingsMainButton.setDisable(true);
+		helpMainButton.setDisable(true);
+		userRefreshButton.setDisable(true);
+	}
+	
+	public void unblockUsage() {
+		
+		showPostRequestButton.setDisable(false);
+		mainSearchButton.setDisable(false);
+		userMainButton.setDisable(false);
+		settingsMainButton.setDisable(false);
+		helpMainButton.setDisable(false);
+		userRefreshButton.setDisable(false);
 	}
 	
 	public static void mainLogOutActionStatic() {
@@ -888,6 +926,7 @@ public class MainController implements Initializable {
 		passwordHiddenField.setText("");
 		passwordTextField.setText("");
 		if(result.isPresent() && result.get() == ButtonType.OK) {
+			unblockUsage();
 			MainController.reloadPageStatic();
 		}
 	}
@@ -1105,6 +1144,7 @@ public class MainController implements Initializable {
 					signUpWarningLabel.setText("Successfully created the account");
 					
 					showAlertSignUp();
+					
 				} catch(IOException e) {
 					e.printStackTrace();
 				}
@@ -1302,6 +1342,8 @@ public class MainController implements Initializable {
 		
 		if(result.isPresent() && result.get() == ButtonType.OK) {
 			MainController.reloadPageStatic();
+			unblockUsage();
+			
 		}
 	}
 	
@@ -1337,41 +1379,18 @@ public class MainController implements Initializable {
 		//todo
 		
 		try {
-			String str;
 			
-			BufferedReader br = new BufferedReader(new FileReader("src/pandemic/aider/client/json/log.json"));
-			str = br.readLine();
+			FXMLLoader newFxmlLoader = new FXMLLoader();
+			newFxmlLoader.setLocation(getClass().getResource("ForgotPasswordFXML.fxml"));
 			
-			if(str != null) {
-				FXMLLoader newFxmlLoader = new FXMLLoader();
-				newFxmlLoader.setLocation(getClass().getResource("ForgotPasswordFXML.fxml"));
-				
-				HBox hBox = newFxmlLoader.load();
-				ForgotPasswordController forgotPasswordController = newFxmlLoader.getController();
-				
-				forgotPasswordController.getChangePasswordButton().setVisible(false);
-				forgotPasswordController.getGetOtpButton().setVisible(true);
-				
-				//adds new children to the previous stack pane which was assign
-				insiderUserStackPane.getChildren().addAll(hBox);
-			} else {
-				
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				
-				alert.setTitle("Audit Error");
-				alert.setHeaderText("Sign in/up");
-				alert.setContentText("You need to sign in/up");
-				
-				Optional<ButtonType> result = alert.showAndWait();
-				
-				if(result.isPresent() && result.get() == ButtonType.OK) {
-					viewUserHBoxStatic.setVisible(false);
-					signInHBoxStatic.setVisible(true);
-				}
-				viewUserHBoxStatic.setVisible(false);
-				signInHBoxStatic.setVisible(true);
-				
-			}
+			HBox hBox = newFxmlLoader.load();
+			ForgotPasswordController forgotPasswordController = newFxmlLoader.getController();
+			
+			forgotPasswordController.getChangePasswordButton().setVisible(false);
+			forgotPasswordController.getGetOtpButton().setVisible(true);
+			
+			//adds new children to the previous stack pane which was assign
+			insiderUserStackPane.getChildren().addAll(hBox);
 			
 		} catch(IOException e) {
 			e.printStackTrace();

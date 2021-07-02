@@ -6,24 +6,23 @@
     -fx-background-color: white;
     -fx-background-radius: 100;
 }
+
 .search-button{
-    -fx-background-color: black;
+    -fx-background-color: transparent;
+    -fx-border-color: white;
     -fx-text-fill:white;
-    -fx-border-color:white;
-    -fx-background-radius: 100;
-    -fx-border-radius:100;
+    -fx-background-radius: 10;
+    -fx-border-radius:10;
 
 }
 .search-button:hover{
             -fx-background-color: white;
             -fx-text-fill:black;
-            -fx-border-color:black;
 
 }
 .search-button:pressed{
-        -fx-text-fill:#CEF564;
-        -fx-border-color:#CEF564;
-        -fx-background-color: black;
+        -fx-text-fill:white;
+        -fx-background-color: transparent;
 }
 
 .radio-button{
@@ -99,5 +98,14 @@
     -fx-background-color: #121212;
 }
 .scroll-pane > .viewport {
-   -fx-background-color: #121212;
+    -fx-background-color: #121212;
 }
+
+.textField-Search{
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+

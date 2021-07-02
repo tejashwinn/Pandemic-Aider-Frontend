@@ -8,19 +8,15 @@
 
 .button-sidebar:hover{
     -fx-border-color:#CEF564;
-    -fx-border-radius:100;
+    -fx-border-radius:10;
+    -fx-border-width:2px;
 }
 
 .button-sidebar:pressed{
-     -fx-border-color:#E1B8D1;
-     -fx-border-radius:100;
+     -fx-border-color:white;
+     -fx-border-radius:10;
+
 }
 .label-sidebar{
--fx-text-fill: white;
-}
-.label-sidebar:hover{
-    -fx-text-fill: #CEF564;
-}
-.label-sidebar:pressed{
-    -fx-text-fill:#E1B8D1;
+    -fx-text-fill: white;
 }

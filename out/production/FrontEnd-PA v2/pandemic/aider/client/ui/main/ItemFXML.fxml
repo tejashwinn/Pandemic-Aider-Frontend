@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="730.0" style="-fx-border-color: #121212; -fx-background-color: #252525; -fx-background-radius: 30;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pandemic.aider.client.ui.main.ItemController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="730.0" style="-fx-border-color: #121212; -fx-background-color: #252525; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pandemic.aider.client.ui.main.ItemController">
     <children>
-        <VBox prefHeight="250.0" prefWidth="730.0" style="-fx-border-color: #121212; -fx-background-color: #252525; -fx-background-radius: 30;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox prefHeight="250.0" prefWidth="730.0" style="-fx-border-color: #121212; -fx-background-color: #252525; -fx-background-radius: 10; -fx-border-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="710.0" style="-fx-background-color: #404040; -fx-background-radius: 120;">
+                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="710.0" style="-fx-background-color: #404040; -fx-background-radius: 10;">
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>

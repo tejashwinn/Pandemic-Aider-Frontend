@@ -30,20 +30,7 @@
 	<left>
 		<VBox alignment="CENTER" prefHeight="855.0" prefWidth="225.0" spacing="20.0" style="-fx-background-color: black;" BorderPane.alignment="TOP_CENTER">
 			<children>
-				<VBox alignment="CENTER" VBox.vgrow="NEVER">
-					<VBox.margin>
-						<Insets top="30.0" />
-					</VBox.margin>
-					<children>
-						<ImageView fitHeight="117.0" fitWidth="187.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="visibility: true;">
-							<image>
-								<Image url="@../../res/main_logo_new_cropped.png" />
-							</image>
-						</ImageView>
-					</children>
-				</VBox>
-				<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="59.0" prefWidth="226.0" VBox.vgrow="ALWAYS" />
-				<Button cancelButton="true" mnemonicParsing="false" onAction="#showPostRequest" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" textFill="WHITE">
+				<Button fx:id="showPostRequestButton" cancelButton="true" mnemonicParsing="false" onAction="#showPostRequest" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" textFill="WHITE">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
 							<children>
@@ -60,8 +47,11 @@
 							</children>
 						</HBox>
 					</graphic>
+					<VBox.margin>
+						<Insets top="50.0" />
+					</VBox.margin>
 				</Button>
-				<Button cancelButton="true" mnemonicParsing="false" onAction="#showSearchDetails" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
+				<Button fx:id="mainSearchButton" cancelButton="true" mnemonicParsing="false" onAction="#showSearchDetails" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
 							<children>
@@ -79,7 +69,7 @@
 						</HBox>
 					</graphic>
 				</Button>
-				<Button cancelButton="true" layoutX="96.0" layoutY="636.0" mnemonicParsing="false" onAction="#showUserDetails" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
+				<Button fx:id="userMainButton" cancelButton="true" layoutX="96.0" layoutY="636.0" mnemonicParsing="false" onAction="#showUserDetails" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
 							<children>
@@ -97,7 +87,7 @@
 						</HBox>
 					</graphic>
 				</Button>
-				<Button cancelButton="true" layoutX="96.0" layoutY="237.0" mnemonicParsing="false" onAction="#showSettings" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
+				<Button fx:id="settingsMainButton" cancelButton="true" layoutX="96.0" layoutY="237.0" mnemonicParsing="false" onAction="#showSettings" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
 							<children>
@@ -115,7 +105,7 @@
 						</HBox>
 					</graphic>
 				</Button>
-				<Button cancelButton="true" layoutX="96.0" layoutY="659.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
+				<Button fx:id="helpMainButton" cancelButton="true" layoutX="96.0" layoutY="659.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
 							<children>
@@ -184,7 +174,7 @@
 								<HBox prefHeight="427.0" prefWidth="802.0" style="-fx-background-color: #121212; -fx-background-radius: 30;" styleClass="color-second-black" stylesheets="@../../style/colors.css">
 									<children>
 										<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
-										<TextArea fx:id="postRequestContentTextArea" prefHeight="346.0" prefWidth="783.0" promptText="Type here..." style="-: ;" styleClass="text-area" stylesheets="@../../style/colors.css" wrapText="true">
+										<TextArea fx:id="postRequestContentTextArea" prefHeight="346.0" prefWidth="783.0" promptText="Type here..." styleClass="text-area" stylesheets="@../../style/colors.css" wrapText="true">
 											<HBox.margin>
 												<Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
 											</HBox.margin>
@@ -201,7 +191,7 @@
 								<HBox layoutX="10.0" layoutY="10.0" prefHeight="65.0" prefWidth="802.0">
 									<children>
 										<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-										<TextField fx:id="postRequestPincodeTextField" prefHeight="45.0" prefWidth="465.0" promptText="Enter the pincode" style="-fx-background-radius: 50; -fx-border-color: #CEF564; -fx-border-radius: 50; -fx-background-color: #252525;" styleClass="text-fill-color" stylesheets="@../../style/colors.css">
+										<TextField fx:id="postRequestPincodeTextField" prefHeight="45.0" prefWidth="465.0" promptText="Enter the pincode" style="-fx-background-radius: 10; -fx-border-color: #CEF564; -fx-border-radius: 10; -fx-background-color: #252525;" styleClass="text-fill-color" stylesheets="@../../style/colors.css">
 											<HBox.margin>
 												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 											</HBox.margin>
@@ -209,8 +199,8 @@
 												<Font name="System Bold" size="20.0" />
 											</font>
 										</TextField>
-										<Pane layoutX="10.0" layoutY="10.0" prefHeight="66.0" prefWidth="72.0" HBox.hgrow="NEVER" />
-										<Button mnemonicParsing="false" onAction="#addPost" prefHeight="45.0" prefWidth="100.0" style="-fx-border-width: 2px;" styleClass="button-post" stylesheets="@../../style/colors.css" text="Post" textFill="WHITE">
+										<Pane layoutX="10.0" layoutY="10.0" prefHeight="67.0" prefWidth="8.0" HBox.hgrow="NEVER" />
+										<Button mnemonicParsing="false" onAction="#addPost" prefHeight="46.0" prefWidth="130.0" styleClass="button-post" stylesheets="@../../style/colors.css" text="Post" textFill="WHITE">
 											<HBox.margin>
 												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 											</HBox.margin>
@@ -218,7 +208,7 @@
 												<Font name="System Bold" size="16.0" />
 											</font>
 										</Button>
-										<Button layoutX="703.0" layoutY="20.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="45.0" prefWidth="100.0" style="-fx-border-width: 2px;" styleClass="button-post" stylesheets="@../../style/colors.css" text="Cancel" textFill="WHITE">
+										<Button layoutX="703.0" layoutY="20.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="45.0" prefWidth="130.0" styleClass="button-post" stylesheets="@../../style/colors.css" text="Cancel" textFill="WHITE">
 											<HBox.margin>
 												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 											</HBox.margin>
@@ -247,21 +237,24 @@
 							<children>
 								<HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="802.0" spacing="20.0" stylesheets="@../../style/SearchStyle.css">
 									<children>
+										<RadioButton fx:id="usersRadioButton" layoutX="10.0" layoutY="29.0" mnemonicParsing="false" onAction="#onRadioSelectedAction" stylesheets="@../../style/SearchStyle.css" text="Users" textFill="WHITE">
+											<font>
+												<Font name="System Bold" size="16.0" />
+											</font>
+											<padding>
+												<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+											</padding>
+											<HBox.margin>
+												<Insets left="20.0" />
+											</HBox.margin>
+										</RadioButton>
 										<RadioButton fx:id="postsRadioButton" mnemonicParsing="false" onAction="#onRadioSelectedAction" stylesheets="@../../style/SearchStyle.css" text="Posts" textFill="WHITE">
 											<font>
 												<Font name="System Bold" size="16.0" />
 											</font>
 											<HBox.margin>
-												<Insets left="20.0" />
+												<Insets />
 											</HBox.margin>
-											<padding>
-												<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-											</padding>
-										</RadioButton>
-										<RadioButton fx:id="usersRadioButton" layoutX="10.0" layoutY="29.0" mnemonicParsing="false" onAction="#onRadioSelectedAction" stylesheets="@../../style/SearchStyle.css" text="Users" textFill="WHITE">
-											<font>
-												<Font name="System Bold" size="16.0" />
-											</font>
 											<padding>
 												<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 											</padding>
@@ -274,22 +267,28 @@
 												<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 											</padding>
 										</RadioButton>
-										<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" stylesheets="@../../style/SearchStyle.css" HBox.hgrow="ALWAYS" />
-										<HBox alignment="CENTER" prefHeight="72.0" prefWidth="402.0" spacing="30.0" styleClass="color-green" stylesheets="@../../style/SearchStyle.css">
+                              <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+										<HBox alignment="CENTER" prefHeight="72.0" prefWidth="415.0" spacing="30.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="color-green" stylesheets="@../../style/SearchStyle.css">
 											<children>
-												<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="399.0" styleClass="search-bar" stylesheets="@../../style/SearchStyle.css">
+												<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="414.0" style="-fx-background-color: #232323; -fx-background-radius: 10;" styleClass="search-bar" stylesheets="@../../style/SearchStyle.css">
 													<children>
-														<TextField fx:id="searchTextField" layoutX="30.0" layoutY="11.0" prefHeight="34.0" prefWidth="259.0" promptText="Type here to search 🔎" styleClass="search-bar" stylesheets="@../../style/SearchStyle.css" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="6.0">
-															<padding>
-																<Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-															</padding>
+														<ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="4.0">
+															<image>
+																<Image url="@../../res/icons8-search-48-white.png" />
+															</image>
+														</ImageView>
+														<TextField fx:id="searchTextField" layoutX="56.0" layoutY="11.0" prefHeight="34.0" prefWidth="269.0" promptText="Search..." style="-fx-background-color: #232323; -fx-background-radius: 10;" stylesheets="@../../style/SearchStyle.css" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="6.0">
 															<font>
-																<Font size="14.0" />
+																<Font name="System Bold Italic" size="14.0" />
 															</font>
+															<styleClass>
+																<String fx:value="search-bar" />
+																<String fx:value="textField-Search" />
+															</styleClass>
 														</TextField>
 														<Button fx:id="searchButton" layoutX="304.0" layoutY="10.0" mnemonicParsing="false" onAction="#search" prefHeight="35.0" prefWidth="89.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Search" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
 															<font>
-																<Font size="14.0" />
+																<Font name="System Bold" size="14.0" />
 															</font>
 														</Button>
 													</children>
@@ -304,6 +303,9 @@
 											<padding>
 												<Insets top="5.0" />
 											</padding>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
 										</HBox>
 									</children>
 								</HBox>
@@ -349,7 +351,7 @@
 												<HBox alignment="CENTER" layoutX="10.6" layoutY="10.6" prefHeight="616.8" prefWidth="800.8" styleClass="color-second-black" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 													<children>
 														<Pane prefHeight="0.0" prefWidth="0.0" styleClass="color-second-black" stylesheets="@../../style/colors.css" HBox.hgrow="ALWAYS" />
-														<ScrollPane hbarPolicy="NEVER" maxWidth="-Infinity" prefHeight="593.0" prefWidth="777.0" stylesheets="@../../style/SearchStyle.css" vbarPolicy="ALWAYS" HBox.hgrow="ALWAYS">
+														<ScrollPane hbarPolicy="NEVER" maxWidth="-Infinity" prefHeight="593.0" prefWidth="777.0" stylesheets="@../../style/SearchStyle.css" HBox.hgrow="ALWAYS">
 															<content>
 																<GridPane fx:id="searchUserGridPane" alignment="CENTER" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="85.0" prefWidth="762.0" styleClass="color-second-black" stylesheets="@../../style/colors.css" vgap="5.0">
 																	<columnConstraints>
@@ -380,20 +382,20 @@
 				</BorderPane>
 				<BorderPane fx:id="userBorderPane" prefHeight="200.0" prefWidth="200.0" style="visibility: true; -fx-background-color: #121212;">
 					<top>
-						<HBox prefHeight="58.0" prefWidth="802.0" styleClass="color-green" stylesheets="@../../style/colors.css" BorderPane.alignment="CENTER">
+						<HBox prefHeight="69.0" prefWidth="800.0" styleClass="color-green" stylesheets="@../../style/colors.css" BorderPane.alignment="CENTER">
 							<children>
 								<Label fx:id="userUsernameLabel" contentDisplay="CENTER" prefHeight="58.0" prefWidth="582.0" stylesheets="@../../style/colors.css" textFill="#151515">
 									<font>
 										<Font name="System Bold Italic" size="25.0" />
 									</font>
 									<HBox.margin>
-										<Insets left="20.0" />
+										<Insets left="20.0" top="10.0" />
 									</HBox.margin>
 								</Label>
 								<Pane prefHeight="58.0" prefWidth="18.0" stylesheets="@../../style/colors.css" HBox.hgrow="ALWAYS" />
-								<Button fx:id="mainSignInButton" mnemonicParsing="false" onAction="#showSignIn" prefHeight="38.0" prefWidth="147.0" styleClass="button-user" stylesheets="@../../style/colors.css" text="Sign In/Up">
+								<Button fx:id="mainSignInButton" mnemonicParsing="false" onAction="#showSignIn" prefHeight="38.0" prefWidth="147.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="button-user" stylesheets="@../../style/colors.css" text="Sign In/Up">
 									<HBox.margin>
-										<Insets right="20.0" top="5.0" />
+										<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 									</HBox.margin>
 									<font>
 										<Font name="System Bold" size="16.0" />
@@ -408,7 +410,7 @@
 										</ImageView>
 									</graphic>
 									<HBox.margin>
-										<Insets right="5.0" top="8.0" />
+										<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 									</HBox.margin>
 								</Button>
 							</children>
@@ -421,14 +423,14 @@
 						</HBox>
 					</top>
 					<center>
-						<TitledPane fx:id="userTitledPane" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="702.0" prefWidth="802.0" stylesheets="@../../style/SearchStyle.css" text="Posts by you" BorderPane.alignment="CENTER">
+						<TitledPane fx:id="userTitledPane" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="702.0" prefWidth="802.0" style="-fx-background-color: #121212;" stylesheets="@../../style/SearchStyle.css" text="Posts by you" BorderPane.alignment="CENTER">
 							<content>
 								<StackPane fx:id="insiderUserStackPane" style="-fx-background-color: #121212;">
 									<children>
-										<HBox fx:id="signInHBox" alignment="CENTER" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: true;">
+										<HBox fx:id="signInHBox" alignment="CENTER" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: false;">
 											<children>
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
-												<VBox alignment="CENTER" prefHeight="598.0" prefWidth="782.0" spacing="15.0" style="-fx-border-color: #CEF564; -fx-border-radius: 30; -fx-background-color: #252525; -fx-background-radius: 30;">
+												<VBox alignment="CENTER" prefHeight="598.0" prefWidth="782.0" spacing="15.0" style="-fx-border-color: #CEF564; -fx-border-radius: 10; -fx-background-color: #252525; -fx-background-radius: 10;">
 													<children>
 														<Label fx:id="signInWarningLabel" alignment="CENTER" prefHeight="38.0" prefWidth="292.0" style="-fx-border-radius: 100; -fx-background-radius: 100;" textFill="RED">
 															<padding>
@@ -448,7 +450,7 @@
 																		<Insets left="10.0" />
 																	</VBox.margin>
 																</Label>
-																<TextField fx:id="usernameTextField" prefHeight="35.0" prefWidth="250.0" promptText="Enter Username" style="-fx-background-radius: 100;" styleClass="text-fill" stylesheets="@../../style/log.css">
+																<TextField fx:id="usernameTextField" prefHeight="35.0" prefWidth="250.0" promptText="Enter Username" style="-fx-background-radius: 10;" styleClass="text-fill" stylesheets="@../../style/log.css">
 																	<font>
 																		<Font name="System Bold" size="14.0" />
 																	</font>
@@ -463,7 +465,7 @@
 																</Label>
 																<StackPane>
 																	<children>
-																		<TextField fx:id="passwordTextField" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																		<TextField fx:id="passwordTextField" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 10;">
 																			<StackPane.margin>
 																				<Insets />
 																			</StackPane.margin>
@@ -471,7 +473,7 @@
 																				<Font name="System Bold" size="14.0" />
 																			</font>
 																		</TextField>
-																		<PasswordField fx:id="passwordHiddenField" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																		<PasswordField fx:id="passwordHiddenField" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 10;">
 																			<StackPane.margin>
 																				<Insets />
 																			</StackPane.margin>
@@ -499,7 +501,7 @@
 																<Cursor fx:constant="HAND" />
 															</cursor>
 															<graphic>
-																<Label text="Forgot Passoword??" textAlignment="CENTER" textFill="#cceeff" underline="true">
+																<Label text="Forgot Password??" textAlignment="CENTER" textFill="#cceeff" underline="true">
 																	<font>
 																		<Font name="System Bold Italic" size="18.0" />
 																	</font>
@@ -511,13 +513,13 @@
 														</Button>
 														<VBox prefHeight="142.0" prefWidth="280.0" spacing="10.0" style="-fx-alignment: center;">
 															<children>
-																<Button mnemonicParsing="false" onAction="#checkCorrectCredentials" prefHeight="40.0" prefWidth="90.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Sign In">
+																<Button mnemonicParsing="false" onAction="#checkCorrectCredentials" prefHeight="40.0" prefWidth="90.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Sign In">
 																	<font>
 																		<Font size="14.0" />
 																	</font>
 																</Button>
 																<Separator prefHeight="6.0" prefWidth="276.0" stylesheets="@../../style/SearchStyle.css" />
-																<Button mnemonicParsing="false" onAction="#switchToSignUp" prefHeight="40.0" prefWidth="180.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Not a user? Sign Up">
+																<Button mnemonicParsing="false" onAction="#switchToSignUp" prefHeight="40.0" prefWidth="180.0" style="-fx-border-radius: 10; -fx-background-radius: 10;" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Not a user? Sign Up">
 																	<font>
 																		<Font size="14.0" />
 																	</font>
@@ -532,7 +534,7 @@
 										<HBox fx:id="signUpHBox" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: false;">
 											<children>
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
-												<VBox alignment="CENTER" prefHeight="607.0" prefWidth="780.0" spacing="10.0" style="-fx-border-radius: 30; -fx-background-radius: 30; -fx-background-color: #252525; -fx-border-color: #CEF564;">
+												<VBox alignment="CENTER" prefHeight="607.0" prefWidth="780.0" spacing="10.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: #252525; -fx-border-color: #CEF564;">
 													<children>
 														<Label fx:id="signUpWarningLabel" alignment="CENTER" prefHeight="38.0" prefWidth="283.0" textFill="RED">
 															<padding>
@@ -551,7 +553,7 @@
 																				<Font name="System Bold" size="14.0" />
 																			</font>
 																		</Label>
-																		<TextField fx:id="nameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Name" style="-fx-background-radius: 100;" stylesheets="@../../style/log.css">
+																		<TextField fx:id="nameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Name" style="-fx-background-radius: 10;" stylesheets="@../../style/log.css">
 																			<font>
 																				<Font name="System Bold" size="14.0" />
 																			</font>
@@ -565,7 +567,7 @@
 																				<Font name="System Bold" size="14.0" />
 																			</font>
 																		</Label>
-																		<TextField fx:id="usernameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Username" style="-fx-background-radius: 100;">
+																		<TextField fx:id="usernameTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Username" style="-fx-background-radius: 10;">
 																			<font>
 																				<Font name="System Bold" size="14.0" />
 																			</font>
@@ -585,7 +587,7 @@
 																		</Label>
 																		<StackPane>
 																			<children>
-																				<TextField fx:id="passwordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																				<TextField fx:id="passwordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-border-radius: 10; -fx-background-radius: 10;">
 																					<StackPane.margin>
 																						<Insets />
 																					</StackPane.margin>
@@ -593,7 +595,7 @@
 																						<Font name="System Bold" size="14.0" />
 																					</font>
 																				</TextField>
-																				<PasswordField fx:id="passwordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																				<PasswordField fx:id="passwordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefColumnCount="10" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-border-radius: 10; -fx-background-radius: 10;">
 																					<StackPane.margin>
 																						<Insets />
 																					</StackPane.margin>
@@ -614,7 +616,7 @@
 																		</Label>
 																		<StackPane>
 																			<children>
-																				<TextField fx:id="confirmPasswordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-background-radius: 100;">
+																				<TextField fx:id="confirmPasswordTextFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Password" style="-fx-border-radius: 10; -fx-background-radius: 10;">
 																					<StackPane.margin>
 																						<Insets />
 																					</StackPane.margin>
@@ -622,7 +624,7 @@
 																						<Font name="System Bold" size="14.0" />
 																					</font>
 																				</TextField>
-																				<PasswordField fx:id="confirmPasswordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Confirm Password" style="-fx-background-radius: 100;">
+																				<PasswordField fx:id="confirmPasswordHiddenFieldSignUp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Confirm Password" style="-fx-border-radius: 10; -fx-background-radius: 10;">
 																					<StackPane.margin>
 																						<Insets />
 																					</StackPane.margin>
@@ -645,7 +647,7 @@
 																				<Font name="System Bold" size="14.0" />
 																			</font>
 																		</Label>
-																		<TextField fx:id="phoneNumberTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Phone No." style="-fx-background-radius: 100;">
+																		<TextField fx:id="phoneNumberTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter Phone No." style="-fx-background-radius: 10;">
 																			<font>
 																				<Font name="System Bold" size="14.0" />
 																			</font>
@@ -654,12 +656,12 @@
 																</VBox>
 																<VBox alignment="CENTER">
 																	<children>
-																		<Label prefHeight="35.0" prefWidth="240.0" text="OTP" textFill="WHITE">
+																		<Label prefHeight="35.0" prefWidth="240.0" text="OTP:" textFill="WHITE">
 																			<font>
 																				<Font name="System Bold" size="14.0" />
 																			</font>
 																		</Label>
-																		<TextField fx:id="otpTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter the OTP sent to given number" style="-fx-background-radius: 100;">
+																		<TextField fx:id="otpTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" promptText="Enter the OTP " style="-fx-background-radius: 10;">
 																			<font>
 																				<Font name="System Bold" size="14.0" />
 																			</font>
@@ -668,7 +670,7 @@
 																</VBox>
 															</children>
 														</HBox>
-														<CheckBox fx:id="passwordCheckBoxToggleSignUp" mnemonicParsing="false" onAction="#showPasswordSignUp" prefHeight="26.0" prefWidth="142.0" text="Show Password" textFill="WHITE">
+														<CheckBox fx:id="passwordCheckBoxToggleSignUp" mnemonicParsing="false" onAction="#showPasswordSignUp" prefHeight="26.0" prefWidth="140.0" text="Show Password" textFill="WHITE">
 															<VBox.margin>
 																<Insets bottom="10.0" left="44.0" right="10.0" top="20.0" />
 															</VBox.margin>
@@ -680,19 +682,19 @@
 															<children>
 																<StackPane>
 																	<children>
-																		<Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUpAction" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Sign Up">
+																		<Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUpAction" prefHeight="40.0" prefWidth="150.0" style="-fx-border-radius: 10; -fx-background-radius: 10;" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Sign Up">
 																			<font>
 																				<Font size="14.0" />
 																			</font>
 																		</Button>
-																		<Button fx:id="otpButton" mnemonicParsing="false" onAction="#validationAndOtp" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Get Otp">
+																		<Button fx:id="otpButton" mnemonicParsing="false" onAction="#validationAndOtp" prefHeight="40.0" prefWidth="150.0" style="-fx-border-radius: 10; -fx-background-radius: 10;" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Get Otp">
 																			<font>
 																				<Font size="14.0" />
 																			</font>
 																		</Button>
 																	</children>
 																</StackPane>
-																<Button layoutX="316.0" layoutY="45.0" mnemonicParsing="false" onAction="#cancelSignUpAction" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Cancel">
+																<Button layoutX="316.0" layoutY="45.0" mnemonicParsing="false" onAction="#cancelSignUpAction" prefHeight="40.0" prefWidth="150.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="search-button" stylesheets="@../../style/SearchStyle.css" text="Cancel">
 																	<font>
 																		<Font size="14.0" />
 																	</font>
@@ -710,7 +712,7 @@
 										<HBox fx:id="viewUserHBox" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="416.0" prefWidth="488.0" style="-fx-background-color: #121212; visibility: false;">
 											<children>
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
-												<ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="593.0" prefWidth="777.0" style="-fx-background-color: #121212;" stylesheets="@../../style/SearchStyle.css" vbarPolicy="ALWAYS" HBox.hgrow="ALWAYS">
+												<ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="593.0" prefWidth="777.0" style="-fx-background-color: #121212;" stylesheets="@../../style/SearchStyle.css" HBox.hgrow="ALWAYS">
 													<content>
 														<GridPane fx:id="userGridPane" alignment="CENTER" hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="270.0" prefWidth="762.0" style="-fx-background-color: #121212;" vgap="5.0">
 															<columnConstraints>

@@ -33,21 +33,6 @@ public class ForgotPasswordController {
 	@FXML
 	private PasswordField confirmPasswordHiddenFieldSignUp;
 	
-	public Button getChangePasswordButton() {
-		
-		return changePasswordButton;
-	}
-	
-	public void setChangePasswordButton(Button changePasswordButton) {
-		
-		this.changePasswordButton = changePasswordButton;
-	}
-	
-	public Button getGetOtpButton() {
-		
-		return getOtpButton;
-	}
-	
 	@FXML
 	private Button changePasswordButton;
 	
@@ -60,6 +45,19 @@ public class ForgotPasswordController {
 	private CheckBox passwordCheckBoxToggle;
 	
 	@FXML
+	TextField phNoTextField;
+	
+	public Button getChangePasswordButton() {
+		
+		return changePasswordButton;
+	}
+	
+	public Button getGetOtpButton() {
+		
+		return getOtpButton;
+	}
+	
+	@FXML
 	public void cancelForgotPassword(ActionEvent event) {
 		
 		forgotPasswordHBox.setVisible(false);
@@ -70,14 +68,26 @@ public class ForgotPasswordController {
 	@FXML
 	public void getOtpAction(ActionEvent event) {
 		
-		try {
-			otp = ClientSideUserService.generateOtp(50015, MainController.userDetailsStatic.getPhoneNo());
-			forgotPasswordWarningLabel.setText("OTP has been sent");
+		if(phNoTextField.getText().length() == 10) {
+			if(phNoTextField.getText().matches("[0-9]+")) {
+				try {
+					otp = ClientSideUserService.generateOtp(50015, phNoTextField.getText());
+					forgotPasswordWarningLabel.setText("OTP has been sent");
+					
+					getOtpButton.setVisible(false);
+					changePasswordButton.setVisible(true);
+					
+					forgotPasswordWarningLabel.setText("Enter the otp");
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				forgotPasswordWarningLabel.setText("Ph No can only contain numbers");
+			}
+		} else {
+			forgotPasswordWarningLabel.setText("Check Ph No. once again");
 			
-			changePasswordButton.setVisible(true);
-			getOtpButton.setVisible(false);
-		} catch(Exception e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -96,9 +106,8 @@ public class ForgotPasswordController {
 		}
 		
 		if(otp.equals(otpTextField.getText())) {
-			if(!passwordHiddenFieldSignUp.getText().equals("")  ) {
-				if(passwordHiddenFieldSignUp.getText().equals(confirmPasswordHiddenFieldSignUp.getText()))
-				{
+			if(!passwordHiddenFieldSignUp.getText().equals("")) {
+				if(passwordHiddenFieldSignUp.getText().equals(confirmPasswordHiddenFieldSignUp.getText())) {
 					if(ClientSideUserService.changePassword(50017, BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD))) {
 						forgotPasswordWarningLabel.setText("Password Changed Successfully");
 						Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -116,8 +125,8 @@ public class ForgotPasswordController {
 					} else {
 						forgotPasswordWarningLabel.setText("Password was not changed");
 					}
-				}else {
-					forgotPasswordWarningLabel.setText("Passwrord doesn't match");
+				} else {
+					forgotPasswordWarningLabel.setText("Password doesn't match");
 				}
 			} else {
 				forgotPasswordWarningLabel.setText("Password cannot be empty");
