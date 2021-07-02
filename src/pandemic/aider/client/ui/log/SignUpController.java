@@ -239,7 +239,7 @@
 //
 //	private void showAlertSignUp() {
 //
-//		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//		alert alert = new alert(alert.AlertType.CONFIRMATION);
 //		alert.setTitle("Successful");
 //		alert.setHeaderText("Sign up complete");
 //		alert.setContentText("Press Ok to continue");

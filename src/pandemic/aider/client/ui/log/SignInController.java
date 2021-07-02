@@ -173,7 +173,7 @@
 //
 //	private void showAlert() {
 //
-//		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//		alert alert = new alert(alert.AlertType.CONFIRMATION);
 //		alert.setTitle("Successful");
 //		alert.setHeaderText("You are now logged in");
 //		alert.setContentText("Press Ok to continue");

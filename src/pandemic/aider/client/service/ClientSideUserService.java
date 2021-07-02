@@ -12,6 +12,7 @@ public class ClientSideUserService {
 	public static boolean checkExistingUserName(int port, String username) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -26,7 +27,7 @@ public class ClientSideUserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 		}
 		return false;
 	}
@@ -34,6 +35,7 @@ public class ClientSideUserService {
 	public static boolean checkPhoneNo(int port, String phNo) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -48,7 +50,7 @@ public class ClientSideUserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 		}
 		return false;
 	}
@@ -56,6 +58,7 @@ public class ClientSideUserService {
 	public static boolean addUser(int port, UserDetails newUser) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -70,7 +73,7 @@ public class ClientSideUserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return false;
 		}
 	}
@@ -78,6 +81,7 @@ public class ClientSideUserService {
 	public static UserDetails checkCredentials(int port, UserDetails userDetails) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -93,7 +97,7 @@ public class ClientSideUserService {
 			return JsonServiceClient.jsonToUser(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return null;
 		}
 	}
@@ -101,6 +105,7 @@ public class ClientSideUserService {
 	public static ArrayList<UserDetails> searchUsers(int port, String string) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -115,7 +120,7 @@ public class ClientSideUserService {
 			return JsonServiceClient.jsonToUserList(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return null;
 		}
 	}
@@ -123,6 +128,7 @@ public class ClientSideUserService {
 	public static String generateOtp(int port, String phoneNo) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -137,7 +143,7 @@ public class ClientSideUserService {
 			return str;
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return null;
 		}
 	}
@@ -145,6 +151,7 @@ public class ClientSideUserService {
 	public static boolean changePassword(int port, String string) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -159,7 +166,7 @@ public class ClientSideUserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return false;
 		}
 		

@@ -430,10 +430,13 @@
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 												<VBox alignment="CENTER" prefHeight="598.0" prefWidth="782.0" spacing="15.0" style="-fx-border-color: #CEF564; -fx-border-radius: 30; -fx-background-color: #252525; -fx-background-radius: 30;">
 													<children>
-														<Label fx:id="signInWarningLabel" alignment="CENTER" prefHeight="17.0" prefWidth="230.0" style="-fx-border-radius: 100; -fx-background-radius: 100;" textFill="RED">
+														<Label fx:id="signInWarningLabel" alignment="CENTER" prefHeight="38.0" prefWidth="292.0" style="-fx-border-radius: 100; -fx-background-radius: 100;" textFill="RED">
 															<padding>
 																<Insets bottom="10.0" top="10.0" />
 															</padding>
+															<font>
+																<Font name="System Bold" size="14.0" />
+															</font>
 														</Label>
 														<VBox maxWidth="-Infinity" prefWidth="300.0">
 															<children>
@@ -535,6 +538,9 @@
 															<padding>
 																<Insets bottom="10.0" top="10.0" />
 															</padding>
+															<font>
+																<Font name="System Bold" size="14.0" />
+															</font>
 														</Label>
 														<HBox alignment="CENTER" spacing="30.0">
 															<children>

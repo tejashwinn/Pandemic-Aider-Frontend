@@ -96,21 +96,28 @@ public class ForgotPasswordController {
 		}
 		
 		if(otp.equals(otpTextField.getText())) {
-			if(!passwordHiddenFieldSignUp.getText().equals("")) {
-				if(ClientSideUserService.changePassword(50017, BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD))) {
-					forgotPasswordWarningLabel.setText("Password Changed Successfully");
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					
-					alert.setTitle("Password changed successfully");
-					alert.setHeaderText("Sign in/up");
-					alert.setContentText("You need to sign in with your new password");
-					
-					Optional<ButtonType> result = alert.showAndWait();
-					
-					if(result.isPresent() && result.get() == ButtonType.OK) {
-						MainController.mainLogOutActionStatic();
-						cancelForgotPassword(event);
+			if(!passwordHiddenFieldSignUp.getText().equals("")  ) {
+				if(passwordHiddenFieldSignUp.getText().equals(confirmPasswordHiddenFieldSignUp.getText()))
+				{
+					if(ClientSideUserService.changePassword(50017, BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD))) {
+						forgotPasswordWarningLabel.setText("Password Changed Successfully");
+						Alert alert = new Alert(Alert.AlertType.INFORMATION);
+						
+						alert.setTitle("Password changed successfully");
+						alert.setHeaderText("Sign in/up");
+						alert.setContentText("You need to sign in with your new password");
+						
+						Optional<ButtonType> result = alert.showAndWait();
+						
+						if(result.isPresent() && result.get() == ButtonType.OK) {
+							MainController.mainLogOutActionStatic();
+							cancelForgotPassword(event);
+						}
+					} else {
+						forgotPasswordWarningLabel.setText("Password was not changed");
 					}
+				}else {
+					forgotPasswordWarningLabel.setText("Passwrord doesn't match");
 				}
 			} else {
 				forgotPasswordWarningLabel.setText("Password cannot be empty");

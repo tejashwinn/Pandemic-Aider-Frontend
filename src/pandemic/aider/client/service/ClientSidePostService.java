@@ -11,6 +11,7 @@ public class ClientSidePostService {
 	public static boolean postRequest(int port, PostDetails post) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -24,7 +25,7 @@ public class ClientSidePostService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return false;
 		}
 	}
@@ -32,6 +33,7 @@ public class ClientSidePostService {
 	public static ArrayList<PostDetails> retrieveRequest(int port, String username) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -48,7 +50,7 @@ public class ClientSidePostService {
 			return list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			
 			return null;
 		}
@@ -57,6 +59,7 @@ public class ClientSidePostService {
 	public static ArrayList<PostDetails> searchPostRequest(int port, String string) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -74,7 +77,7 @@ public class ClientSidePostService {
 			return list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			
 			return null;
 		}
@@ -83,6 +86,7 @@ public class ClientSidePostService {
 	public static ArrayList<PostDetails> searchPincodeRequest(int port, String string) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -99,7 +103,7 @@ public class ClientSidePostService {
 			return list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return null;
 		}
 	}
@@ -107,6 +111,7 @@ public class ClientSidePostService {
 	public static boolean deletePost(int port, String postId) {
 		
 		try {
+			Network.netIsAvailable();
 			Socket clientSideSocketConnection = new Socket("127.0.0.1", port);
 			
 			ObjectOutputStream clientSideOutputStream = new ObjectOutputStream(clientSideSocketConnection.getOutputStream());
@@ -120,7 +125,7 @@ public class ClientSidePostService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			ShowAlert.Alert();
+			Network.alert();
 			return false;
 		}
 	}
