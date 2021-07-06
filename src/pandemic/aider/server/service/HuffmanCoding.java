@@ -7,6 +7,7 @@ import java.util.zip.Inflater;
 
 public class HuffmanCoding {
 	public static void main(String[] ags) {
+		
 		try {
 			// Encode a String into bytes
 			String inputString =
@@ -47,8 +48,8 @@ public class HuffmanCoding {
 			
 			System.out.println(inputString.length());
 			System.out.println(outputString.length());
-		} catch (DataFormatException ex) {
-			// handle
+		} catch(DataFormatException ex) {
+			ex.printStackTrace();
 		}
 	}
 }

@@ -43,11 +43,6 @@ public class JsonServiceServer {
 		return new Gson().toJson(list);
 	}
 	
-	public static ArrayList<PostDetails> jsonToFullList(String string) {
-		Gson gson = new Gson();
-		return gson.fromJson(string, new TypeToken<ArrayList<PostDetails>>() {
-		}.getType());
-	}
 	
 	public static String listToUsersJson(ArrayList<UserDetails> list) {
 		return new Gson().toJson(list);

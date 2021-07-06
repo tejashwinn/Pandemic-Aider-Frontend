@@ -21,6 +21,9 @@ public class ServerSideUserServer {
 		CheckCredentials checkCredentials = new CheckCredentials();
 		checkCredentials.start();
 		
+		ChangePassword changePassword = new ChangePassword();
+		changePassword.start();
+		
 		SendUserInfo sendUsersInfo = new SendUserInfo();
 		sendUsersInfo.start();
 		
@@ -30,8 +33,6 @@ public class ServerSideUserServer {
 		CheckPhNO checkPhNO = new CheckPhNO();
 		checkPhNO.start();
 		
-		ChangePassword changePassword = new ChangePassword();
-		changePassword.start();
 	}
 }
 

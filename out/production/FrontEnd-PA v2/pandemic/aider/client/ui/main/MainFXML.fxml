@@ -87,7 +87,25 @@
 						</HBox>
 					</graphic>
 				</Button>
-				<Button fx:id="settingsMainButton" cancelButton="true" layoutX="96.0" layoutY="237.0" mnemonicParsing="false" onAction="#showSettings" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
+				<Button fx:id="logout" cancelButton="true" layoutX="17.0" layoutY="478.0" mnemonicParsing="false" onAction="#mainLogOutAction" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css">
+					<graphic>
+						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
+							<children>
+								<ImageView fitHeight="44.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+									<image>
+										<Image url="@../../res/icons8-logout-rounded-left-50-white.png" />
+									</image>
+								</ImageView>
+								<Label prefHeight="30.0" prefWidth="127.0" styleClass="label-sidebar" stylesheets="@../../style/SideBar.css" text="Logout" textFill="WHITE">
+									<font>
+										<Font name="System Bold" size="18.0" />
+									</font>
+								</Label>
+							</children>
+						</HBox>
+					</graphic>
+				</Button>
+				<Button fx:id="settingsMainButton" cancelButton="true" layoutX="96.0" layoutY="237.0" mnemonicParsing="false" onAction="#showSettings" prefHeight="50.0" prefWidth="210.0" style="visibility: false;" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
 							<children>
@@ -105,7 +123,7 @@
 						</HBox>
 					</graphic>
 				</Button>
-				<Button fx:id="helpMainButton" cancelButton="true" layoutX="96.0" layoutY="659.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
+				<Button fx:id="helpMainButton" cancelButton="true" layoutX="96.0" layoutY="659.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="210.0" style="visibility: false;" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
 							<children>
@@ -115,24 +133,6 @@
 									</image>
 								</ImageView>
 								<Label prefHeight="30.0" prefWidth="127.0" styleClass="label-sidebar" stylesheets="@../../style/SideBar.css" text="Help" textFill="WHITE">
-									<font>
-										<Font name="System Bold" size="18.0" />
-									</font>
-								</Label>
-							</children>
-						</HBox>
-					</graphic>
-				</Button>
-				<Button fx:id="logout" cancelButton="true" layoutX="17.0" layoutY="478.0" mnemonicParsing="false" onAction="#mainLogOutAction" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css">
-					<graphic>
-						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
-							<children>
-								<ImageView fitHeight="44.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@../../res/icons8-logout-rounded-left-50-white.png" />
-									</image>
-								</ImageView>
-								<Label prefHeight="30.0" prefWidth="127.0" styleClass="label-sidebar" stylesheets="@../../style/SideBar.css" text="Logout" textFill="WHITE">
 									<font>
 										<Font name="System Bold" size="18.0" />
 									</font>
@@ -432,6 +432,11 @@
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 												<VBox alignment="CENTER" prefHeight="598.0" prefWidth="782.0" spacing="15.0" style="-fx-border-color: #CEF564; -fx-border-radius: 10; -fx-background-color: #252525; -fx-background-radius: 10;">
 													<children>
+                                          <Label prefHeight="51.0" prefWidth="116.0" text="Sign In" textFill="#cef564">
+                                             <font>
+                                                <Font name="System Bold Italic" size="35.0" />
+                                             </font>
+                                          </Label>
 														<Label fx:id="signInWarningLabel" alignment="CENTER" prefHeight="38.0" prefWidth="292.0" style="-fx-border-radius: 100; -fx-background-radius: 100;" textFill="RED">
 															<padding>
 																<Insets bottom="10.0" top="10.0" />
@@ -536,6 +541,11 @@
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 												<VBox alignment="CENTER" prefHeight="607.0" prefWidth="780.0" spacing="10.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: #252525; -fx-border-color: #CEF564;">
 													<children>
+                                          <Label prefHeight="51.0" prefWidth="138.0" text="Sign Up" textFill="#cef564">
+                                             <font>
+                                                <Font name="System Bold Italic" size="35.0" />
+                                             </font>
+                                          </Label>
 														<Label fx:id="signUpWarningLabel" alignment="CENTER" prefHeight="38.0" prefWidth="283.0" textFill="RED">
 															<padding>
 																<Insets bottom="10.0" top="10.0" />

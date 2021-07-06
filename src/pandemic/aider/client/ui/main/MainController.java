@@ -1081,7 +1081,7 @@ public class MainController implements Initializable {
 							Long.parseLong(intFormat.format(originalFormat.parse(timeFormat.format(localTime))));
 					
 					if(currentTime - lastTime <= 180) {
-						signUpWarningLabel.setText("Wait " + (currentTime - lastTime) + "secs for another OTP");
+						signUpWarningLabel.setText("Wait " + (currentTime - lastTime) + " secs for another OTP");
 						
 						signUpButton.setVisible(false);
 						otpButton.setVisible(false);
@@ -1156,7 +1156,7 @@ public class MainController implements Initializable {
 			}
 		} else {
 			signUpWarningLabel.setText("Wrong OTP entered");
-			otpButton.setVisible(false);
+			otpButton.setVisible(true);
 			signUpButton.setVisible(false);
 		}
 		
