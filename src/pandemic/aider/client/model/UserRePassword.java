@@ -11,14 +11,4 @@ public class UserRePassword extends UserDetails {
 		this.confirmPassword = confirmPassword;
 	}
 	
-	public UserDetails returnUser() {
-		return super.returnUser();
-	}
-	
-	public void display() {
-		super.display();
-		System.out.println("Confirm Password: " + confirmPassword);
-	}
-	
-	
 }

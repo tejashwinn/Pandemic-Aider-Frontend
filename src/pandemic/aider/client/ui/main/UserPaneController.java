@@ -1,6 +1,5 @@
 package pandemic.aider.client.ui.main;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -27,7 +26,7 @@ public class UserPaneController {
 	}
 	
 	@FXML
-	public void viewUser(ActionEvent event) {
+	public void viewUser() {
 		
 		try {
 			FXMLLoader newFxmlLoader = new FXMLLoader();

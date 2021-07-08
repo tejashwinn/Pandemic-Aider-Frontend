@@ -21,8 +21,4 @@ public class OtpSignUp extends UserDetails {
 		
 	}
 	
-	public OtpSignUp() {
-		
-		otpGeneratedTime = null;
-	}
 }

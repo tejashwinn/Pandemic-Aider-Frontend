@@ -1,6 +1,5 @@
 package pandemic.aider.client.ui.main;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -19,6 +18,11 @@ import java.util.Optional;
 
 public class ItemController {
 	
+	public PostDetails postDetails;
+	
+	@FXML
+	public Button viewUserInnerButton;
+	
 	@FXML
 	private Label usernameLabelView, usernameButtonLabelView;
 	
@@ -30,13 +34,6 @@ public class ItemController {
 	
 	@FXML
 	private Label timeLabel;
-	
-	public PostDetails postDetails;
-	
-	@FXML
-	public Button viewUserInnerButton;
-	
-	
 	
 	private String changeTime(String time) throws ParseException {
 		
@@ -83,13 +80,14 @@ public class ItemController {
 		
 	}
 	
-	public void deletePost(ActionEvent event) {
+	public void deletePost() {
 		
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Conformation");
 		alert.setHeaderText("The post cannot be retrieved");
 		alert.setContentText("Press Ok to delete the post");
 		Optional<ButtonType> result = alert.showAndWait();
+		
 		if(result.isPresent() && result.get() == ButtonType.OK) {
 			if(MainController.userDetailsStatic.getUsername().equals(postDetails.getUserUsername())) {
 				if(ClientSidePostService.deletePost(50010, postDetails.getPostUniqueId())) {
@@ -126,7 +124,7 @@ public class ItemController {
 	}
 	
 	@FXML
-	public void viewUser(ActionEvent event) {
+	public void viewUser() {
 		
 		try {
 			

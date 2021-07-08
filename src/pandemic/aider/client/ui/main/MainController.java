@@ -1,6 +1,5 @@
 package pandemic.aider.client.ui.main;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -88,18 +87,6 @@ public class MainController implements Initializable {
 	@FXML
 	private StackPane insiderUserStackPane;
 	
-	public static StackPane insiderUserStackPaneStaticForgotPassword;
-	
-	public UserDetails getUser() {
-		
-		return userDetailsStatic;
-	}
-	
-	public void setUser(UserDetails user) {
-		
-		MainController.userDetailsStatic = user;
-	}
-	
 	@FXML
 	private ImageView mainLogo;
 	
@@ -143,8 +130,6 @@ public class MainController implements Initializable {
 		signInHBox.setVisible(false);
 		signUpHBox.setVisible(false);
 		
-		insiderUserStackPaneStaticForgotPassword = insiderUserStackPane;
-		
 		//sets the search button in search menu to default so that it can be accessed with RETURN
 		searchButton.setDefaultButton(true);
 		
@@ -158,7 +143,7 @@ public class MainController implements Initializable {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	@FXML
-	public void showUserDetails(ActionEvent event) {
+	public void showUserDetails() {
 		
 		if(!userBorderPane.isVisible()) {
 			postRequestBorderPane.setVisible(false);
@@ -166,12 +151,11 @@ public class MainController implements Initializable {
 			settingsBorderPane.setVisible(false);
 			
 			userBorderPane.setVisible(true);
-			
 		}
 	}
 	
 	@FXML
-	public void showPostRequest(ActionEvent event) {
+	public void showPostRequest() {
 		
 		if(!postRequestBorderPane.isVisible()) {
 			userBorderPane.setVisible(false);
@@ -183,7 +167,7 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void showSearchDetails(ActionEvent event) {
+	public void showSearchDetails() {
 		
 		if(!searchBorderPane.isVisible()) {
 			userBorderPane.setVisible(false);
@@ -195,7 +179,7 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void showSettings(ActionEvent event) {
+	public void showSettings() {
 		
 		if(!settingsBorderPane.isVisible()) {
 			userBorderPane.setVisible(false);
@@ -212,7 +196,7 @@ public class MainController implements Initializable {
 //!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	@FXML
-	public void onRadioSelectedAction(ActionEvent event) {
+	public void onRadioSelectedAction() {
 		
 		if(usersRadioButton.isSelected()) {
 			postsTitledPane.setVisible(false);
@@ -277,7 +261,7 @@ public class MainController implements Initializable {
 			userTitledPane.setVisible(true);
 			userTitledPane.setCollapsible(false);
 			userTitledPane.setExpanded(true);
-			
+			System.out.print("");
 			viewUserHBox.setVisible(false);
 			signInHBox.setVisible(true);
 		}
@@ -347,7 +331,7 @@ public class MainController implements Initializable {
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	@FXML
-	public void addPost(ActionEvent event) {
+	public void addPost() {
 		
 		boolean validPost = false;
 		PostDetails post = new PostDetails();
@@ -383,6 +367,7 @@ public class MainController implements Initializable {
 		}
 		
 		if(validPost) {
+			post.setPostUniqueId(UUID.randomUUID().toString());
 			if(ClientSidePostService.postRequest(50005, post)) {
 				postRequestWarningLabel.setText("Successfully posted");
 				postRequestContentTextArea.setText("");
@@ -406,7 +391,7 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void cancelAction(ActionEvent event) {
+	public void cancelAction() {
 		
 		postRequestContentTextArea.setText("");
 		postRequestPincodeTextField.setText("");
@@ -478,7 +463,7 @@ public class MainController implements Initializable {
 	 * distributes according to the radiobutton selected
 	 */
 	@FXML
-	public void search(ActionEvent event) {
+	public void search() {
 		
 		if(usersRadioButton.isSelected()) {
 			userSearchResult();
@@ -610,7 +595,7 @@ public class MainController implements Initializable {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	@FXML
-	public void mainLogOutAction(ActionEvent event) {
+	public void mainLogOutAction() {
 		
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("src/pandemic/aider/client/json/log.json"));
@@ -799,7 +784,7 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void showSignIn(ActionEvent event) {
+	public void showSignIn() {
 		
 		userTitledPane.setExpanded(true);
 		viewUserHBox.setVisible(false);
@@ -825,7 +810,7 @@ public class MainController implements Initializable {
 	private Label signInWarningLabel;
 	
 	@FXML
-	public void checkCorrectCredentials(ActionEvent event) {
+	public void checkCorrectCredentials() {
 		//to change values when edited on different toggles
 		boolean correctCredentials = false;
 		
@@ -940,7 +925,7 @@ public class MainController implements Initializable {
 	//other functions sign in
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	@FXML
-	public void switchToSignUp(ActionEvent event) {
+	public void switchToSignUp() {
 		
 		otpButton.setVisible(true);
 		signUpButton.setVisible(false);
@@ -950,7 +935,7 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void showPassword(ActionEvent event) {
+	public void showPassword() {
 		
 		if(passwordCheckBoxToggle.isSelected()) {
 			//shows the text fields
@@ -969,7 +954,7 @@ public class MainController implements Initializable {
 	//signup general action
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	@FXML
-	public void cancelSignUpAction(ActionEvent event) {
+	public void cancelSignUpAction() {
 		
 		viewUserHBox.setVisible(true);
 		signInHBox.setVisible(false);
@@ -1012,7 +997,7 @@ public class MainController implements Initializable {
 	private static UserDetails tempUserForSignUp;
 	
 	@FXML
-	public void validationAndOtp(ActionEvent event) {
+	public void validationAndOtp() {
 		
 		try {
 			
@@ -1021,7 +1006,7 @@ public class MainController implements Initializable {
 			
 			boolean validEntry = false;
 			UserRePassword userRePassword = new UserRePassword();
-			UserDetails userDetails = null;
+			UserDetails userDetails;
 
 //			adding this code because when the user edits the password in view mode and hits sign up
 //			it doesn't get updated in hidden mode so this will help us to set it back to the normal
@@ -1130,7 +1115,7 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void signUpAction(ActionEvent event) {
+	public void signUpAction() {
 		
 		boolean validEntry;
 		
@@ -1188,7 +1173,7 @@ public class MainController implements Initializable {
 	
 	//to view password when toggled
 	@FXML
-	public void showPasswordSignUp(ActionEvent event) {
+	public void showPasswordSignUp() {
 		
 		if(passwordCheckBoxToggleSignUp.isSelected()) {
 			//sets the text field value
@@ -1360,31 +1345,35 @@ public class MainController implements Initializable {
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	@FXML
-	public void settingsChangePassword(ActionEvent event) {
+	public void settingsChangePassword() {
 		//todo
+		System.out.println("Change Password");
 		
 	}
 	
 	@FXML
-	public void settingsChangeUsername(ActionEvent event) {
+	public void settingsChangeUsername() {
 		//todo
+		System.out.println("Change Username");
 		
 	}
 	
 	@FXML
-	public void deleteAllPosts(ActionEvent event) {
-		//todo
+	public void deleteAllPosts() {
+		
+		System.out.println("Delete all Posts");
 		
 	}
 	
 	@FXML
-	public void deleteAccount(ActionEvent event) {
-		//todo
+	public void deleteAccount() {
+		
+		System.out.println("Delete Account");
 		
 	}
 	
 	@FXML
-	public void forgotPassword(ActionEvent event) {
+	public void forgotPassword() {
 		//todo
 		
 		try {

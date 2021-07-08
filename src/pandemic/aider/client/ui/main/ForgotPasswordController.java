@@ -1,6 +1,5 @@
 package pandemic.aider.client.ui.main;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -58,7 +57,7 @@ public class ForgotPasswordController {
 	}
 	
 	@FXML
-	public void cancelForgotPassword(ActionEvent event) {
+	public void cancelForgotPassword() {
 		
 		forgotPasswordHBox.setVisible(false);
 		forgotPasswordHBox.getChildren().clear();
@@ -66,7 +65,7 @@ public class ForgotPasswordController {
 	}
 	
 	@FXML
-	public void getOtpAction(ActionEvent event) {
+	public void getOtpAction() {
 		
 		if(phNoTextField.getText().length() == 10) {
 			if(phNoTextField.getText().matches("[0-9]+")) {
@@ -92,7 +91,7 @@ public class ForgotPasswordController {
 	}
 	
 	@FXML
-	public void changePassword(ActionEvent event) {
+	public void changePassword() {
 //			it doesn't get updated in hidden mode so this will help us to set it back to the normal
 		if(passwordCheckBoxToggle.isSelected()) {
 			passwordHiddenFieldSignUp.setText(passwordTextFieldSignUp.getText());
@@ -120,7 +119,7 @@ public class ForgotPasswordController {
 						
 						if(result.isPresent() && result.get() == ButtonType.OK) {
 							MainController.mainLogOutActionStatic();
-							cancelForgotPassword(event);
+							cancelForgotPassword();
 						}
 					} else {
 						forgotPasswordWarningLabel.setText("Password was not changed");
@@ -137,7 +136,7 @@ public class ForgotPasswordController {
 	}
 	
 	@FXML
-	public void showPassword(ActionEvent event) {
+	public void showPassword() {
 		
 		if(passwordCheckBoxToggle.isSelected()) {
 			//sets the text field value

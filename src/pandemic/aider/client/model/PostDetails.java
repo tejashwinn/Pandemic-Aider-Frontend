@@ -41,9 +41,6 @@ public class PostDetails implements Serializable {
 		return postUniqueId;
 	}
 	
-	public void setPostUniqueId(String postUniqueId) {
-		this.postUniqueId = postUniqueId;
-	}
 	
 	public String getUserUsername() {
 		return userUsername;
@@ -61,12 +58,9 @@ public class PostDetails implements Serializable {
 		this.userTags = userTags;
 	}
 	
-	public void display() {
-		System.out.println(userUsername);
-		System.out.println(pincode);
-		System.out.println(content);
-		System.out.println(time);
-		System.out.println("User Tags: " + userTags);
-		System.out.println();
+	
+	public void setPostUniqueId(String postUniqueId) {
+		
+		this.postUniqueId = postUniqueId;
 	}
 }

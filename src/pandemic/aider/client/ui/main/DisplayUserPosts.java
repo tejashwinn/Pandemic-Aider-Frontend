@@ -1,6 +1,5 @@
 package pandemic.aider.client.ui.main;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -66,10 +65,9 @@ public class DisplayUserPosts {
 	}
 	
 	@FXML
-	public void backActionEvent(ActionEvent event) {
+	public void backActionEvent() {
 		
 		userBorderPane.setVisible(!userBorderPane.isVisible());
 		userBorderPane.getChildren().clear();
-		
 	}
 }
