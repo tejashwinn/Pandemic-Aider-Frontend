@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="Python" name="Python">
-      <configuration sdkName="Python 3.9" />
-    </facet>
-  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -13,72 +8,15 @@
     <orderEntry type="jdk" jdkName="16" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="javafx-fxml">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/javafx-fxml-16.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-fxml-16-win.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-controls-16.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-controls-16-win.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-graphics-16.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-graphics-16-win.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-base-16.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-base-16-win.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$USER_HOME$/Downloads/Json" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/Downloads/Json" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../../../../Additional Program Files/Java/javafx-sdk-11.0.2/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../../../../../Additional Program Files/Java/javafx-sdk-11.0.2/lib" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../../../../Additional Program Files/Java/javafx-sdk-11.0.2/lib" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../../../../../Additional Program Files/Java/javafx-sdk-11.0.2/lib" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/annotations-20.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/fontawesomefx-glyphsbrowser-master/src/main/java" />
+        </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="Python 3.9 interpreter library" level="application" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$USER_HOME$/Downloads/JAVA" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/Downloads/JAVA" recursive="false" />
       </library>
     </orderEntry>
   </component>
