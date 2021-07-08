@@ -22,7 +22,6 @@ public class Main extends Application {
 		Scene scene = new Scene(root, 1028, 701);
 		stage.setScene(scene);
 		stage.setTitle("Pandemic Aider");
-		
 		stage.getIcons().add(CONSTANTS.MAIN_LOGO);
 		stage.show();
 	}

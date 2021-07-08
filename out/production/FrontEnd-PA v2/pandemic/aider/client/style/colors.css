@@ -29,29 +29,33 @@
 }
 
 .text-area{
-    -fx-background-color:#121212;
     -fx-highlight-fill: #FF4632;
     -fx-highlight-text-fill: #CEF564;
     -fx-text-fill: #CEF564;
     -fx-background-color: #252525;
-    -fx-border-color: #252525;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
 }
-
 .text-area .content{
-    -fx-highlight-fill: #FF4632;
-    -fx-highlight-text-fill: #CEF564;
-    -fx-text-fill: #CEF564;
     -fx-background-color: #252525;
-    -fx-border-color: #252525;
+    -fx-background-radius: 10;
     -fx-border-radius: 10;
+}
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
 }
 
 
 .text-fill-color{
     -fx-text-fill: white;
 }
+
 
 .button-post{
     -fx-font-size:18;

@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
@@ -12,8 +14,6 @@ import pandemic.aider.client.model.*;
 import pandemic.aider.client.service.ClientSidePostService;
 import pandemic.aider.client.service.ClientSideUserService;
 import pandemic.aider.client.service.JsonServiceClient;
-import pandemic.aider.server.service.ServerSidePostService;
-import pandemic.aider.server.service.ServerSideUserServer;
 
 import java.io.*;
 import java.net.URL;
@@ -100,11 +100,17 @@ public class MainController implements Initializable {
 		MainController.userDetailsStatic = user;
 	}
 	
+	@FXML
+	private ImageView mainLogo;
+	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		
-		ServerSideUserServer.runUserService();
-		ServerSidePostService.runServerPost();
+		Image logo = new Image(Objects.requireNonNull(getClass().getResource("main_display_logo.CEF.png")).toExternalForm());
+		mainLogo.setImage(logo);
+
+//		ServerSideUserServer.runUserService();
+//		ServerSidePostService.runServerPost();
 		
 		//this will initialize the top stack pane which will be used to modify the content
 		userTitledPaneStatic = userTitledPane;
@@ -709,7 +715,7 @@ public class MainController implements Initializable {
 				//views for the HBox inside the titled pane
 				viewUserHBoxStatic.setVisible(true);
 				signInHBoxStatic.setVisible(false);
-				userDetailsStatic.display();
+//				userDetailsStatic.display();
 				GetPostArrayList list = new GetPostArrayList();
 				list.setPostsList(ClientSidePostService.retrieveRequest(50006, userDetailsStatic.getUsername()));
 				
@@ -1106,9 +1112,12 @@ public class MainController implements Initializable {
 					
 					validEntry = generateOtp(otpSignUp);
 					if(validEntry) {
-						signUpWarningLabel.setText("otp sent");
+						signUpWarningLabel.setText("OTP sent");
 						otpButton.setVisible(false);
 						signUpButton.setVisible(true);
+					} else {
+						signUpWarningLabel.setText("OTP not sent");
+						
 					}
 					
 				}
@@ -1126,7 +1135,7 @@ public class MainController implements Initializable {
 		boolean validEntry;
 		
 		String enteredOtp = otpTextField.getText();
-		tempUserForSignUp.display();
+//		tempUserForSignUp.display();
 		if(enteredOtp.equals(Otp)) {
 			
 			String jsonString = JsonServiceClient.userToJson(tempUserForSignUp);
@@ -1156,8 +1165,7 @@ public class MainController implements Initializable {
 			}
 		} else {
 			signUpWarningLabel.setText("Wrong OTP entered");
-			otpButton.setVisible(true);
-			signUpButton.setVisible(false);
+			
 		}
 		
 	}
@@ -1220,7 +1228,7 @@ public class MainController implements Initializable {
 				return false;
 			}
 		} else {
-			signUpWarningLabel.setText("Phone number can only contain numbers and\nmust be 10 digit");
+			signUpWarningLabel.setText("Enter valid Phone Number");
 			return false;
 		}
 		
@@ -1341,8 +1349,9 @@ public class MainController implements Initializable {
 		confirmPasswordTextFieldSignUp.setText("");
 		
 		if(result.isPresent() && result.get() == ButtonType.OK) {
-			MainController.reloadPageStatic();
 			unblockUsage();
+			MainController.reloadPageStatic();
+			clearAuditValues();
 			
 		}
 	}

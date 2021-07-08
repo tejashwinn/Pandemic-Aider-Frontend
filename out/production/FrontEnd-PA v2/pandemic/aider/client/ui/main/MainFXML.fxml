@@ -30,6 +30,18 @@
 	<left>
 		<VBox alignment="CENTER" prefHeight="855.0" prefWidth="225.0" spacing="20.0" style="-fx-background-color: black;" BorderPane.alignment="TOP_CENTER">
 			<children>
+            <AnchorPane fx:id="mainLogoAnchorPane">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <ImageView fx:id="mainLogo" fitHeight="83.0" fitWidth="179.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0">
+                     <image>
+                        <Image url="@main_display_logo.CEF.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
 				<Button fx:id="showPostRequestButton" cancelButton="true" mnemonicParsing="false" onAction="#showPostRequest" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" textFill="WHITE">
 					<graphic>
 						<HBox alignment="CENTER" prefHeight="53.0" prefWidth="194.0" spacing="10.0">
@@ -48,7 +60,7 @@
 						</HBox>
 					</graphic>
 					<VBox.margin>
-						<Insets top="50.0" />
+						<Insets top="20.0" />
 					</VBox.margin>
 				</Button>
 				<Button fx:id="mainSearchButton" cancelButton="true" mnemonicParsing="false" onAction="#showSearchDetails" prefHeight="50.0" prefWidth="210.0" styleClass="button-sidebar" stylesheets="@../../style/SideBar.css" VBox.vgrow="ALWAYS">
@@ -155,7 +167,6 @@
 					<top>
 						<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="761.0" styleClass="color-green" stylesheets="@../../style/colors.css" BorderPane.alignment="CENTER">
 							<children>
-								<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" styleClass="color-green" stylesheets="@../../style/colors.css" HBox.hgrow="ALWAYS" />
 								<Label fx:id="postRequestUsernameLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="59.0" prefWidth="423.0" styleClass="color-green" stylesheets="@../../style/colors.css">
 									<font>
 										<Font name="System Bold Italic" size="30.0" />
@@ -163,121 +174,124 @@
 									<padding>
 										<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 									</padding>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
 								</Label>
 								<Pane layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="382.0" styleClass="color-green" stylesheets="@../../style/colors.css" HBox.hgrow="ALWAYS" />
 							</children>
 						</HBox>
 					</top>
 					<center>
-						<VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #121212; -fx-background-radius: 30;" styleClass="color-second-black" stylesheets="@../../style/colors.css" BorderPane.alignment="CENTER">
-							<children>
-								<HBox prefHeight="427.0" prefWidth="802.0" style="-fx-background-color: #121212; -fx-background-radius: 30;" styleClass="color-second-black" stylesheets="@../../style/colors.css">
-									<children>
-										<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
-										<TextArea fx:id="postRequestContentTextArea" prefHeight="346.0" prefWidth="783.0" promptText="Type here..." styleClass="text-area" stylesheets="@../../style/colors.css" wrapText="true">
-											<HBox.margin>
-												<Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
-											</HBox.margin>
-											<font>
-												<Font name="Lucida Fax Italic" size="25.0" />
-											</font>
-											<padding>
-												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-											</padding>
-										</TextArea>
-										<Pane layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
-									</children>
-								</HBox>
-								<HBox layoutX="10.0" layoutY="10.0" prefHeight="65.0" prefWidth="802.0">
-									<children>
-										<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-										<TextField fx:id="postRequestPincodeTextField" prefHeight="45.0" prefWidth="465.0" promptText="Enter the pincode" style="-fx-background-radius: 10; -fx-border-color: #CEF564; -fx-border-radius: 10; -fx-background-color: #252525;" styleClass="text-fill-color" stylesheets="@../../style/colors.css">
-											<HBox.margin>
-												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-											</HBox.margin>
-											<font>
-												<Font name="System Bold" size="20.0" />
-											</font>
-										</TextField>
-										<Pane layoutX="10.0" layoutY="10.0" prefHeight="67.0" prefWidth="8.0" HBox.hgrow="NEVER" />
-										<Button mnemonicParsing="false" onAction="#addPost" prefHeight="46.0" prefWidth="130.0" styleClass="button-post" stylesheets="@../../style/colors.css" text="Post" textFill="WHITE">
-											<HBox.margin>
-												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-											</HBox.margin>
-											<font>
-												<Font name="System Bold" size="16.0" />
-											</font>
-										</Button>
-										<Button layoutX="703.0" layoutY="20.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="45.0" prefWidth="130.0" styleClass="button-post" stylesheets="@../../style/colors.css" text="Cancel" textFill="WHITE">
-											<HBox.margin>
-												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-											</HBox.margin>
-											<font>
-												<Font name="System Bold" size="16.0" />
-											</font>
-										</Button>
-										<Pane layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-									</children>
-								</HBox>
-								<Label fx:id="postRequestWarningLabel" alignment="CENTER" prefHeight="55.0" prefWidth="776.0" textFill="RED">
-									<font>
-										<Font size="16.0" />
-									</font>
-									<VBox.margin>
-										<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-									</VBox.margin>
-								</Label>
-							</children>
-						</VBox>
+                  <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+                     <children>
+      						<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="632.0" prefWidth="800.0" spacing="10.0" style="-fx-background-color: #121212; -fx-background-radius: 30; -fx-border-color: #CEF564; -fx-border-insets: 10; -fx-border-radius: 10;" styleClass="color-second-black" stylesheets="@../../style/colors.css">
+      							<children>
+                              <Label text="Post+" textFill="#cef564">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+      								<HBox prefHeight="427.0" prefWidth="802.0" style="-fx-background-color: #121212; -fx-background-radius: 0;" styleClass="color-second-black" stylesheets="@../../style/colors.css">
+      									<children>
+      										<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
+      										<TextArea fx:id="postRequestContentTextArea" prefHeight="346.0" prefWidth="783.0" promptText="Type here..." styleClass="text-area" stylesheets="@../../style/colors.css" wrapText="true">
+      											<HBox.margin>
+      												<Insets bottom="10.0" left="10.0" right="10.0" />
+      											</HBox.margin>
+      											<font>
+      												<Font name="Lucida Fax Italic" size="25.0" />
+      											</font>
+      										</TextArea>
+      										<Pane layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
+      									</children>
+      								</HBox>
+      								<HBox layoutX="10.0" layoutY="10.0" prefHeight="65.0" prefWidth="802.0">
+      									<children>
+      										<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+      										<TextField fx:id="postRequestPincodeTextField" prefHeight="45.0" prefWidth="465.0" promptText="Enter the pincode" style="-fx-background-radius: 10; -fx-border-color: #CEF564; -fx-border-radius: 10; -fx-background-color: #252525;" styleClass="text-fill-color" stylesheets="@../../style/colors.css">
+      											<HBox.margin>
+      												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      											</HBox.margin>
+      											<font>
+      												<Font name="System Bold" size="20.0" />
+      											</font>
+      										</TextField>
+      										<Pane layoutX="10.0" layoutY="10.0" prefHeight="67.0" prefWidth="8.0" HBox.hgrow="NEVER" />
+      										<Button mnemonicParsing="false" onAction="#addPost" prefHeight="46.0" prefWidth="130.0" styleClass="button-post" stylesheets="@../../style/colors.css" text="Post" textFill="WHITE">
+      											<HBox.margin>
+      												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      											</HBox.margin>
+      											<font>
+      												<Font name="System Bold" size="16.0" />
+      											</font>
+      										</Button>
+      										<Button layoutX="703.0" layoutY="20.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="45.0" prefWidth="130.0" styleClass="button-post" stylesheets="@../../style/colors.css" text="Cancel" textFill="WHITE">
+      											<HBox.margin>
+      												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      											</HBox.margin>
+      											<font>
+      												<Font name="System Bold" size="16.0" />
+      											</font>
+      										</Button>
+      										<Pane layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+      									</children>
+      								</HBox>
+      								<Label fx:id="postRequestWarningLabel" alignment="CENTER" prefHeight="55.0" prefWidth="776.0" textFill="RED">
+      									<font>
+      										<Font size="16.0" />
+      									</font>
+      									<VBox.margin>
+      										<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      									</VBox.margin>
+      								</Label>
+      							</children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+      						</VBox>
+                     </children>
+                  </VBox>
 					</center>
 				</BorderPane>
 				<BorderPane fx:id="searchBorderPane" prefHeight="200.0" prefWidth="200.0" style="visibility: false; -fx-background-color: #202020;">
 					<top>
 						<VBox styleClass="color-green" stylesheets="@../../style/colors.css" BorderPane.alignment="CENTER">
 							<children>
-								<HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="802.0" spacing="20.0" stylesheets="@../../style/SearchStyle.css">
+								<HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="802.0" stylesheets="@../../style/SearchStyle.css">
 									<children>
-										<RadioButton fx:id="usersRadioButton" layoutX="10.0" layoutY="29.0" mnemonicParsing="false" onAction="#onRadioSelectedAction" stylesheets="@../../style/SearchStyle.css" text="Users" textFill="WHITE">
+                              <Pane maxHeight="200.0" maxWidth="50.0" minHeight="0.0" minWidth="0.0" prefHeight="72.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+										<RadioButton fx:id="usersRadioButton" mnemonicParsing="false" onAction="#onRadioSelectedAction" prefHeight="35.0" prefWidth="73.0" stylesheets="@../../style/SearchStyle.css" text="Users" textFill="WHITE">
 											<font>
 												<Font name="System Bold" size="16.0" />
 											</font>
-											<padding>
-												<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-											</padding>
-											<HBox.margin>
-												<Insets left="20.0" />
-											</HBox.margin>
 										</RadioButton>
+                              <Pane maxHeight="200.0" maxWidth="50.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
 										<RadioButton fx:id="postsRadioButton" mnemonicParsing="false" onAction="#onRadioSelectedAction" stylesheets="@../../style/SearchStyle.css" text="Posts" textFill="WHITE">
 											<font>
 												<Font name="System Bold" size="16.0" />
 											</font>
-											<HBox.margin>
-												<Insets />
-											</HBox.margin>
-											<padding>
-												<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-											</padding>
 										</RadioButton>
-										<RadioButton fx:id="pincodeRadioButton" layoutX="106.0" layoutY="29.0" mnemonicParsing="false" onAction="#onRadioSelectedAction" stylesheets="@../../style/SearchStyle.css" text="Pincode" textFill="WHITE">
+                              <Pane maxHeight="200.0" maxWidth="50.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+										<RadioButton fx:id="pincodeRadioButton" mnemonicParsing="false" onAction="#onRadioSelectedAction" stylesheets="@../../style/SearchStyle.css" text="Pincode" textFill="WHITE">
 											<font>
 												<Font name="System Bold" size="16.0" />
 											</font>
-											<padding>
-												<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-											</padding>
 										</RadioButton>
-                              <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-										<HBox alignment="CENTER" prefHeight="72.0" prefWidth="415.0" spacing="30.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="color-green" stylesheets="@../../style/SearchStyle.css">
+										<Pane maxHeight="1.7976931348623157E308" maxWidth="50.0" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+										<HBox alignment="CENTER" prefHeight="72.0" prefWidth="415.0" spacing="30.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="color-green" stylesheets="@../../style/SearchStyle.css" HBox.hgrow="ALWAYS">
 											<children>
-												<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="414.0" style="-fx-background-color: #232323; -fx-background-radius: 10;" styleClass="search-bar" stylesheets="@../../style/SearchStyle.css">
+												<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="414.0" style="-fx-background-color: #232323; -fx-background-radius: 10;" styleClass="search-bar" stylesheets="@../../style/SearchStyle.css" HBox.hgrow="ALWAYS">
 													<children>
 														<ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="4.0">
 															<image>
 																<Image url="@../../res/icons8-search-48-white.png" />
 															</image>
 														</ImageView>
-														<TextField fx:id="searchTextField" layoutX="56.0" layoutY="11.0" prefHeight="34.0" prefWidth="269.0" promptText="Search..." style="-fx-background-color: #232323; -fx-background-radius: 10;" stylesheets="@../../style/SearchStyle.css" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="6.0">
+														<TextField fx:id="searchTextField" layoutX="56.0" layoutY="11.0" prefHeight="34.0" prefWidth="269.0" promptText="Search..." style="-fx-background-color: #232323; -fx-background-radius: 10;" stylesheets="@../../style/SearchStyle.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="1.0">
 															<font>
 																<Font name="System Bold Italic" size="14.0" />
 															</font>
@@ -303,10 +317,8 @@
 											<padding>
 												<Insets top="5.0" />
 											</padding>
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
 										</HBox>
+                              <Pane maxHeight="200.0" maxWidth="50.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
 									</children>
 								</HBox>
 							</children>
@@ -344,7 +356,7 @@
 										</AnchorPane>
 									</content>
 								</TitledPane>
-								<TitledPane fx:id="usersTitledPane" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="702.0" prefWidth="802.0" style="visibility: true;" styleClass="title-pane" stylesheets="@../../style/SearchStyle.css" text="Users">
+								<TitledPane fx:id="usersTitledPane" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="702.0" prefWidth="802.0" style="visibility: false;" styleClass="title-pane" stylesheets="@../../style/SearchStyle.css" text="Users">
 									<content>
 										<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="color-second-black" stylesheets="@../../style/colors.css">
 											<children>
@@ -393,7 +405,7 @@
 									</HBox.margin>
 								</Label>
 								<Pane prefHeight="58.0" prefWidth="18.0" stylesheets="@../../style/colors.css" HBox.hgrow="ALWAYS" />
-								<Button fx:id="mainSignInButton" mnemonicParsing="false" onAction="#showSignIn" prefHeight="38.0" prefWidth="147.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="button-user" stylesheets="@../../style/colors.css" text="Sign In/Up">
+								<Button fx:id="mainSignInButton" mnemonicParsing="false" onAction="#showSignIn" prefHeight="38.0" prefWidth="147.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" styleClass="signin-button" stylesheets="@../../style/user.css" text="Sign In/Up">
 									<HBox.margin>
 										<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 									</HBox.margin>
@@ -432,11 +444,11 @@
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 												<VBox alignment="CENTER" prefHeight="598.0" prefWidth="782.0" spacing="15.0" style="-fx-border-color: #CEF564; -fx-border-radius: 10; -fx-background-color: #252525; -fx-background-radius: 10;">
 													<children>
-                                          <Label prefHeight="51.0" prefWidth="116.0" text="Sign In" textFill="#cef564">
-                                             <font>
-                                                <Font name="System Bold Italic" size="35.0" />
-                                             </font>
-                                          </Label>
+														<Label prefHeight="51.0" prefWidth="116.0" text="Sign In" textFill="#cef564">
+															<font>
+																<Font name="System Bold Italic" size="35.0" />
+															</font>
+														</Label>
 														<Label fx:id="signInWarningLabel" alignment="CENTER" prefHeight="38.0" prefWidth="292.0" style="-fx-border-radius: 100; -fx-background-radius: 100;" textFill="RED">
 															<padding>
 																<Insets bottom="10.0" top="10.0" />
@@ -541,11 +553,11 @@
 												<Pane prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #121212;" HBox.hgrow="ALWAYS" />
 												<VBox alignment="CENTER" prefHeight="607.0" prefWidth="780.0" spacing="10.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: #252525; -fx-border-color: #CEF564;">
 													<children>
-                                          <Label prefHeight="51.0" prefWidth="138.0" text="Sign Up" textFill="#cef564">
-                                             <font>
-                                                <Font name="System Bold Italic" size="35.0" />
-                                             </font>
-                                          </Label>
+														<Label prefHeight="51.0" prefWidth="138.0" text="Sign Up" textFill="#cef564">
+															<font>
+																<Font name="System Bold Italic" size="35.0" />
+															</font>
+														</Label>
 														<Label fx:id="signUpWarningLabel" alignment="CENTER" prefHeight="38.0" prefWidth="283.0" textFill="RED">
 															<padding>
 																<Insets bottom="10.0" top="10.0" />
