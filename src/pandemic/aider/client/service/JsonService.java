@@ -9,10 +9,9 @@ import pandemic.aider.client.model.UserDetails;
 
 import java.util.ArrayList;
 
-public class JsonServiceClient {
+public class JsonService {
 	
 	public static UserDetails jsonToUser(String str) {
-		
 		Gson gson = new Gson();
 		return gson.fromJson(str, UserDetails.class);
 	}

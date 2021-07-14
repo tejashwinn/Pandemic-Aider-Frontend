@@ -10,14 +10,12 @@ import pandemic.aider.client.CONSTANTS;
 import java.util.Objects;
 
 public class Main extends Application {
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainFXML.fxml")));
 		Scene scene = new Scene(root, 1028, 701);
 		stage.setScene(scene);

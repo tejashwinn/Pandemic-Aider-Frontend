@@ -8,7 +8,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import pandemic.aider.client.model.PostDetails;
-import pandemic.aider.client.service.ClientSidePostService;
+import pandemic.aider.client.service.PostService;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -83,19 +83,20 @@ public class ItemController {
 	public void deletePost() {
 		
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-		alert.setTitle("Conformation");
+		alert.setTitle("Confirmation");
 		alert.setHeaderText("The post cannot be retrieved");
 		alert.setContentText("Press Ok to delete the post");
 		Optional<ButtonType> result = alert.showAndWait();
 		
 		if(result.isPresent() && result.get() == ButtonType.OK) {
 			if(MainController.userDetailsStatic.getUsername().equals(postDetails.getUserUsername())) {
-				if(ClientSidePostService.deletePost(50010, postDetails.getPostUniqueId())) {
+				if(PostService.deletePost(50010, postDetails.getPostUniqueId())) {
 					
 					Alert alertSuccess = new Alert(Alert.AlertType.INFORMATION);
 					alertSuccess.setTitle("Deletion");
 					alertSuccess.setHeaderText("Successfully deleted");
-					alertSuccess.setContentText(postDetails.getPostUniqueId() + "was successfully deleted from the database");
+					alertSuccess.setContentText(postDetails.getPostUniqueId() + " was successfully deleted from the " +
+							                            "database");
 					Optional<ButtonType> resultSuccess = alertSuccess.showAndWait();
 					if(resultSuccess.isPresent() && resultSuccess.get() == ButtonType.OK) {
 						MainController.reloadPageStatic();

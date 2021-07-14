@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import pandemic.aider.client.CONSTANTS;
-import pandemic.aider.client.service.ClientSideUserService;
+import pandemic.aider.client.service.UserService;
 
 import java.util.Optional;
 
@@ -70,7 +70,7 @@ public class ForgotPasswordController {
 		if(phNoTextField.getText().length() == 10) {
 			if(phNoTextField.getText().matches("[0-9]+")) {
 				try {
-					otp = ClientSideUserService.generateOtp(50015, phNoTextField.getText());
+					otp = UserService.generateOtp(50015, phNoTextField.getText());
 					forgotPasswordWarningLabel.setText("OTP has been sent");
 					
 					getOtpButton.setVisible(false);
@@ -107,7 +107,7 @@ public class ForgotPasswordController {
 		if(otp.equals(otpTextField.getText())) {
 			if(!passwordHiddenFieldSignUp.getText().equals("")) {
 				if(passwordHiddenFieldSignUp.getText().equals(confirmPasswordHiddenFieldSignUp.getText())) {
-					if(ClientSideUserService.changePassword(50017, BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD))) {
+					if(UserService.changePassword(50017, BCrypt.hashpw(passwordHiddenFieldSignUp.getText(), CONSTANTS.PEPPER_PASSWORD))) {
 						forgotPasswordWarningLabel.setText("Password Changed Successfully");
 						Alert alert = new Alert(Alert.AlertType.INFORMATION);
 						

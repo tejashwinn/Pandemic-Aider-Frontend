@@ -78,3 +78,9 @@
     -fx-border-color:#CEF564;
     -fx-background-color: black;
 }
+
+.colorGreenTwo{
+    -fx-background-color: linear-gradient(to bottom, rgba(206,245,100,1) 10%, rgba(37,37,37,1) 100%);
+    -fx-background-color: black;
+
+}

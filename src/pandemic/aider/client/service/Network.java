@@ -19,9 +19,10 @@ public class Network {
 		alert.setContentText("You need an internet connection to use this application");
 		Optional<ButtonType> result = alert.showAndWait();
 		if(result.isPresent() && result.get() == ButtonType.OK) {
-			System.exit(-1);
+//			System.exit(-1);
+		
 		}
-		System.exit(-2);
+//		System.exit(-2);
 	}
 	
 	public static void netIsAvailable() {

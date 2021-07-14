@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import pandemic.aider.client.model.GetPostArrayList;
-import pandemic.aider.client.service.ClientSidePostService;
+import pandemic.aider.client.service.PostService;
 
 import java.util.Optional;
 
@@ -35,7 +35,7 @@ public class DisplayUserPosts {
 			postViewTitledPane.setCollapsible(false);
 			GetPostArrayList list = new GetPostArrayList();
 			userUsernameLabel.setText(string);
-			list.setPostsList(ClientSidePostService.retrieveRequest(50006, string));
+			list.setPostsList(PostService.retrieveRequest(50006, string));
 			if(list.getPostsList() != null) {
 				for(int i = 0; i < list.getPostsList().size(); i++) {
 					
