@@ -11,7 +11,7 @@ public class UserService {
 	
 	public static boolean checkExistingUserName(int port, String username) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(username);
@@ -22,14 +22,14 @@ public class UserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 		}
 		return false;
 	}
 	
 	public static boolean checkPhoneNo(int port, String phNo) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(phNo);
@@ -40,14 +40,14 @@ public class UserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return false;
 		}
 	}
 	
 	public static boolean addUser(int port, UserDetails newUser) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(JsonService.userToJson(newUser));
@@ -58,14 +58,14 @@ public class UserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return false;
 		}
 	}
 	
 	public static UserDetails checkCredentials(int port, UserDetails userDetails) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(JsonService.userToJson(userDetails));
@@ -76,14 +76,14 @@ public class UserService {
 			return JsonService.jsonToUser(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return null;
 		}
 	}
 	
 	public static ArrayList<UserDetails> searchUsers(int port, String string) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(string);
@@ -94,14 +94,14 @@ public class UserService {
 			return JsonService.jsonToUserList(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return null;
 		}
 	}
 	
 	public static String generateOtp(int port, String phoneNo) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(phoneNo);
@@ -112,14 +112,14 @@ public class UserService {
 			return str;
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return null;
 		}
 	}
 	
 	public static boolean changePassword(int port, String string) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(string);
@@ -130,7 +130,7 @@ public class UserService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return false;
 		}
 	}

@@ -10,13 +10,17 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/lib" />
+          <root url="file://C:/Program Files Additional/Java" />
         </CLASSES>
         <JAVADOC />
+        <NATIVE>
+          <root url="file://C:/Program Files Additional/Java" />
+        </NATIVE>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/lib/fontawesomefx-glyphsbrowser-master/src/main/java" />
+          <root url="file://C:/Program Files Additional/Java" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
+        <jarDirectory url="file://C:/Program Files Additional/Java" recursive="false" />
+        <jarDirectory url="file://C:/Program Files Additional/Java" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
   </component>

@@ -4,21 +4,29 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="1028.0" styleClass="colorGreenTwo" stylesheets="@../../style/colors.css">
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1028.0">
          <children>
-            <ImageView fitHeight="269.0" fitWidth="857.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@img.png" />
-               </image>
-               <StackPane.margin>
-                  <Insets bottom="180.0" />
-               </StackPane.margin>
-            </ImageView>
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" VBox.vgrow="ALWAYS" />
+            <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="1028.0" styleClass="colorGreenTwo" stylesheets="@../../style/colors.css">
+               <children>
+                  <ImageView fitHeight="269.0" fitWidth="857.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets bottom="180.0" />
+                     </StackPane.margin>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <Pane layoutX="10.0" layoutY="712.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" VBox.vgrow="ALWAYS" />
          </children>
-      </StackPane>
+      </VBox>
    </center>
 </BorderPane>

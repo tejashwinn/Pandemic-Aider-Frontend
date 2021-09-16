@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class PostService {
 	public static boolean postRequest(int port, PostDetails post) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(JsonService.postToJson(post));
@@ -21,14 +21,14 @@ public class PostService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return false;
 		}
 	}
 	
 	public static ArrayList<PostDetails> retrieveRequest(int port, String username) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(username);
@@ -41,14 +41,14 @@ public class PostService {
 			return list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return null;
 		}
 	}
 	
 	public static ArrayList<PostDetails> searchPostRequest(int port, String string) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(string);
@@ -60,13 +60,13 @@ public class PostService {
 			return list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return null;
 		}
 	}
 	public static ArrayList<PostDetails> searchPincodeRequest(int port, String string) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(string);
@@ -78,13 +78,13 @@ public class PostService {
 			return list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return null;
 		}
 	}
 	public static boolean deletePost(int port, String postId) {
 		try {
-			Network.netIsAvailable();
+			ServiceError.netIsAvailable();
 			Socket socket = new Socket("127.0.0.1", port);
 			ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			outputStream.writeObject(postId);
@@ -94,7 +94,7 @@ public class PostService {
 			return Boolean.parseBoolean(str);
 		} catch(Exception e) {
 			e.printStackTrace();
-			Network.alert();
+			ServiceError.alert();
 			return false;
 		}
 	}

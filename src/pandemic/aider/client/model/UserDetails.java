@@ -10,73 +10,76 @@ public class UserDetails implements Serializable {
 	
 	private String username; //username entered by the user
 	
+	
+	
+	
 	private String password; //password entered by the user
 	
 	private String time;     //date and time the user was created
 	
 	private String phoneNo; //to store the phone no
 	
-	public String getPhoneNo() {
+	public String getPhoneNo () {
 		
 		return phoneNo;
 	}
 	
-	public void setPhoneNo(String phoneNo) {
+	public void setPhoneNo (String phoneNo) {
 		
 		this.phoneNo = phoneNo;
 	}
 	
-	public String getName() {
+	public String getName () {
 		
 		return name;
 	}
 	
-	public void setName(String name) {
+	public void setName (String name) {
 		
 		this.name = name;
 	}
 	
-	public String getUsername() {
+	public String getUsername () {
 		
 		return username;
 	}
 	
-	public void setUsername(String username) {
+	public void setUsername (String username) {
 		
 		this.username = username;
 	}
 	
-	public String getPassword() {
+	public String getPassword () {
 		
 		return password;
 	}
 	
-	public void setPassword(String password) {
+	public void setPassword (String password) {
 		
 		this.password = password;
 	}
 	
-	public String getTime() {
+	public String getTime () {
 		
 		return time;
 	}
 	
-	public void setTime(String time) {
+	public void setTime (String time) {
 		
 		this.time = time;
 	}
 	
-	public String getUniqueId() {
+	public String getUniqueId () {
 		
 		return uniqueId;
 	}
 	
-	public void setUniqueId(String uniqueId) {
+	public void setUniqueId (String uniqueId) {
 		
 		this.uniqueId = uniqueId;
 	}
 	
-	public void setToNull() {
+	public void setToNull () {
 		
 		uniqueId = "";
 		username = "";
@@ -86,7 +89,7 @@ public class UserDetails implements Serializable {
 		phoneNo = "";
 	}
 	
-	public UserDetails(String[] arr) {
+	public UserDetails (String[] arr) {
 		
 		uniqueId = arr[0];
 		name = arr[1];
@@ -96,32 +99,26 @@ public class UserDetails implements Serializable {
 		phoneNo = arr[5];
 	}
 	
-	public UserDetails(UserRePassword obj) {
+	public UserDetails (UserRePassword obj) {
 		
-		this.uniqueId = obj.getUniqueId();
-		this.name = obj.getName();
-		this.username = obj.getUsername();
-		this.password = obj.getPassword();
-		this.time = obj.getTime();
-		this.phoneNo = obj.getPhoneNo();
+		this.uniqueId = obj.getUniqueId ();
+		this.name = obj.getName ();
+		this.username = obj.getUsername ();
+		this.password = obj.getPassword ();
+		this.time = obj.getTime ();
+		this.phoneNo = obj.getPhoneNo ();
 	}
 	
 	//converts to string
 	@Override
-	public String toString() {
+	public String toString () {
 		
-		return "UserDetails{" +
-				"uniqueId='" + uniqueId + '\'' +
-				", name='" + name + '\'' +
-				", username='" + username + '\'' +
-				", password='" + password + '\'' +
-				", time='" + time + '\'' +
-				'}';
+		return "UserDetails{" + "uniqueId='" + uniqueId + '\'' + ", name='" + name + '\'' + ", username='" + username + '\'' + ", password='" + password + '\'' + ", time='" + time + '\'' + '}';
 	}
 	
-	
-	public UserDetails() {
+	public UserDetails () {
 		
 		name = null;
 	}
+	
 }
